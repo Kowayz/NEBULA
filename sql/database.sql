@@ -84,3 +84,13 @@ CREATE TABLE message (
     id_user INT,
     FOREIGN KEY (id_user) REFERENCES utilisateur(id_user)
 );
+
+INSERT INTO jeu (titre, genre, image_url, date_sortie, description) VALUES 
+('GTA V', 'Action', 'assets/img/gta5.jpg', '2013-09-17', 'Plongez dans le monde ouvert ultime de Los Santos.'),
+('Fortnite', 'Battle Royale', 'assets/img/fortnite.jpg', '2017-07-21', 'Le dernier survivant gagne. Construisez et combattez.'),
+('Red Dead Redemption 2', 'Aventure', 'assets/img/rdr2.jpg', '2018-10-26', 'Une épopée hors-la-loi dans les terres sauvages.'),
+('FIFA 24 (FC 24)', 'Sport', 'assets/img/fc24.jpg', '2023-09-29', 'Le jeu de football le plus réaliste du monde.'),
+('The Witcher 3', 'RPG', 'assets/img/witcher3.jpg', '2015-05-19', 'Incarnez Geralt de Riv dans cette aventure légendaire.'),
+('Minecraft', 'Survie', 'assets/img/minecraft.jpg', '2011-11-18', 'Créez, explorez et survivez seul ou entre amis.'),
+('Apex Legends', 'FPS', 'assets/img/apex.jpg', '2019-02-04', 'Maîtrisez votre légende dans ce Battle Royale stratégique.'),
+('Rocket League', 'Sport', 'assets/img/rocket.jpg', '2015-07-07', 'Le mélange explosif de football et de conduite.');
