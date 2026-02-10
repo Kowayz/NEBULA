@@ -59,7 +59,9 @@ require_once 'includes/header.php';
                     <div class="card-footer">
                         <span class="developer">Développé par Embark Studios</span>
                         <div class="platforms">
-                            <span>Xbox</span> <span>PS</span> <span>PC</span>
+                            <img src="assets/img/logo_xbox.png" alt="Xbox" class="platform-icon">
+                            <img src="assets/img/logo_ps5.png" alt="PlayStation" class="platform-icon">
+                            <img src="assets/img/logo_pc.png" alt="PC" class="platform-icon">
                         </div>
                     </div>
                 </div>
@@ -82,7 +84,9 @@ require_once 'includes/header.php';
                     <div class="card-footer">
                         <span class="developer">Développé par CD Projekt</span>
                         <div class="platforms">
-                            <span>Xbox</span> <span>PS</span> <span>PC</span>
+                            <img src="assets/img/logo_xbox.png" alt="Xbox" class="platform-icon">
+                            <img src="assets/img/logo_ps5.png" alt="PlayStation" class="platform-icon">
+                            <img src="assets/img/logo_pc.png" alt="PC" class="platform-icon">
                         </div>
                     </div>
                 </div>
