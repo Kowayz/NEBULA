@@ -24,10 +24,10 @@ require_once 'includes/header.php';
                 <span class="icon">4K</span> Ultra HD
             </div>
             <div class="feature-item">
-                <span class="icon">📺</span> 144 FPS
+                <img src="assets/img/icon_monitor.png" alt="Ecran" class="feature-icon"> 144 FPS
             </div>
             <div class="feature-item">
-                <span class="icon">⚡</span> Latence ultra-faible
+                <img src="assets/img/icon_flash.png" alt="Latence" class="feature-icon"> Latence ultra-faible
             </div>
         </div>
     </div>
@@ -105,7 +105,9 @@ require_once 'includes/header.php';
                     <div class="card-footer">
                         <span class="developer">Développé par Hello Games</span>
                         <div class="platforms">
-                            <span>Xbox</span> <span>PS</span> <span>PC</span>
+                            <img src="assets/img/logo_xbox.png" alt="Xbox" class="platform-icon">
+                            <img src="assets/img/logo_ps5.png" alt="PlayStation" class="platform-icon">
+                            <img src="assets/img/logo_pc.png" alt="PC" class="platform-icon">
                         </div>
                     </div>
                 </div>
