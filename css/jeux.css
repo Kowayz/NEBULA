@@ -521,6 +521,35 @@
   transform: translateY(0);
 }
 
+/* ── Skeleton loading card ───────────────────────────────────── */
+@keyframes skeleton-shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position:  600px 0; }
+}
+
+.catalogue-card-skeleton {
+  border-radius: var(--radius-lg);
+  aspect-ratio: 3/4;
+  background: linear-gradient(
+    90deg,
+    rgba(124,58,237,.06) 25%,
+    rgba(124,58,237,.13) 50%,
+    rgba(124,58,237,.06) 75%
+  );
+  background-size: 600px 100%;
+  animation: skeleton-shimmer 1.6s infinite linear;
+  outline: 1px solid rgba(255,255,255,.05);
+}
+
+/* API error message */
+.catalogue-api-error {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 6%;
+  color: var(--text-faint);
+  font-size: .95rem;
+}
+
 /* No results */
 .no-results {
   text-align: center;

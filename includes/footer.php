@@ -2,30 +2,7 @@
   <div class="footer-grid">
     <div class="footer-brand">
       <a class="navbar-brand" href="/NEBULA/index.php">
-        <svg style="width:30px;height:30px" viewBox="0 0 36 36" fill="none">
-          <defs>
-            <linearGradient id="foot-ring" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
-              <stop offset="0%"   stop-color="#9f1239"/>
-              <stop offset="50%"  stop-color="#7c3aed"/>
-              <stop offset="100%" stop-color="#f472b6"/>
-            </linearGradient>
-            <linearGradient id="foot-orbit" x1="0" y1="18" x2="36" y2="18" gradientUnits="userSpaceOnUse">
-              <stop offset="0%"   stop-color="#a78bfa" stop-opacity="0"/>
-              <stop offset="50%"  stop-color="#a78bfa"/>
-              <stop offset="100%" stop-color="#a78bfa" stop-opacity="0"/>
-            </linearGradient>
-            <radialGradient id="foot-core" cx="50%" cy="50%" r="50%">
-              <stop offset="0%"   stop-color="#c4b5fd"/>
-              <stop offset="100%" stop-color="#7c3aed" stop-opacity="0"/>
-            </radialGradient>
-          </defs>
-          <circle cx="18" cy="18" r="15.5" stroke="url(#foot-ring)" stroke-width="1.5" opacity="0.65"/>
-          <ellipse cx="18" cy="18" rx="15.5" ry="5" stroke="url(#foot-orbit)" stroke-width="1" opacity="0.5" transform="rotate(-22 18 18)"/>
-          <circle cx="18" cy="18" r="7" fill="url(#foot-core)" opacity="0.8"/>
-          <circle cx="18" cy="18" r="3" fill="#a78bfa"/>
-          <circle cx="9"  cy="13" r="1.4" fill="#f472b6" opacity="0.9"/>
-          <circle cx="27" cy="23" r="1.1" fill="#c4b5fd" opacity="0.75"/>
-        </svg>
+        <img class="logo-icon" src="/NEBULA/public/assets/img/favicon.png" alt="Nebula" style="width:30px;height:30px;object-fit:contain">
         <span class="brand-name">Nebula</span>
       </a>
       <p>La plateforme de cloud gaming nouvelle génération. Jouez instantanément sur tous vos appareils.</p>

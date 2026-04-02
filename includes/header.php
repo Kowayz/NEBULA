@@ -22,6 +22,9 @@ $pageJS  = $pageJS  ?? [];
   <title><?= isset($pageTitle) ? htmlspecialchars($pageTitle) . ' — Nebula' : 'Nebula — Cloud Gaming' ?></title>
   <meta name="description" content="<?= htmlspecialchars($pageDesc ?? 'Jouez à vos jeux préférés en streaming haute qualité, sur tous vos appareils.') ?>">
 
+  <link rel="icon" type="image/png" href="/NEBULA/public/assets/img/favicon.png">
+  <link rel="apple-touch-icon" href="/NEBULA/public/assets/img/favicon.png">
+
   <link rel="stylesheet" href="/NEBULA/css/base.css">
 
   <?php foreach ($pageCSS as $sheet): ?>
@@ -34,51 +37,7 @@ $pageJS  = $pageJS  ?? [];
 
   <!-- Brand -->
   <a class="navbar-brand" href="/NEBULA/index.php">
-    <svg class="logo-icon" viewBox="0 0 36 36" fill="none">
-      <defs>
-        <linearGradient id="c-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#f472b6" />
-          <stop offset="50%" stop-color="#7c3aed" />
-          <stop offset="100%" stop-color="#c4b5fd" />
-        </linearGradient>
-        <filter id="c-glow" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="2.5" result="blur" />
-          <feMerge>
-            <feMergeNode in="blur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-      </defs>
-
-      <!-- Ambient Glow Background -->
-      <g fill="url(#c-grad)" filter="url(#c-glow)" opacity="0.45">
-        <circle cx="12" cy="17" r="4.5" />
-        <circle cx="18" cy="13" r="6" />
-        <circle cx="24" cy="16" r="5" />
-        <rect x="4" y="17" width="28" height="9" rx="4.5" />
-        <rect x="6" y="21" width="8" height="8" rx="3.5" />
-        <rect x="22" y="21" width="8" height="8" rx="3.5" />
-      </g>
-
-      <!-- Main Body -->
-      <g fill="url(#c-grad)">
-        <circle cx="12" cy="17" r="4.5" />
-        <circle cx="18" cy="13" r="6" />
-        <circle cx="24" cy="16" r="5" />
-        <rect x="4" y="17" width="28" height="9" rx="4.5" />
-        <rect x="6" y="21" width="8" height="8" rx="3.5" />
-        <rect x="22" y="21" width="8" height="8" rx="3.5" />
-      </g>
-
-      <!-- Cutout Details -->
-      <g fill="#0b041a">
-        <rect x="9" y="19.5" width="1.6" height="4.6" rx="0.4" />
-        <rect x="7.5" y="21" width="4.6" height="1.6" rx="0.4" />
-        <circle cx="24" cy="23" r="1.2" />
-        <circle cx="27" cy="20" r="1.2" />
-        <polygon points="16.5,18.5 20,20.5 16.5,22.5" />
-      </g>
-    </svg>
+    <img class="logo-icon" src="/NEBULA/public/assets/img/favicon.png" alt="Nebula">
     <span class="brand-name">Nebula</span>
   </a>
 

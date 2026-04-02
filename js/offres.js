@@ -28,4 +28,43 @@
       });
     });
   });
+
+  // ── Aperçu des jeux (section offres) ───────────────────────
+  const gamesGrid = document.getElementById('offresGamesGrid');
+
+  if (gamesGrid) {
+    fetch('/NEBULA/api/games.php?limit=6')
+      .then(function (res) { return res.ok ? res.json() : Promise.reject(res.status); })
+      .then(function (games) {
+        if (!Array.isArray(games) || games.length === 0) return;
+
+        gamesGrid.innerHTML = '';
+
+        games.forEach(function (g) {
+          const a = document.createElement('a');
+          a.className = 'offres-game-card';
+          a.href = '/NEBULA/produit.php?id=' + g.id_jeu;
+
+          const imgHtml = g.image_url
+            ? '<img src="' + esc(g.image_url) + '" alt="' + esc(g.titre) + '" loading="lazy">'
+            : '<div class="offres-game-card-placeholder"></div>';
+
+          a.innerHTML = imgHtml +
+            '<div class="offres-game-card-label">' + esc(g.titre) + '</div>';
+
+          gamesGrid.appendChild(a);
+        });
+      })
+      .catch(function () {
+        gamesGrid.innerHTML = '';
+      });
+  }
+
+  function esc(str) {
+    return (str || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
 })();

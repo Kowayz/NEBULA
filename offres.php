@@ -117,6 +117,25 @@ require 'includes/header.php';
   </div>
 </section>
 
+<!-- ══════════════════════════ GAMES PREVIEW ══════════════════════════ -->
+<section class="section offres-games-section" style="padding-top:0;padding-bottom:64px">
+  <div class="offres-games-head">
+    <div>
+      <h2 class="offres-games-title">Ce qui est inclus dans votre abonnement</h2>
+      <p class="offres-games-sub">Des centaines de jeux AAA disponibles instantanément, sans téléchargement.</p>
+    </div>
+    <a href="/NEBULA/jeux.php" class="btn btn-outline btn-sm offres-games-link">Voir tout le catalogue →</a>
+  </div>
+  <div class="offres-games-grid" id="offresGamesGrid">
+    <div class="offres-game-skeleton"></div>
+    <div class="offres-game-skeleton"></div>
+    <div class="offres-game-skeleton"></div>
+    <div class="offres-game-skeleton"></div>
+    <div class="offres-game-skeleton"></div>
+    <div class="offres-game-skeleton"></div>
+  </div>
+</section>
+
 <!-- ══════════════════════════ COMPARISON TABLE ══════════════════════════ -->
 <section class="section" style="padding-top:0">
   <h2 class="text-center" style="font-size:1.35rem;font-weight:800;margin-bottom:28px;letter-spacing:-.02em">
