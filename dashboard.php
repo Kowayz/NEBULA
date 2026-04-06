@@ -81,7 +81,7 @@ require 'includes/header.php';
 
       <!-- Plan badge -->
       <div class="db-hero-plan" style="background:<?= $planGradient ?>">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <img src="/NEBULA/public/assets/img/icons/platforms/etoile-pleine.png" alt="icon" width="14" height="14" class="icon-img">
         Plan <?= htmlspecialchars($planName) ?>
       </div>
     </div>
@@ -94,7 +94,7 @@ require 'includes/header.php';
     <div class="db-stats-row">
       <div class="db-stat-card">
         <div class="db-stat-icon" style="background:linear-gradient(135deg,rgba(124,58,237,.5),rgba(124,58,237,.2))">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M9 8h6M12 6v4"/></svg>
+          <img src="/NEBULA/public/assets/img/icons/ecommerce/serveur.png" alt="icon" width="22" height="22" class="icon-img">
         </div>
         <div>
           <div class="db-stat-num">—</div>
@@ -103,7 +103,7 @@ require 'includes/header.php';
       </div>
       <div class="db-stat-card">
         <div class="db-stat-icon" style="background:linear-gradient(135deg,rgba(159,18,57,.5),rgba(159,18,57,.2))">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          <img src="/NEBULA/public/assets/img/icons/ecommerce/panier.png" alt="icon" width="18" height="18" class="icon-img">
         </div>
         <div>
           <div class="db-stat-num"><?= $nbCommandes ?></div>
@@ -112,7 +112,7 @@ require 'includes/header.php';
       </div>
       <div class="db-stat-card">
         <div class="db-stat-icon" style="background:linear-gradient(135deg,rgba(244,114,182,.4),rgba(244,114,182,.15))">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <img src="/NEBULA/public/assets/img/icons/dashboard/horloge.png" alt="icon" width="14" height="14" class="icon-img">
         </div>
         <div>
           <div class="db-stat-num">—</div>
@@ -121,7 +121,7 @@ require 'includes/header.php';
       </div>
       <div class="db-stat-card">
         <div class="db-stat-icon" style="background:<?= $planGradient ?>">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <img src="/NEBULA/public/assets/img/icons/platforms/etoile-pleine.png" alt="icon" width="14" height="14" class="icon-img">
         </div>
         <div>
           <div class="db-stat-num"><?= htmlspecialchars($planName) ?></div>
@@ -130,84 +130,129 @@ require 'includes/header.php';
       </div>
     </div>
 
-    <!-- Main columns -->
-    <div class="db-main-cols">
+    <!-- Left column -->
+    <div class="db-left">
 
-      <!-- Left column -->
-      <div class="db-left-col">
-
-        <!-- Library -->
+        <!-- Jeux récents -->
+        <?php if (!empty($jeux)): ?>
         <div class="db-card">
           <div class="db-card-head">
-            <div class="db-card-title">Ma bibliothèque</div>
-            <a href="/NEBULA/jeux.php" class="db-card-link">
-              Voir tout
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-            </a>
+            <div class="db-card-title">Récemment joués</div>
           </div>
-
-          <?php if (empty($jeux)): ?>
-            <div class="db-empty">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="margin:0 auto 10px;color:var(--text-faint)"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-              <div>Aucun jeu dans votre bibliothèque pour le moment.</div>
-              <a href="/NEBULA/jeux.php" class="btn btn-outline btn-sm" style="margin-top:12px">Parcourir les jeux</a>
-            </div>
-          <?php else: ?>
-            <div class="db-games-grid">
-              <?php foreach ($jeux as $j): ?>
-                <a href="/NEBULA/jeux.php" class="db-game-thumb">
-                  <?php if (!empty($j['image_url'])): ?>
-                    <img src="/NEBULA/<?= htmlspecialchars($j['image_url']) ?>"
-                         alt="<?= htmlspecialchars($j['titre']) ?>" loading="lazy">
-                  <?php else: ?>
-                    <div class="db-game-thumb-placeholder">
-                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M9 8h6M12 6v4"/></svg>
-                    </div>
-                  <?php endif; ?>
-                  <div class="db-game-thumb-overlay">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                  </div>
-                </a>
-              <?php endforeach; ?>
-            </div>
-          <?php endif; ?>
-        </div>
-
-        <!-- Commandes -->
-        <div class="db-card">
-          <div class="db-card-head">
-            <div class="db-card-title">Historique des commandes</div>
-          </div>
-
-          <?php if (empty($commandes)): ?>
-            <div class="db-empty">Aucune commande pour le moment.</div>
-          <?php else: ?>
-            <div class="orders-list">
-              <?php foreach ($commandes as $cmd): ?>
-                <div class="order-row">
-                  <div>
-                    <div class="order-name"><?= htmlspecialchars($cmd['nom_offre'] ?? 'Commande') ?> #<?= $cmd['id_commande'] ?></div>
-                    <div class="order-date"><?= date('d/m/Y', strtotime($cmd['date_commande'])) ?></div>
-                  </div>
-                  <div class="order-right">
-                    <div class="order-price"><?= number_format($cmd['total_ttc'], 2, ',', ' ') ?> €</div>
-                    <?php
-                    $statut  = $cmd['statut'];
-                    $classes = ['payee'=>'status-payee','en attente'=>'status-attente','annulee'=>'status-annulee'];
-                    $cls = $classes[$statut] ?? 'status-attente';
-                    ?>
-                    <span class="status-badge <?= $cls ?>"><?= htmlspecialchars(ucfirst($statut)) ?></span>
-                  </div>
+          <div class="db-recent-list">
+            <?php foreach(array_slice($jeux, 0, 2) as $index => $j): ?>
+            <div class="db-recent-card">
+              <a href="/NEBULA/produit.php?id=<?= $j['id_jeu'] ?>" class="db-recent-img">
+                <?php if (!empty($j['image_url'])): ?>
+                  <img src="<?= htmlspecialchars((str_starts_with($j['image_url'], 'http') ? '' : '/NEBULA/') . $j['image_url']) ?>" alt="<?= htmlspecialchars($j['titre']) ?>" loading="lazy">
+                <?php else: ?>
+                  <div class="db-recent-placeholder"></div>
+                <?php endif; ?>
+              </a>
+              <div class="db-recent-info">
+                <div class="db-recent-title"><?= htmlspecialchars($j['titre']) ?></div>
+                <div class="db-recent-genre"><?= $index === 0 ? 'Action / Aventure' : 'RPG' ?></div>
+                <div class="db-recent-progress">
+                  <div class="db-recent-progress-bar"><div class="db-recent-progress-fill" style="width: <?= 45 + $index * 25 ?>%"></div></div>
                 </div>
-              <?php endforeach; ?>
+                <div style="display:flex; justify-content:space-between; align-items:center">
+                  <span class="db-recent-hours"><?= 14 + $index * 12 ?>h jouées</span>
+                  <a href="/NEBULA/produit.php?id=<?= $j['id_jeu'] ?>" class="db-recent-play">Reprendre <img src="/NEBULA/public/assets/img/icons/platforms/bouton-play.png" alt="play" width="10" height="10" style="filter: brightness(0) saturate(100%) invert(60%) sepia(85%) saturate(3065%) hue-rotate(224deg) brightness(101%) contrast(101%);"></a>
+                </div>
+              </div>
             </div>
-          <?php endif; ?>
+            <?php endforeach; ?>
+          </div>
+        </div>
+        <?php endif; ?>
+
+        <!-- Chat Panel -->
+        <div class="db-card db-chat-container">
+          
+          <!-- Left Side: Friend List -->
+          <div class="db-chat-sidebar">
+            <div class="db-chat-sidebar-header">Messages directs</div>
+            
+            <div class="db-chat-friends">
+              <!-- Active friend -->
+              <div class="db-chat-friend-item active">
+                <div class="db-act-dot db-chat-friend-dot" style="background:#9f1239; color:#fff;">
+                  M
+                  <div class="db-friend-online" style="width:10px; height:10px; right:-2px; bottom:-2px; border-width: 2px;"></div>
+                </div>
+                <div class="db-chat-friend-name">MaxGamer</div>
+              </div>
+              
+              <!-- Other friend -->
+              <div class="db-chat-friend-item">
+                <div class="db-act-dot db-chat-friend-dot" style="background:#0e7490; color:#fff;">
+                  S
+                  <div class="db-friend-online" style="width:10px; height:10px; right:-2px; bottom:-2px; border-width: 2px;"></div>
+                </div>
+                <div class="db-chat-friend-name">SarahLvl99</div>
+              </div>
+
+              <!-- Other friend -->
+              <div class="db-chat-friend-item">
+                <div class="db-act-dot db-chat-friend-dot" style="background:#475569; color:#fff;">
+                  T
+                </div>
+                <div class="db-chat-friend-name" style="color: var(--text-faint);">ThomasR</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Side: Chat Area -->
+          <div class="db-chat-main">
+            <div class="db-chat-header">
+              <div style="display:flex; align-items:center; gap: 12px;">
+                <div class="db-act-dot db-chat-header-dot" style="background:#9f1239; color:#fff;">
+                  M
+                  <div class="db-friend-online" style="width:10px; height:10px; right:-2px; bottom:-2px;"></div>
+                </div>
+                <div>
+                  <div class="db-chat-header-name">MaxGamer</div>
+                  <div class="db-chat-header-status">En ligne sur Nebula</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="db-chat-messages">
+              <div class="db-chat-bubble-wrap left">
+                <div class="db-chat-bubble left">
+                  Salut ! Hâte d'être à ce soir pour notre partie coop, j'ai débloqué une nouvelle zone !
+                </div>
+                <div class="db-chat-time">14:32</div>
+              </div>
+              
+              <div class="db-chat-bubble-wrap right">
+                <div class="db-chat-bubble right">
+                  Génial ! Je finis The Witcher et je me connecte dans 15 minutes à peu près. Invite-moi dès que tu me vois co ! 😎
+                </div>
+                <div class="db-chat-time">14:34</div>
+              </div>
+              
+              <div class="db-chat-bubble-wrap left">
+                <div class="db-chat-bubble left">
+                  Parfait, je lance le vocal Discord en t'attendant 🚀
+                </div>
+                <div class="db-chat-time">14:35</div>
+              </div>
+            </div>
+            
+            <div class="db-chat-input-area">
+              <input type="text" class="db-chat-input" placeholder="Envoyer un message à MaxGamer...">
+              <button class="db-chat-send" title="Envoyer">
+                <img src="/NEBULA/public/assets/img/icons/nav/fleche-droite.png" alt="send">
+              </button>
+            </div>
+          </div>
         </div>
 
-      </div><!-- /.db-left-col -->
+      </div><!-- /.db-left -->
 
       <!-- Right column -->
-      <div class="db-right-col">
+      <div class="db-sidebar">
 
         <!-- Abonnement -->
         <div class="db-card">
@@ -218,17 +263,17 @@ require 'includes/header.php';
           <?php if ($abonnement): ?>
             <div class="db-sub-band" style="background:<?= $planGradient ?>">
               <div class="db-sub-band-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <img src="/NEBULA/public/assets/img/icons/platforms/etoile-pleine.png" alt="icon" width="14" height="14" class="icon-img">
               </div>
               <div class="db-sub-name"><?= htmlspecialchars($abonnement['nom_offre']) ?></div>
               <div class="db-sub-price"><?= number_format($abonnement['total_ttc'], 2, ',', ' ') ?> €/mois</div>
             </div>
             <div class="db-sub-meta" style="margin-bottom:16px">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <img src="/NEBULA/public/assets/img/icons/dashboard/horloge.png" alt="icon" width="14" height="14" class="icon-img">
               Actif depuis le <?= date('d/m/Y', strtotime($abonnement['date_commande'])) ?>
             </div>
             <div class="db-sub-badge" style="margin-bottom:16px">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <img src="/NEBULA/public/assets/img/icons/ecommerce/coche-incluse.png" alt="icon" width="14" height="14" class="icon-img">
               Actif
             </div>
             <a href="/NEBULA/offres.php" class="btn btn-outline btn-full btn-sm">Changer d'offre</a>
@@ -249,45 +294,72 @@ require 'includes/header.php';
           <div class="db-quick-links">
             <a href="/NEBULA/jeux.php" class="db-quick-link">
               <div class="db-quick-icon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M9 8h6M12 6v4"/></svg>
+                <img src="/NEBULA/public/assets/img/icons/ecommerce/serveur.png" alt="icon" width="22" height="22" class="icon-img">
               </div>
               <span class="db-quick-label">Bibliothèque de jeux</span>
-              <svg class="db-quick-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              <img src="/NEBULA/public/assets/img/icons/nav/fleche-droite.png" alt="icon" width="12" height="12" class="icon-img">
             </a>
             <a href="/NEBULA/offres.php" class="db-quick-link">
               <div class="db-quick-icon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <img src="/NEBULA/public/assets/img/icons/platforms/etoile-pleine.png" alt="icon" width="14" height="14" class="icon-img">
               </div>
               <span class="db-quick-label">Changer d'offre</span>
-              <svg class="db-quick-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              <img src="/NEBULA/public/assets/img/icons/nav/fleche-droite.png" alt="icon" width="12" height="12" class="icon-img">
             </a>
             <a href="/NEBULA/configurateur.php" class="db-quick-link">
               <div class="db-quick-icon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                <img src="/NEBULA/public/assets/img/icons/nav/fleche-droite.png" alt="icon" width="20" height="20" class="icon-img">
               </div>
               <span class="db-quick-label">Configurateur bouquet</span>
-              <svg class="db-quick-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              <img src="/NEBULA/public/assets/img/icons/nav/fleche-droite.png" alt="icon" width="12" height="12" class="icon-img">
             </a>
             <a href="/NEBULA/contact.php" class="db-quick-link">
               <div class="db-quick-icon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <img src="/NEBULA/public/assets/img/icons/contact/email.png" alt="icon" width="20" height="20" class="icon-img">
               </div>
               <span class="db-quick-label">Support & Contact</span>
-              <svg class="db-quick-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              <img src="/NEBULA/public/assets/img/icons/nav/fleche-droite.png" alt="icon" width="12" height="12" class="icon-img">
             </a>
             <a href="?logout=1" class="db-quick-link">
               <div class="db-quick-icon" style="background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.2)">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                <img src="/NEBULA/public/assets/img/icons/nav/fleche-droite.png" alt="icon" width="20" height="20" class="icon-img">
               </div>
               <span class="db-quick-label" style="color:var(--danger)">Déconnexion</span>
-              <svg class="db-quick-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              <img src="/NEBULA/public/assets/img/icons/nav/fleche-droite.png" alt="icon" width="12" height="12" class="icon-img">
             </a>
           </div>
         </div>
 
-      </div><!-- /.db-right-col -->
-
-    </div><!-- /.db-main-cols -->
+        <!-- Réseau social / Amis -->
+        <div class="db-card">
+          <div class="db-card-head">
+            <div class="db-card-title">Réseau social</div>
+          </div>
+          <div class="db-activity-feed">
+            <div class="db-act-row">
+              <div class="db-friend-avatar" style="position:relative;">
+                <div class="db-act-dot" style="background:#0e7490; color:#fff">S</div>
+                <div class="db-friend-online"></div>
+              </div>
+              <div class="db-act-info">
+                <div class="db-act-label">SarahLvl99</div>
+                <div class="db-friend-status db-friend-status--online">Joue à The Witcher 3</div>
+              </div>
+            </div>
+            <div class="db-act-row">
+               <div class="db-friend-avatar" style="position:relative;">
+                <div class="db-act-dot">T</div>
+              </div>
+              <div class="db-act-info">
+                <div class="db-act-label">ThomasR</div>
+                <div class="db-friend-status">Hors ligne</div>
+              </div>
+            </div>
+            <div class="db-friend-more">
+               <a href="#" style="color:var(--accent); text-decoration:none; font-weight: 600;">Voir tous les amis</a>
+            </div>
+          </div>
+        </div>
 
   </div><!-- /.db-layout -->
 
