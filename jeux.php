@@ -15,17 +15,17 @@ require 'includes/header.php';
     <p class="catalogue-hero-sub">+200 jeux disponibles instantanément. Nouveautés ajoutées chaque mois, sans téléchargement.</p>
     <div class="catalogue-hero-stats">
       <span class="catalogue-stat">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M9 8h6M12 6v4"/></svg>
+        <img src="/NEBULA/public/assets/img/icons/ecommerce/serveur.png" alt="icon" width="22" height="22" class="icon-img">
         +200 jeux inclus
       </span>
       <span class="catalogue-stat-sep"></span>
       <span class="catalogue-stat">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2"/></svg>
+        <img src="/NEBULA/public/assets/img/icons/ecommerce/coche-incluse.png" alt="icon" width="20" height="20" class="icon-img">
         4K · 144 FPS
       </span>
       <span class="catalogue-stat-sep"></span>
       <span class="catalogue-stat">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        <img src="/NEBULA/public/assets/img/icons/ecommerce/coche-incluse.png" alt="icon" width="22" height="22" class="icon-img">
         Latence &lt; 20 ms
       </span>
     </div>
@@ -34,13 +34,20 @@ require 'includes/header.php';
 
 <!-- ── Filter bar ────────────────────────────────────────────── -->
 <div class="filter-bar">
-  <div class="filter-genres" id="filterGenres">
-    <button class="filter-btn active" data-genre="tous">Tous</button>
+  <div class="filter-select-wrap">
+    <select id="filterGenres" class="filter-select">
+      <option value="tous">Tous les jeux</option>
+      <option value="action">Action & Aventure</option>
+      <option value="rpg">RPG & Stratégie</option>
+      <option value="shooter">FPS & Shooter</option>
+      <option value="course">Course & Sports</option>
+      <option value="simulation">Simulation</option>
+    </select>
   </div>
 
   <div class="search-input-wrap">
     <span class="search-icon">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <img src="/NEBULA/public/assets/img/icons/nav/loupe.png" alt="icon" width="16" height="16" class="icon-img" style="opacity:0.7">
     </span>
     <input type="text" id="searchInput" placeholder="Rechercher un jeu…">
   </div>
@@ -48,34 +55,54 @@ require 'includes/header.php';
 
 <!-- ── Catalogue grid ────────────────────────────────────────── -->
 <div class="catalogue-section">
-  <div class="cat-section-head">
-    <div>
-      <div class="cat-section-badge cat-section-badge--stream">
-        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        Inclus dans l'abonnement
+  <!-- Section Inclus -->
+  <div id="sectionIncluded">
+    <div class="cat-section-head">
+      <div>
+        <div class="cat-section-badge cat-section-badge--stream">
+          <img src="/NEBULA/public/assets/img/icons/platforms/bouton-play.png" alt="icon" width="16" height="16" class="icon-img">
+          Inclus dans l'abonnement
+        </div>
       </div>
+      <div>
+        <div class="cat-section-title">Tous les jeux</div>
+        <div class="cat-section-sub">Jouez instantanément, sans téléchargement</div>
+      </div>
+      <div class="cat-section-count"><span id="countIncluded">…</span> jeux</div>
     </div>
-    <div>
-      <div class="cat-section-title">Tous les jeux</div>
-      <div class="cat-section-sub">Jouez instantanément, sans téléchargement</div>
+
+    <div class="catalogue-grid" id="gridIncluded">
+      <!-- Skeleton cards -->
+      <div class="catalogue-card-skeleton"></div>
+      <div class="catalogue-card-skeleton"></div>
+      <div class="catalogue-card-skeleton"></div>
+      <div class="catalogue-card-skeleton"></div>
     </div>
-    <div class="cat-section-count"><span id="gameCount">…</span> jeux</div>
   </div>
 
-  <div class="catalogue-grid" id="catalogueGrid">
-    <!-- Skeleton cards -->
-    <div class="catalogue-card-skeleton"></div>
-    <div class="catalogue-card-skeleton"></div>
-    <div class="catalogue-card-skeleton"></div>
-    <div class="catalogue-card-skeleton"></div>
-    <div class="catalogue-card-skeleton"></div>
-    <div class="catalogue-card-skeleton"></div>
-    <div class="catalogue-card-skeleton"></div>
-    <div class="catalogue-card-skeleton"></div>
-    <div class="catalogue-card-skeleton"></div>
-    <div class="catalogue-card-skeleton"></div>
-    <div class="catalogue-card-skeleton"></div>
-    <div class="catalogue-card-skeleton"></div>
+  <hr id="catDivider" style="border:none; border-top:1px solid var(--border); margin: 3rem 0;">
+
+  <!-- Section Achat -->
+  <div id="sectionPurchase">
+    <div class="cat-section-head">
+      <div>
+        <div class="cat-section-badge" style="color:var(--text-muted); border-color:var(--border);">
+          <img src="/NEBULA/public/assets/img/icons/ecommerce/panier.png" alt="icon" width="16" height="16" class="icon-img" style="opacity:0.7">
+          À l'achat
+        </div>
+      </div>
+      <div>
+        <div class="cat-section-title">Boutique Nebula</div>
+      </div>
+      <div class="cat-section-count"><span id="countPurchase">…</span> jeux</div>
+    </div>
+
+    <div class="catalogue-grid catalogue-grid--purchase" id="gridPurchase">
+      <div class="catalogue-card-skeleton"></div>
+      <div class="catalogue-card-skeleton"></div>
+      <div class="catalogue-card-skeleton"></div>
+      <div class="catalogue-card-skeleton"></div>
+    </div>
   </div>
 
   <div id="noResults" class="no-results" style="display:none">

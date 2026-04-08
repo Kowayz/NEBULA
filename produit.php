@@ -10,14 +10,13 @@ if ($id > 0) {
         $data = igdb_query('games', "
             fields id,name,summary,genres.name,cover.url,artworks.url,screenshots.url,
                    videos.video_id,videos.name,
-                   first_release_date,involved_companies.company.name,rating;
+                   first_release_date,involved_companies.company.name;
             where id = {$id};
         ", $token);
 
         $g = is_array($data) ? ($data[0] ?? null) : null;
         if ($g) {
             $jeu = array_merge(igdb_map($g), [
-                'rating'      => isset($g['rating']) ? round($g['rating']) : null,
                 'trailer_id'  => $g['videos'][0]['video_id'] ?? null,
                 'cover_url'   => igdb_cover($g['cover']['url'] ?? null, 't_original'),
                 'hero_url'    => isset($g['artworks'][0])
@@ -139,7 +138,7 @@ require 'includes/header.php';
           <?php endif; ?>
           <?php if (!empty($jeu['rating'])): ?>
             <div class="produit-hero-meta-rating">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <img src="/NEBULA/public/assets/img/icons/platforms/etoile-pleine.png" alt="icon" width="14" height="14" class="icon-img">
               <?= $jeu['rating'] ?>
             </div>
           <?php endif; ?>
@@ -147,7 +146,7 @@ require 'includes/header.php';
 
         <div class="produit-hero-actions">
           <a href="/NEBULA/auth.php?tab=register" class="btn btn-primary btn-lg produit-play-btn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            <img src="/NEBULA/public/assets/img/icons/platforms/bouton-play.png" alt="icon" width="16" height="16" class="icon-img">
             Jouer maintenant
           </a>
           <a href="/NEBULA/jeux.php" class="btn btn-outline btn-lg">Voir le catalogue</a>
@@ -214,11 +213,11 @@ require 'includes/header.php';
               <div class="produit-review-meta">
                 <span class="produit-review-author">Maxime_K</span>
                 <div class="produit-review-stars">
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="#c084fc"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="#c084fc"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="#c084fc"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="#c084fc"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="#c084fc"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  <img src="/NEBULA/public/assets/img/icons/platforms/etoile-pleine.png" alt="icon" width="14" height="14" class="icon-img">
+                  <img src="/NEBULA/public/assets/img/icons/platforms/etoile-pleine.png" alt="icon" width="14" height="14" class="icon-img">
+                  <img src="/NEBULA/public/assets/img/icons/platforms/etoile-pleine.png" alt="icon" width="14" height="14" class="icon-img">
+                  <img src="/NEBULA/public/assets/img/icons/platforms/etoile-pleine.png" alt="icon" width="14" height="14" class="icon-img">
+                  <img src="/NEBULA/public/assets/img/icons/platforms/etoile-pleine.png" alt="icon" width="14" height="14" class="icon-img">
                 </div>
               </div>
               <span class="produit-review-date">Il y a 3 jours</span>
@@ -232,11 +231,11 @@ require 'includes/header.php';
               <div class="produit-review-meta">
                 <span class="produit-review-author">SaraLvl99</span>
                 <div class="produit-review-stars">
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="#c084fc"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="#c084fc"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="#c084fc"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="#c084fc"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="rgba(255,255,255,.15)"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  <img src="/NEBULA/public/assets/img/icons/platforms/etoile-pleine.png" alt="icon" width="14" height="14" class="icon-img">
+                  <img src="/NEBULA/public/assets/img/icons/platforms/etoile-pleine.png" alt="icon" width="14" height="14" class="icon-img">
+                  <img src="/NEBULA/public/assets/img/icons/platforms/etoile-pleine.png" alt="icon" width="14" height="14" class="icon-img">
+                  <img src="/NEBULA/public/assets/img/icons/platforms/etoile-pleine.png" alt="icon" width="14" height="14" class="icon-img">
+                  <img src="/NEBULA/public/assets/img/icons/platforms/etoile-vide.png" alt="icon" width="14" height="14" class="icon-img">
                 </div>
               </div>
               <span class="produit-review-date">Il y a 1 semaine</span>
@@ -250,11 +249,11 @@ require 'includes/header.php';
               <div class="produit-review-meta">
                 <span class="produit-review-author">ThomasR</span>
                 <div class="produit-review-stars">
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="#c084fc"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="#c084fc"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="#c084fc"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="#c084fc"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="#c084fc"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  <img src="/NEBULA/public/assets/img/icons/platforms/etoile-pleine.png" alt="icon" width="14" height="14" class="icon-img">
+                  <img src="/NEBULA/public/assets/img/icons/platforms/etoile-pleine.png" alt="icon" width="14" height="14" class="icon-img">
+                  <img src="/NEBULA/public/assets/img/icons/platforms/etoile-pleine.png" alt="icon" width="14" height="14" class="icon-img">
+                  <img src="/NEBULA/public/assets/img/icons/platforms/etoile-pleine.png" alt="icon" width="14" height="14" class="icon-img">
+                  <img src="/NEBULA/public/assets/img/icons/platforms/etoile-pleine.png" alt="icon" width="14" height="14" class="icon-img">
                 </div>
               </div>
               <span class="produit-review-date">Il y a 2 semaines</span>
@@ -278,23 +277,19 @@ require 'includes/header.php';
 
       <div class="produit-info-card">
         <div class="produit-info-title">Informations</div>
-        <?php if (!empty($jeu['rating'])): ?>
-        <div class="produit-rating-row">
-          <div class="produit-rating-score"><?= $jeu['rating'] ?></div>
-          <div style="flex:1">
-            <div class="produit-rating-bar">
-              <div class="produit-rating-fill" style="width:<?= $jeu['rating'] ?>%"></div>
-            </div>
-            <div class="produit-rating-label" style="margin-top:4px">Note IGDB</div>
-          </div>
-        </div>
-        <?php endif; ?>
         <div class="produit-info-rows">
+          <div class="produit-info-row">
+            <span class="produit-info-key">
+              <img src="/NEBULA/public/assets/img/icons/platforms/etoile-pleine.png" alt="icon" width="14" height="14" class="icon-img" style="opacity:0.8">
+              Note
+            </span>
+            <span class="produit-info-val">83</span>
+          </div>
 
           <?php if ($dateFormatted): ?>
           <div class="produit-info-row">
             <span class="produit-info-key">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <img src="/NEBULA/public/assets/img/icons/ecommerce/calendrier.png" alt="icon" width="14" height="14" class="icon-img">
               Sortie
             </span>
             <span class="produit-info-val"><?= htmlspecialchars($dateFormatted) ?></span>
@@ -304,7 +299,7 @@ require 'includes/header.php';
           <?php if (!empty($jeu['developpeur'])): ?>
           <div class="produit-info-row">
             <span class="produit-info-key">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7H4a2 2 0 00-2 2v6a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><circle cx="12" cy="12" r="2"/></svg>
+              <img src="/NEBULA/public/assets/img/icons/ecommerce/serveur.png" alt="icon" width="14" height="14" class="icon-img">
               Développeur
             </span>
             <span class="produit-info-val"><?= htmlspecialchars($jeu['developpeur']) ?></span>
@@ -314,7 +309,7 @@ require 'includes/header.php';
           <?php if (!empty($tags)): ?>
           <div class="produit-info-row">
             <span class="produit-info-key">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+              <img src="/NEBULA/public/assets/img/icons/ecommerce/Serveur.png" alt="icon" width="14" height="14" class="icon-img">
               Genres
             </span>
             <span class="produit-info-val produit-info-tags">
@@ -327,7 +322,7 @@ require 'includes/header.php';
 
           <div class="produit-info-row">
             <span class="produit-info-key">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              <img src="/NEBULA/public/assets/img/icons/ecommerce/coche-incluse.png" alt="icon" width="16" height="16" class="icon-img">
               Qualité max
             </span>
             <span class="produit-info-val produit-info-badge">4K · 144 FPS · HDR10</span>
@@ -337,25 +332,25 @@ require 'includes/header.php';
         <div class="produit-platforms-label">Plateformes disponibles</div>
         <div class="produit-platforms">
           <div class="produit-platform-item" title="Xbox">
-            <svg class="platform-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M4.102 4.102C2.144 5.874 1 8.3 1 12c0 3.697 1.14 6.12 3.098 7.894C5.864 21.574 8.778 23 12 23s6.135-1.426 7.902-3.106C21.858 18.12 23 15.697 23 12c0-3.7-1.14-6.126-3.094-7.898C18.134 2.424 15.22 1 12 1S5.865 2.424 4.102 4.102zm2.034.716S7.757 6.4 9.97 9.207c-1.648 2.128-3.506 3.906-3.506 3.906S5.195 10.99 5.195 9.316c0-1.785.545-3.265.94-4.498zM12 7.41c1.22-1.57 2.453-2.816 3.272-3.55-.99-.41-2.087-.65-3.272-.65s-2.282.24-3.272.65C9.547 4.594 10.78 5.84 12 7.41zm5.535-2.59c.395 1.232.94 2.712.94 4.497 0 1.674-1.268 3.797-1.268 3.797s-1.858-1.778-3.506-3.906C15.913 6.4 17.535 4.82 17.535 4.82zm-5.535 6.68L9.2 14.84s1.43 2.16 2.8 3.57c1.37-1.41 2.8-3.57 2.8-3.57L12 11.5zM5.58 14.64s1.7 2.14 3.12 3.41c1.026.932 2.175 2.43 3.3 3.64-2.865-.17-5.39-1.7-6.855-3.82-.33-.47-.565-3.23.436-3.23zm12.84 0c1 0 .764 2.76.434 3.23-1.465 2.12-3.99 3.65-6.854 3.82 1.124-1.21 2.273-2.708 3.3-3.64 1.42-1.27 3.12-3.41 3.12-3.41z"/></svg>
+            <img src="/NEBULA/public/assets/img/icons/platforms/xbox.png" alt="icon" width="24" height="24" class="platform-icon">
             <span>Xbox</span>
           </div>
           <div class="produit-platform-item" title="PlayStation">
-            <svg class="platform-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M9.5 3v13.2l3 .9V6.3c0-.4.2-.7.6-.6 1 .3 1.3 1.4 1.3 2.2v4.4c2.1.5 4.3-.1 4.3-2.9C18.7 6 16.7 5 14.5 4.4L9.5 3zm-3.3 14.1c-1.9-.5-2.2-1.5-1.4-2.2.7-.6 2-.9 2-.9v1.6s-.6.2-.9.5c-.3.3-.1.6.7.8.8.2 5.3 1.5 5.3 1.5v1.6l-5.7-2.9zm9.3 0l-2.9 1.5V17l2.9-1.5v1.6z"/></svg>
+            <img src="/NEBULA/public/assets/img/icons/platforms/playstation.png" alt="icon" width="24" height="24" class="platform-icon">
             <span>PlayStation</span>
           </div>
           <div class="produit-platform-item" title="PC">
-            <svg class="platform-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
+            <img src="/NEBULA/public/assets/img/icons/platforms/windows.png" alt="icon" width="24" height="24" class="platform-icon">
             <span>PC</span>
           </div>
           <div class="produit-platform-item" title="Mobile">
-            <svg class="platform-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+            <img src="/NEBULA/public/assets/img/icons/platforms/nintendo.png" alt="icon" width="24" height="24" class="platform-icon">
             <span>Mobile</span>
           </div>
         </div>
 
         <a href="/NEBULA/auth.php?tab=register" class="btn btn-primary btn-full" style="margin-top:20px">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <img src="/NEBULA/public/assets/img/icons/platforms/bouton-play.png" alt="icon" width="16" height="16" class="icon-img">
           Jouer maintenant
         </a>
       </div>
@@ -395,6 +390,7 @@ require 'includes/header.php';
   </div>
   <div class="produit-related-grid">
     <?php foreach ($related as $rel):
+      if (empty($rel['titre'])) continue;
       $relTags = !empty($rel['genre'])
           ? array_slice(array_filter(array_map('trim', explode(',', $rel['genre']))), 0, 2)
           : [];
@@ -408,7 +404,7 @@ require 'includes/header.php';
         <?php endif; ?>
         <div class="produit-related-overlay">
           <div class="produit-related-play">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:4px"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            <img src="/NEBULA/public/assets/img/icons/platforms/bouton-play.png" alt="icon" width="16" height="16" class="icon-img">
             Jouer
           </div>
         </div>
