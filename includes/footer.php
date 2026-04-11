@@ -14,7 +14,6 @@
         <li><a href="/NEBULA/jeux.php">Bibliothèque</a></li>
         <li><a href="/NEBULA/offres.php">Tarifs</a></li>
         <li><a href="/NEBULA/configurateur.php">Configurateur</a></li>
-        <li><a href="/NEBULA/demo.php">Démo</a></li>
       </ul>
     </div>
 
@@ -56,10 +55,6 @@
   </div>
 </footer>
 
-<!-- nav.js toujours chargé -->
-<script src="/NEBULA/js/nav.js"></script>
-
-<!-- JS spécifiques à la page -->
 <?php foreach ($pageJS ?? [] as $script): ?>
 <script src="/NEBULA/js/<?= htmlspecialchars($script) ?>.js"></script>
 <?php endforeach; ?>

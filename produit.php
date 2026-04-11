@@ -1,95 +1,51 @@
 <?php
-require 'includes/igdb.php';
+/* ============================================================
+   PRODUIT.PHP — Page de détail d'un jeu
+   Affiche le hero, la description, les screenshots, les avis,
+   les infos techniques et les jeux liés.
+   Le jeu est récupéré via l'API IGDB grâce au paramètre ?id=.
+   ============================================================ */
 
+// -- Charger l'API IGDB --
+require 'api/igdb.php';
+
+// -- Récupérer l'ID du jeu depuis l'URL (?id=123) --
 $id  = (int)($_GET['id'] ?? 0);
 $jeu = null;
+$related = [];
 
+// -- Déterminer le type de jeu : premium (achetable) ou streaming (inclus) --
+// Par défaut : ID pair = achetable, ID impair = inclus dans l'abonnement
+// On peut forcer le type via ?type=premium ou ?type=streaming
+$typeForce = $_GET['type'] ?? null;
+
+if ($typeForce) {
+    $typeJeu = $typeForce;
+} else {
+    // ID pair = achetable, ID impair = inclus
+    $typeJeu = ($id % 2 === 0) ? 'premium' : 'streaming';
+}
+
+// -- Prix fixe pour les jeux premium (achetables) --
+$prixJeu = 39.99;
+
+// -- Si un ID valide est fourni, récupérer les données du jeu --
 if ($id > 0) {
-    $token = igdb_token();
-    if ($token) {
-        $data = igdb_query('games', "
-            fields id,name,summary,genres.name,cover.url,artworks.url,screenshots.url,
-                   videos.video_id,videos.name,
-                   first_release_date,involved_companies.company.name;
-            where id = {$id};
-        ", $token);
-
-        $g = is_array($data) ? ($data[0] ?? null) : null;
-        if ($g) {
-            $jeu = array_merge(igdb_map($g), [
-                'trailer_id'  => $g['videos'][0]['video_id'] ?? null,
-                'cover_url'   => igdb_cover($g['cover']['url'] ?? null, 't_original'),
-                'hero_url'    => isset($g['artworks'][0])
-                    ? igdb_cover($g['artworks'][0]['url'], 't_1080p')
-                    : (isset($g['screenshots'][0])
-                        ? igdb_cover($g['screenshots'][0]['url'], 't_1080p')
-                        : igdb_cover($g['cover']['url'] ?? null, 't_1080p')),
-                'logo_url'    => igdb_logo($g['name']),
-                'screenshots' => (function() use ($g) {
-                    // Use in-game screenshots for aperçu (varied scenes)
-                    // artworks are marketing key art — often duplicate/logo — kept only for hero bg
-                    $shots = array_map(
-                        fn($s) => igdb_cover($s['url'], 't_screenshot_huge'),
-                        array_slice($g['screenshots'] ?? [], 0, 3)
-                    );
-                    // If no screenshots, fall back to artworks[1..] (skip hero artwork[0])
-                    if (count($shots) < 3) {
-                        foreach (array_slice($g['artworks'] ?? [], 1, 3 - count($shots)) as $a) {
-                            $shots[] = igdb_cover($a['url'], 't_1080p');
-                        }
-                    }
-                    return array_filter($shots);
-                })(),
-            ]);
-
-            // Jeux liés par genre
-            $related     = [];
-            $genreNames  = array_column($g['genres'] ?? [], 'name');
-            $genreFilter = '';
-            if ($genreNames) {
-                $names  = implode(',', array_map(fn($n) => '"' . addslashes($n) . '"', $genreNames));
-                $genres = igdb_query('genres', "fields id; where name = ({$names}); limit 10;", $token);
-                if ($genres) {
-                    $ids         = implode(',', array_column($genres, 'id'));
-                    $genreFilter = "genres = ({$ids}) &";
-                }
-            }
-            $relData = igdb_query('games', "
-                fields id,name,genres.name,cover.url;
-                where {$genreFilter} id != {$id} & cover != null & rating > 75 & rating_count > 50;
-                sort rating desc; limit 20;
-            ", $token);
-            if ($relData) {
-                shuffle($relData);
-                $related = array_map('igdb_map', array_slice($relData, 0, 4));
-            }
-        }
+    $jeu = igdb_get_game($id);
+    
+    // Ajouter le type et le prix au jeu
+    if ($jeu) {
+        $jeu['type'] = $typeJeu;
+        $jeu['prix'] = ($typeJeu === 'premium') ? $prixJeu : 0;
     }
+    
+    // Jeux liés : récupérer 20 jeux, mélanger et en garder 7 au hasard
+    $games = igdb_get_games(20);
+    shuffle($games);
+    $related = array_slice($games, 0, 7);
 }
 
-// Fallback si IGDB indisponible ou ID invalide
-if (!$jeu) {
-    $jeu = [
-        'id_jeu'      => 0,
-        'titre'       => 'Jeu introuvable',
-        'genre'       => '',
-        'developpeur' => null,
-        'image_url'   => null,
-        'cover_url'   => null,
-        'hero_url'    => null,
-        'logo_url'    => null,
-        'screenshots' => [],
-        'description' => 'Ce jeu est introuvable ou temporairement indisponible.',
-        'date_sortie' => null,
-    ];
-    $related = [];
-}
-
-$tags = !empty($jeu['genre'])
-    ? array_filter(array_map('trim', explode(',', $jeu['genre'])))
-    : [];
-
-// Formater la date de sortie
+// -- Formater la date de sortie en français (ex: "15 mars 2024") --
 $dateFormatted = '';
 $yearOnly      = '';
 if (!empty($jeu['date_sortie'])) {
@@ -101,85 +57,82 @@ if (!empty($jeu['date_sortie'])) {
     }
 }
 
+// -- Configuration de la page et inclusion du header --
 $pageTitle = htmlspecialchars($jeu['titre']);
-$pageCSS   = ['produit'];
+$pageCSS   = ['jeux', 'produit'];
 $pageJS    = [];
 
 require 'includes/header.php';
 ?>
 
-<!-- ── Game hero ─────────────────────────────────────────────── -->
+<!-- ── Hero du jeu ──────────────────────────────────────────────
+     Grande bannière avec l'artwork du jeu en fond (via CSS variable),
+     le titre, le tag (Acheter/Inclus) et les boutons d'action.
+     ──────────────────────────────────────────────────────────────── -->
 <div class="produit-hero"<?php if (!empty($jeu['hero_url'])): ?> style="--hero-img: url('<?= htmlspecialchars($jeu['hero_url']) ?>')"<?php endif; ?>>
   <div class="produit-hero-overlay"></div>
-  <div class="produit-hero-glow"></div>
 
   <div class="produit-hero-content">
     <div class="produit-hero-row">
 
-      <!-- Gauche : tags · titre · meta · actions -->
+      <!-- Gauche : tag du type · titre du jeu · boutons d'action -->
       <div class="produit-hero-left">
-        <?php if (!empty($tags)): ?>
+        <!-- Tag indiquant si le jeu est achetable ou inclus -->
         <div class="produit-tags">
-          <?php foreach (array_slice($tags, 0, 3) as $tag): ?>
-            <span class="produit-tag"><?= htmlspecialchars($tag) ?></span>
-          <?php endforeach; ?>
+          <span class="produit-tag produit-tag--type <?= $typeJeu === 'premium' ? 'produit-tag--buy' : '' ?>">
+            <?= $typeJeu === 'premium' ? 'Acheter' : 'Inclus' ?>
+          </span>
         </div>
-        <?php endif; ?>
 
         <h1 class="produit-title"><?= htmlspecialchars($jeu['titre']) ?></h1>
 
-        <div class="produit-hero-meta">
-          <?php if (!empty($jeu['developpeur'])): ?>
-            <span class="produit-hero-meta-dev"><?= htmlspecialchars($jeu['developpeur']) ?></span>
-          <?php endif; ?>
-          <?php if ($yearOnly): ?>
-            <?php if (!empty($jeu['developpeur'])): ?><span class="produit-hero-meta-sep"></span><?php endif; ?>
-            <span class="produit-hero-meta-year"><?= $yearOnly ?></span>
-          <?php endif; ?>
-          <?php if (!empty($jeu['rating'])): ?>
-            <div class="produit-hero-meta-rating">
-              <img src="/NEBULA/public/assets/img/icons/platforms/etoile-pleine.png" alt="icon" width="14" height="14" class="icon-img">
-              <?= $jeu['rating'] ?>
-            </div>
-          <?php endif; ?>
-        </div>
-
+        <!-- Boutons CTA : acheter ou jouer selon le type -->
         <div class="produit-hero-actions">
-          <a href="/NEBULA/auth.php?tab=register" class="btn btn-primary btn-lg produit-play-btn">
-            <img src="/NEBULA/public/assets/img/icons/platforms/bouton-play.png" alt="icon" width="16" height="16" class="icon-img">
-            Jouer maintenant
-          </a>
+          <?php if ($typeJeu === 'premium'): ?>
+            <!-- Jeu premium : bouton d'achat avec prix -->
+            <a href="/NEBULA/panier.php?add=<?= $id ?>&nom=<?= urlencode($jeu['titre']) ?>&prix=<?= $prixJeu ?>" class="btn btn-primary btn-lg produit-buy-btn">
+              <span class="produit-price"><?= number_format($prixJeu, 2) ?> €</span>
+              <span class="produit-buy-text">Acheter</span>
+            </a>
+          <?php else: ?>
+            <!-- Jeu inclus : bouton pour jouer directement -->
+            <a href="/NEBULA/auth.php?tab=register" class="btn btn-primary btn-lg produit-play-btn">
+              <img src="/NEBULA/public/assets/img/icons/platforms/bouton-play.png" alt="icon" width="16" height="16" class="icon-img">
+              Jouer maintenant
+            </a>
+          <?php endif; ?>
           <a href="/NEBULA/jeux.php" class="btn btn-outline btn-lg">Voir le catalogue</a>
         </div>
       </div>
 
-      <!-- Droite : logotype SteamGridDB -->
-      <?php if (!empty($jeu['logo_url'])): ?>
-      <div class="produit-hero-right">
-        <img class="produit-logo" src="<?= htmlspecialchars($jeu['logo_url']) ?>" alt="<?= htmlspecialchars($jeu['titre']) ?>">
-      </div>
-      <?php endif; ?>
 
     </div>
   </div>
 
-  <div class="produit-hero-accent"></div>
 </div>
 
-<!-- ── Main content ──────────────────────────────────────────── -->
+<!-- ── Contenu principal ─────────────────────────────────────────
+     Layout en 2 colonnes :
+     - Gauche : description, aperçu (trailer + screenshots), avis joueurs
+     - Droite : couverture, infos techniques, plateformes, bouton CTA
+     ──────────────────────────────────────────────────────────────── -->
 <section class="section produit-main">
   <div class="produit-content-grid">
 
-    <!-- Colonne gauche : description + screenshots -->
+    <!-- ── Colonne gauche : description + aperçu + avis ── -->
     <div class="produit-desc-col">
-      <div class="produit-desc-card">
-        <div class="produit-desc-label">Description</div>
+
+      <!-- Carte : Description du jeu -->
+      <div class="db-card">
+        <div class="db-card-head"><div class="db-card-title">Description</div></div>
         <p class="produit-desc-text"><?= nl2br(htmlspecialchars($jeu['description'] ?? '')) ?></p>
       </div>
 
-      <div class="produit-media-card">
-        <div class="produit-desc-label">Aperçu</div>
+      <!-- Carte : Aperçu (trailer YouTube + screenshots IGDB) -->
+      <div class="db-card">
+        <div class="db-card-head"><div class="db-card-title">Aperçu</div></div>
 
+        <!-- Trailer YouTube intégré (si disponible) -->
         <?php if (!empty($jeu['trailer_id'])): ?>
         <div class="produit-trailer">
           <iframe
@@ -192,9 +145,10 @@ require 'includes/header.php';
         </div>
         <?php endif; ?>
 
+        <!-- Grille de screenshots (max 3, compact si trailer présent) -->
         <?php if (!empty($jeu['screenshots'])): ?>
         <div class="produit-screenshots <?= !empty($jeu['trailer_id']) ? 'produit-screenshots--compact' : '' ?>">
-          <?php foreach ($jeu['screenshots'] as $shot): ?>
+          <?php foreach (array_slice($jeu['screenshots'], 0, 3) as $shot): ?>
             <div class="produit-screenshot-item">
               <img src="<?= htmlspecialchars($shot) ?>" alt="Screenshot <?= htmlspecialchars($jeu['titre']) ?>" loading="lazy">
             </div>
@@ -202,9 +156,9 @@ require 'includes/header.php';
         </div>
         <?php endif; ?>
       </div>
-      <!-- Commentaires -->
-      <div class="produit-desc-card produit-reviews-card">
-        <div class="produit-desc-label">Avis joueurs</div>
+      <!-- Carte : Avis joueurs (commentaires statiques de démonstration) -->
+      <div class="db-card">
+        <div class="db-card-head"><div class="db-card-title">Avis joueurs</div></div>
         <div class="produit-reviews">
 
           <div class="produit-review">
@@ -266,21 +220,23 @@ require 'includes/header.php';
 
     </div>
 
-    <!-- Colonne droite : infos + plateformes -->
+    <!-- ── Colonne droite (sidebar) : couverture + infos ── -->
     <aside class="produit-info-col">
 
+      <!-- Image de couverture du jeu -->
       <?php if (!empty($jeu['cover_url'])): ?>
       <div class="produit-cover-wrap">
         <img class="produit-cover" src="<?= htmlspecialchars($jeu['cover_url']) ?>" alt="<?= htmlspecialchars($jeu['titre']) ?>">
       </div>
       <?php endif; ?>
 
-      <div class="produit-info-card">
-        <div class="produit-info-title">Informations</div>
+      <!-- Carte : Informations techniques du jeu -->
+      <div class="db-card">
+        <div class="db-card-head"><div class="db-card-title">Informations</div></div>
         <div class="produit-info-rows">
           <div class="produit-info-row">
             <span class="produit-info-key">
-              <img src="/NEBULA/public/assets/img/icons/platforms/etoile-pleine.png" alt="icon" width="14" height="14" class="icon-img" style="opacity:0.8">
+              <img src="/NEBULA/public/assets/img/icons/dashboard/star.png" alt="icon" width="16" height="16" class="icon-img" style="opacity:0.8">
               Note
             </span>
             <span class="produit-info-val">83</span>
@@ -289,7 +245,7 @@ require 'includes/header.php';
           <?php if ($dateFormatted): ?>
           <div class="produit-info-row">
             <span class="produit-info-key">
-              <img src="/NEBULA/public/assets/img/icons/ecommerce/calendrier.png" alt="icon" width="14" height="14" class="icon-img">
+              <img src="/NEBULA/public/assets/img/icons/ecommerce/calendrier.png" alt="icon" width="16" height="16" class="icon-img">
               Sortie
             </span>
             <span class="produit-info-val"><?= htmlspecialchars($dateFormatted) ?></span>
@@ -299,36 +255,24 @@ require 'includes/header.php';
           <?php if (!empty($jeu['developpeur'])): ?>
           <div class="produit-info-row">
             <span class="produit-info-key">
-              <img src="/NEBULA/public/assets/img/icons/ecommerce/serveur.png" alt="icon" width="14" height="14" class="icon-img">
+              <img src="/NEBULA/public/assets/img/icons/platforms/image.png" alt="icon" width="16" height="16" class="icon-img">
               Développeur
             </span>
             <span class="produit-info-val"><?= htmlspecialchars($jeu['developpeur']) ?></span>
           </div>
           <?php endif; ?>
 
-          <?php if (!empty($tags)): ?>
-          <div class="produit-info-row">
-            <span class="produit-info-key">
-              <img src="/NEBULA/public/assets/img/icons/ecommerce/Serveur.png" alt="icon" width="14" height="14" class="icon-img">
-              Genres
-            </span>
-            <span class="produit-info-val produit-info-tags">
-              <?php foreach ($tags as $tag): ?>
-                <span class="produit-mini-tag"><?= htmlspecialchars($tag) ?></span>
-              <?php endforeach; ?>
-            </span>
-          </div>
-          <?php endif; ?>
 
           <div class="produit-info-row">
             <span class="produit-info-key">
-              <img src="/NEBULA/public/assets/img/icons/ecommerce/coche-incluse.png" alt="icon" width="16" height="16" class="icon-img">
+              <img src="/NEBULA/public/assets/img/icons/dashboard/4K.png" alt="icon" width="16" height="16" class="icon-img">
               Qualité max
             </span>
-            <span class="produit-info-val produit-info-badge">4K · 144 FPS · HDR10</span>
+            <span class="produit-info-val">4K · 144 FPS · HDR10</span>
           </div>
         </div>
 
+        <!-- Plateformes compatibles -->
         <div class="produit-platforms-label">Plateformes disponibles</div>
         <div class="produit-platforms">
           <div class="produit-platform-item" title="Xbox">
@@ -344,83 +288,59 @@ require 'includes/header.php';
             <span>PC</span>
           </div>
           <div class="produit-platform-item" title="Mobile">
-            <img src="/NEBULA/public/assets/img/icons/platforms/nintendo.png" alt="icon" width="24" height="24" class="platform-icon">
+            <img src="/NEBULA/public/assets/img/icons/platforms/mobile.png" alt="icon" width="24" height="24" class="platform-icon">
             <span>Mobile</span>
           </div>
         </div>
 
-        <a href="/NEBULA/auth.php?tab=register" class="btn btn-primary btn-full" style="margin-top:20px">
-          <img src="/NEBULA/public/assets/img/icons/platforms/bouton-play.png" alt="icon" width="16" height="16" class="icon-img">
-          Jouer maintenant
-        </a>
+        <!-- Bouton CTA sidebar : acheter ou jouer selon le type -->
+        <?php if ($typeJeu === 'premium'): ?>
+          <a href="/NEBULA/panier.php?add=<?= $id ?>&nom=<?= urlencode($jeu['titre']) ?>&prix=<?= $prixJeu ?>" class="btn btn-primary btn-full produit-buy-sidebar produit-sidebar-cta">
+            Ajouter au panier — <?= number_format($prixJeu, 2) ?> €
+          </a>
+        <?php else: ?>
+          <a href="/NEBULA/auth.php?tab=register" class="btn btn-primary btn-full produit-sidebar-cta">
+            <img src="/NEBULA/public/assets/img/icons/platforms/bouton-play.png" alt="icon" width="16" height="16" class="icon-img">
+            Jouer maintenant
+          </a>
+        <?php endif; ?>
       </div>
 
-      <div class="produit-req-card">
-        <div class="produit-req-title">Configuration recommandée</div>
-        <div class="produit-req-rows">
-          <div class="produit-req-row">
-            <span class="produit-req-key">Connexion</span>
-            <span class="produit-req-val">25 Mbit/s</span>
-          </div>
-          <div class="produit-req-row">
-            <span class="produit-req-key">Latence</span>
-            <span class="produit-req-val">&lt; 40 ms</span>
-          </div>
-          <div class="produit-req-row">
-            <span class="produit-req-key">Navigateur</span>
-            <span class="produit-req-val">Chrome, Edge, Safari</span>
-          </div>
-          <div class="produit-req-row">
-            <span class="produit-req-key">Qualité max</span>
-            <span class="produit-req-val">4K · 144 FPS</span>
-          </div>
-        </div>
-      </div>
     </aside>
   </div>
 </section>
 
-<!-- ── Jeux liés ───────────────────────────────────────────────── -->
+<!-- ── Jeux liés ─────────────────────────────────────────────────
+     Grille de 7 jeux aléatoires du catalogue, affichés avec les
+     mêmes cartes que la page jeux.php (catalogue-card).
+     ──────────────────────────────────────────────────────────────── -->
 <?php if (!empty($related)): ?>
-<section class="section" style="padding-top:0">
+<section class="section produit-related-section">
   <div class="section-header">
     <div class="section-tag">Catalogue</div>
     <h2>Autres jeux disponibles</h2>
     <div class="glow-bar"></div>
   </div>
-  <div class="produit-related-grid">
+  <div class="catalogue-grid">
     <?php foreach ($related as $rel):
       if (empty($rel['titre'])) continue;
-      $relTags = !empty($rel['genre'])
-          ? array_slice(array_filter(array_map('trim', explode(',', $rel['genre']))), 0, 2)
-          : [];
     ?>
-    <a href="/NEBULA/produit.php?id=<?= (int)$rel['id_jeu'] ?>" class="produit-related-card">
-      <div class="produit-related-img">
+    <a href="/NEBULA/produit.php?id=<?= (int)$rel['id_jeu'] ?>" class="catalogue-card">
+      <div class="catalogue-card-poster">
         <?php if (!empty($rel['image_url'])): ?>
           <img src="<?= htmlspecialchars($rel['image_url']) ?>" alt="<?= htmlspecialchars($rel['titre']) ?>" loading="lazy">
         <?php else: ?>
-          <div class="produit-related-placeholder" style="width:100%;height:100%;background:linear-gradient(135deg,rgba(124,58,237,.35),rgba(159,18,57,.25),rgba(12,6,28,.9))"></div>
+          <div class="catalogue-card-placeholder"></div>
         <?php endif; ?>
-        <div class="produit-related-overlay">
-          <div class="produit-related-play">
-            <img src="/NEBULA/public/assets/img/icons/platforms/bouton-play.png" alt="icon" width="16" height="16" class="icon-img">
-            Jouer
-          </div>
-        </div>
       </div>
-      <div class="produit-related-info">
-        <div class="produit-related-title"><?= htmlspecialchars($rel['titre']) ?></div>
-        <div class="produit-related-tags">
-          <?php foreach ($relTags as $t): ?>
-            <span class="produit-mini-tag"><?= htmlspecialchars($t) ?></span>
-          <?php endforeach; ?>
-        </div>
+      <div class="catalogue-card-overlay">
+        <div class="catalogue-card-title"><?= htmlspecialchars($rel['titre']) ?></div>
+        <div class="catalogue-play-btn">Jouer</div>
       </div>
     </a>
     <?php endforeach; ?>
   </div>
-  <div class="text-center" style="margin-top:32px">
+  <div class="text-center produit-related-more">
     <a href="/NEBULA/jeux.php" class="btn btn-outline btn-lg">Voir tout le catalogue</a>
   </div>
 </section>

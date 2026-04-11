@@ -1,238 +1,345 @@
 <?php
+/* ============================================================
+   CONFIGURATEUR.PHP — Configurateur de bouquet personnalisé
+   Permet à l'utilisateur de composer son offre sur mesure :
+   - Étape 1 : choisir des accessoires (merch)
+   - Étape 2 : choisir une offre d'abonnement
+   - Étape 3 : ajouter des options supplémentaires
+   Un résumé sticky en sidebar calcule le total en temps réel.
+   Le JS (configurateur.js) gère les interactions côté client.
+   ============================================================ */
+
+// -- Connexion BDD et session --
 require 'includes/db.php';
 if (session_status() === PHP_SESSION_NONE) session_start();
 
+// -- Configuration de la page --
 $pageTitle = 'Mon Bouquet';
 $pageCSS   = ['configurateur'];
 $pageJS    = ['configurateur'];
 
+// -- Inclure le header commun --
 require 'includes/header.php';
 ?>
 
 <div class="config-page">
 
-<!-- ── Hero ──────────────────────────────────────────────────── -->
+<!-- ── Hero : titre et description du configurateur ───────────── -->
 <div class="config-hero">
   <div class="config-hero-orb config-hero-orb-a"></div>
   <div class="config-hero-orb config-hero-orb-b"></div>
   <div class="config-hero-inner">
-    <div class="config-hero-tag">
-      <img src="/NEBULA/public/assets/img/icons/nav/fleche-droite.png" alt="icon" width="20" height="20" class="icon-img">
-      Configurateur
-    </div>
     <h1 class="config-hero-title">Composez votre <span class="gradient-text">bouquet</span></h1>
     <p class="config-hero-sub">Payez uniquement pour ce que vous utilisez. Sélectionnez vos genres favoris, votre qualité de streaming et les options qui vous correspondent.</p>
   </div>
 </div>
 
-<!-- ── Main layout ───────────────────────────────────────────── -->
+<!-- ── Layout principal : étapes à gauche, résumé à droite ───── -->
 <div class="config-layout">
   <div class="config-steps-col">
 
-    <!-- ── Step 1 : Genres ───────────────────────────────────── -->
-    <div class="config-step-card">
-      <div class="config-step-header">
-        <div class="config-step-num">1</div>
-        <div>
-          <div class="config-step-title">Vos genres favoris</div>
-          <div class="config-step-sub">Sélectionnez au moins un genre pour personnaliser votre catalogue</div>
+    <!-- ── Étape 1 : Accessoires Nebula (choix multiple) ─────
+         Chaque bouton a data-produit, data-nom et data-prix.
+         Au clic, le JS ajoute/retire la classe "selected" sur
+         la carte et ajoute/soustrait le prix dans prixBoutique. ── -->
+    <div class="config-card">
+      <div class="config-card-head">
+        <div class="config-card-title">
+          <span class="config-step-num">1</span>
+          Accessoires Nebula
         </div>
-        <div class="config-step-count">0 / 10</div>
+        <span class="config-step-sub">Collection exclusive</span>
       </div>
 
-      <div class="merch-select-grid" id="genreGrid">
-        <?php
-        $genres = [
-          ['id'=>'action',    'label'=>'Action',    'svg'=>'<img src="/NEBULA/public/assets/img/icons/platforms/etoile-vide.png" alt="icon" width="20" height="20" class="icon-img">'],
-          ['id'=>'rpg',       'label'=>'RPG',       'svg'=>'<img src="/NEBULA/public/assets/img/icons/platforms/etoile-pleine.png" alt="icon" width="14" height="14" class="icon-img">'],
-          ['id'=>'fps',       'label'=>'FPS',       'svg'=>'<img src="/NEBULA/public/assets/img/icons/platforms/etoile-vide.png" alt="icon" width="20" height="20" class="icon-img">'],
-          ['id'=>'sport',     'label'=>'Sport',     'svg'=>'<img src="/NEBULA/public/assets/img/icons/platforms/etoile-vide.png" alt="icon" width="20" height="20" class="icon-img">'],
-          ['id'=>'course',    'label'=>'Course',    'svg'=>'<img src="/NEBULA/public/assets/img/icons/platforms/etoile-vide.png" alt="icon" width="20" height="20" class="icon-img">'],
-          ['id'=>'aventure',  'label'=>'Aventure',  'svg'=>'<img src="/NEBULA/public/assets/img/icons/platforms/etoile-vide.png" alt="icon" width="20" height="20" class="icon-img">'],
-          ['id'=>'strategie', 'label'=>'Stratégie', 'svg'=>'<img src="/NEBULA/public/assets/img/icons/platforms/etoile-vide.png" alt="icon" width="20" height="20" class="icon-img">'],
-          ['id'=>'simulation','label'=>'Simulation','svg'=>'<img src="/NEBULA/public/assets/img/icons/platforms/etoile-vide.png" alt="icon" width="20" height="20" class="icon-img">'],
-          ['id'=>'horreur',   'label'=>'Horreur',   'svg'=>'<img src="/NEBULA/public/assets/img/icons/nav/oeil-ouvert.png" alt="icon" width="18" height="18" class="icon-img eye-icon">'],
-          ['id'=>'indie',     'label'=>'Indie',     'svg'=>'<img src="/NEBULA/public/assets/img/icons/ecommerce/composant-cpu.png" alt="icon" width="26" height="26" class="icon-img">'],
-        ];
-        foreach ($genres as $g): ?>
-        <label class="merch-select-card genre-chip" for="genre_<?= $g['id'] ?>">
-          <input type="checkbox" id="genre_<?= $g['id'] ?>" name="genres[]"
-                 value="<?= htmlspecialchars($g['id']) ?>" class="genre-checkbox" hidden>
-          <div class="merch-select-img" style="background:linear-gradient(135deg,rgba(124,58,237,.18),rgba(12,6,28,.85))">
-            <div class="merch-select-icon"><?= $g['svg'] ?></div>
+      <div class="merch-grid">
+        <!-- T-Shirt -->
+        <div class="merch-card">
+          <div class="merch-img">
+            <img src="/NEBULA/public/assets/img/merch-tshirt.png" alt="T-Shirt Nebula">
           </div>
-          <div class="merch-select-name"><?= htmlspecialchars($g['label']) ?></div>
-          <div class="merch-select-btn">
-            <img src="/NEBULA/public/assets/img/icons/ecommerce/coche-incluse.png" alt="icon" width="14" height="14" class="icon-img">
+          <div class="merch-body">
+            <div class="merch-category">Vêtement</div>
+            <div class="merch-name">T-Shirt Nebula</div>
+            <div class="merch-desc">100% coton · Noir · Logo violet</div>
+            <div class="merch-footer">
+              <div class="merch-price">29,99 €</div>
+              <button class="btn btn-outline btn-sm" data-produit="tshirt" data-nom="T-Shirt Nebula" data-prix="29.99">Ajouter</button>
+            </div>
           </div>
-        </label>
-        <?php endforeach; ?>
+        </div>
+
+        <!-- Hoodie -->
+        <div class="merch-card">
+          <div class="merch-img">
+            <img src="/NEBULA/public/assets/img/merch-hoodie.png" alt="Hoodie Nebula">
+          </div>
+          <div class="merch-body">
+            <div class="merch-category">Vêtement</div>
+            <div class="merch-name">Hoodie Nebula</div>
+            <div class="merch-desc">Coton doux · Poche kangourou · Unisexe</div>
+            <div class="merch-footer">
+              <div class="merch-price">49,99 €</div>
+              <button class="btn btn-outline btn-sm" data-produit="hoodie" data-nom="Hoodie Nebula" data-prix="49.99">Ajouter</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mug -->
+        <div class="merch-card">
+          <div class="merch-img">
+            <img src="/NEBULA/public/assets/img/merch-mug.png" alt="Mug Gaming">
+          </div>
+          <div class="merch-body">
+            <div class="merch-category">Accessoire</div>
+            <div class="merch-name">Mug Gaming</div>
+            <div class="merch-desc">Céramique · 350ml · Thermosensible</div>
+            <div class="merch-footer">
+              <div class="merch-price">14,99 €</div>
+              <button class="btn btn-outline btn-sm" data-produit="mug" data-nom="Mug Gaming" data-prix="14.99">Ajouter</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Casquette -->
+        <div class="merch-card">
+          <div class="merch-img">
+            <img src="/NEBULA/public/assets/img/merch-casquette.png" alt="Casquette Nebula">
+          </div>
+          <div class="merch-body">
+            <div class="merch-category">Vêtement</div>
+            <div class="merch-name">Casquette Nebula</div>
+            <div class="merch-desc">Snapback · Brodé · Réglable</div>
+            <div class="merch-footer">
+              <div class="merch-price">24,99 €</div>
+              <button class="btn btn-outline btn-sm" data-produit="casquette" data-nom="Casquette Nebula" data-prix="24.99">Ajouter</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mousepad -->
+        <div class="merch-card">
+          <div class="merch-img">
+            <img src="/NEBULA/public/assets/img/merch-mousepad.png" alt="Mousepad XXL">
+          </div>
+          <div class="merch-body">
+            <div class="merch-category">Accessoire</div>
+            <div class="merch-name">Mousepad XXL</div>
+            <div class="merch-desc">900x400mm · Surface lisse · Base antidérapante</div>
+            <div class="merch-footer">
+              <div class="merch-price">19,99 €</div>
+              <button class="btn btn-outline btn-sm" data-produit="mousepad" data-nom="Mousepad XXL" data-prix="19.99">Ajouter</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stickers -->
+        <div class="merch-card">
+          <div class="merch-img">
+            <img src="/NEBULA/public/assets/img/merch-stickers.png" alt="Pack Stickers">
+          </div>
+          <div class="merch-body">
+            <div class="merch-category">Accessoire</div>
+            <div class="merch-name">Pack Stickers</div>
+            <div class="merch-desc">15 stickers · Vinyle waterproof · Mix designs</div>
+            <div class="merch-footer">
+              <div class="merch-price">9,99 €</div>
+              <button class="btn btn-outline btn-sm" data-produit="stickers" data-nom="Pack Stickers" data-prix="9.99">Ajouter</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- ── Step 2 : Qualité ───────────────────────────────────── -->
-    <div class="config-step-card">
-      <div class="config-step-header">
-        <div class="config-step-num">2</div>
-        <div>
-          <div class="config-step-title">Qualité de streaming</div>
-          <div class="config-step-sub">Choisissez la résolution adaptée à votre connexion et votre écran</div>
+    <!-- ── Étape 2 : Offre d'abonnement (choix unique) ─────────
+         3 cartes (Starter/Gamer/Ultra). Chaque bouton porte
+         data-plan et data-price. Au clic le JS désélectionne
+         toutes les cartes puis sélectionne celle cliquée.
+         Gamer est sélectionné par défaut au chargement. ────── -->
+    <div class="config-card">
+      <div class="config-card-head">
+        <div class="config-card-title">
+          <span class="config-step-num">2</span>
+          Votre offre
         </div>
+        <span class="config-step-sub">Choisissez votre abonnement</span>
       </div>
 
-      <div class="plan-grid" id="qualityGrid">
-        <?php
-        $qualities = [
-          ['id'=>'hd',  'label'=>'HD',         'res'=>'720p',  'desc'=>'Idéale pour les connexions limitées', 'price'=>4.99,  'tag'=>'Économique', 'badge'=>null,
-           'perks'=>['HD 720p','Jusqu\'à 60 FPS','Bande passante réduite','Compatible 4G/fibre']],
-          ['id'=>'fhd', 'label'=>'Full HD',     'res'=>'1080p', 'desc'=>'Meilleur rapport qualité / débit',   'price'=>9.99,  'tag'=>'Recommandé', 'badge'=>'Recommandé',
-           'perks'=>['Full HD 1080p','Jusqu\'à 120 FPS','HDR basique','Connexion standard']],
-          ['id'=>'4k',  'label'=>'4K Ultra HD', 'res'=>'2160p', 'desc'=>"L'expérience visuelle ultime",      'price'=>19.99, 'tag'=>'Premium',    'badge'=>null,
-           'perks'=>['4K Ultra HD','144 FPS','HDR10 + Dolby Vision','Ray tracing RTX']],
-        ];
-        foreach ($qualities as $q): ?>
-        <div class="cfg-plan-wrap">
-          <?php if ($q['badge']): ?>
-            <div class="cfg-plan-badge">
-              <img src="/NEBULA/public/assets/img/icons/platforms/etoile-pleine.png" alt="icon" width="14" height="14" class="icon-img">
-              <?= htmlspecialchars($q['badge']) ?>
-            </div>
-          <?php endif; ?>
-          <label class="cfg-plan-card <?= $q['badge'] ? 'has-badge' : '' ?>" for="quality_<?= $q['id'] ?>">
-            <input type="radio" id="quality_<?= $q['id'] ?>" name="quality"
-                   value="<?= $q['id'] ?>" data-price="<?= $q['price'] ?>"
-                   class="quality-radio" hidden <?= $q['id'] === 'fhd' ? 'checked' : '' ?>>
-            <div class="cfg-plan-header">
-              <div class="cfg-plan-icon">
-                <img src="/NEBULA/public/assets/img/icons/ecommerce/serveur.png" alt="icon" width="22" height="22" class="icon-img">
-              </div>
-              <div>
-                <div class="cfg-plan-name"><?= htmlspecialchars($q['label']) ?></div>
-                <div class="cfg-plan-desc"><?= htmlspecialchars($q['res']) ?> · <?= htmlspecialchars($q['desc']) ?></div>
-              </div>
-            </div>
-            <div class="cfg-plan-price-wrap">
-              <span class="cfg-plan-price"><?= number_format($q['price'], 2, ',', '') ?></span>
-              <span class="cfg-plan-period">€/mois</span>
-            </div>
-            <ul class="cfg-plan-perks">
-              <?php foreach ($q['perks'] as $perk): ?>
-                <li>
-                  <img src="/NEBULA/public/assets/img/icons/ecommerce/coche-incluse.png" alt="icon" width="14" height="14" class="icon-img">
-                  <?= htmlspecialchars($perk) ?>
-                </li>
-              <?php endforeach; ?>
-            </ul>
-            <div class="cfg-plan-cta">
-              <img src="/NEBULA/public/assets/img/icons/ecommerce/coche-incluse.png" alt="icon" width="14" height="14" class="icon-img">
-              Sélectionner
-            </div>
-          </label>
+      <div class="pricing-grid" id="pricingGrid">
+        <!-- Starter -->
+        <div class="pricing-card">
+          <div class="pricing-name">Starter</div>
+          <div class="pricing-price">
+            <span class="price-amount">Gratuit</span>
+          </div>
+          <div class="pricing-sub">Parfait pour découvrir le cloud gaming</div>
+          <ul class="pricing-features">
+            <li class="pricing-feature yes"><img src="/NEBULA/public/assets/img/icons/ecommerce/coche-incluse.png" alt="icon" width="14" height="14" class="icon-img">10h de jeu par mois</li>
+            <li class="pricing-feature yes"><img src="/NEBULA/public/assets/img/icons/ecommerce/coche-incluse.png" alt="icon" width="14" height="14" class="icon-img">Qualité HD (720p)</li>
+            <li class="pricing-feature yes"><img src="/NEBULA/public/assets/img/icons/ecommerce/coche-incluse.png" alt="icon" width="14" height="14" class="icon-img">Accès à +25 jeux</li>
+            <li class="pricing-feature yes"><img src="/NEBULA/public/assets/img/icons/ecommerce/coche-incluse.png" alt="icon" width="14" height="14" class="icon-img">Latence standard</li>
+            <li class="pricing-feature"><img src="/NEBULA/public/assets/img/icons/nav/croix-fermer.png" alt="icon" width="14" height="14" class="icon-img">Ray tracing</li>
+            <li class="pricing-feature"><img src="/NEBULA/public/assets/img/icons/nav/croix-fermer.png" alt="icon" width="14" height="14" class="icon-img">Accès prioritaire</li>
+            <li class="pricing-feature"><img src="/NEBULA/public/assets/img/icons/nav/croix-fermer.png" alt="icon" width="14" height="14" class="icon-img">Support 24/7</li>
+          </ul>
+          <button class="btn btn-outline btn-full" data-plan="starter" data-price="0">Sélectionner</button>
         </div>
-        <?php endforeach; ?>
+
+        <!-- Gamer -->
+        <div class="pricing-card featured">
+          <div class="pricing-badge">Populaire</div>
+          <div class="pricing-name">Gamer</div>
+          <div class="pricing-price">
+            <span class="price-amount">24.99</span><span class="price-period"> €/mois</span>
+          </div>
+          <div class="pricing-sub">Pour les joueurs réguliers</div>
+          <ul class="pricing-features">
+            <li class="pricing-feature yes"><img src="/NEBULA/public/assets/img/icons/ecommerce/coche-incluse.png" alt="icon" width="14" height="14" class="icon-img">Jouez en illimité</li>
+            <li class="pricing-feature yes"><img src="/NEBULA/public/assets/img/icons/ecommerce/coche-incluse.png" alt="icon" width="14" height="14" class="icon-img">Qualité 4K Ultra HD</li>
+            <li class="pricing-feature yes"><img src="/NEBULA/public/assets/img/icons/ecommerce/coche-incluse.png" alt="icon" width="14" height="14" class="icon-img">Accès à +200 jeux</li>
+            <li class="pricing-feature yes"><img src="/NEBULA/public/assets/img/icons/ecommerce/coche-incluse.png" alt="icon" width="14" height="14" class="icon-img">Latence ultra-faible</li>
+            <li class="pricing-feature yes"><img src="/NEBULA/public/assets/img/icons/ecommerce/coche-incluse.png" alt="icon" width="14" height="14" class="icon-img">Ray tracing</li>
+            <li class="pricing-feature yes"><img src="/NEBULA/public/assets/img/icons/ecommerce/coche-incluse.png" alt="icon" width="14" height="14" class="icon-img">Sauvegardes illimitées</li>
+            <li class="pricing-feature"><img src="/NEBULA/public/assets/img/icons/nav/croix-fermer.png" alt="icon" width="14" height="14" class="icon-img">Support prioritaire</li>
+          </ul>
+          <button class="btn btn-primary btn-full" data-plan="gamer" data-price="24.99">Sélectionner</button>
+        </div>
+
+        <!-- Ultra -->
+        <div class="pricing-card">
+          <div class="pricing-name">Ultra</div>
+          <div class="pricing-price">
+            <span class="price-amount">44.99</span><span class="price-period"> €/mois</span>
+          </div>
+          <div class="pricing-sub">L'expérience gaming ultime</div>
+          <ul class="pricing-features">
+            <li class="pricing-feature yes"><img src="/NEBULA/public/assets/img/icons/ecommerce/coche-incluse.png" alt="icon" width="14" height="14" class="icon-img">Tout de Gamer +</li>
+            <li class="pricing-feature yes"><img src="/NEBULA/public/assets/img/icons/ecommerce/coche-incluse.png" alt="icon" width="14" height="14" class="icon-img">Sessions prioritaires</li>
+            <li class="pricing-feature yes"><img src="/NEBULA/public/assets/img/icons/ecommerce/coche-incluse.png" alt="icon" width="14" height="14" class="icon-img">Support 24/7</li>
+            <li class="pricing-feature yes"><img src="/NEBULA/public/assets/img/icons/ecommerce/coche-incluse.png" alt="icon" width="14" height="14" class="icon-img">Accès anticipé aux nouveautés</li>
+            <li class="pricing-feature yes"><img src="/NEBULA/public/assets/img/icons/ecommerce/coche-incluse.png" alt="icon" width="14" height="14" class="icon-img">Streaming simultané (2 appareils)</li>
+            <li class="pricing-feature yes"><img src="/NEBULA/public/assets/img/icons/ecommerce/coche-incluse.png" alt="icon" width="14" height="14" class="icon-img">Cadeaux exclusifs</li>
+            <li class="pricing-feature yes"><img src="/NEBULA/public/assets/img/icons/ecommerce/coche-incluse.png" alt="icon" width="14" height="14" class="icon-img">Support prioritaire</li>
+          </ul>
+          <button class="btn btn-outline btn-full" data-plan="ultra" data-price="44.99">Sélectionner</button>
+        </div>
       </div>
     </div>
 
-    <!-- ── Step 3 : Options ──────────────────────────────────── -->
-    <div class="config-step-card">
-      <div class="config-step-header">
-        <div class="config-step-num">3</div>
-        <div>
-          <div class="config-step-title">Options supplémentaires</div>
-          <div class="config-step-sub">Enrichissez votre expérience avec des fonctionnalités à la carte</div>
+    <!-- ── Étape 3 : Options supplémentaires (choix multiple) ──
+         Même principe que l'étape 1 : au clic, le JS toggle
+         la classe "selected" et ajoute/soustrait le data-price
+         dans prixOptions. ─────────────────────────────────────── -->
+    <div class="config-card">
+      <div class="config-card-head">
+        <div class="config-card-title">
+          <span class="config-step-num">3</span>
+          Options supplémentaires
         </div>
+        <span class="config-step-sub">Enrichissez votre expérience</span>
       </div>
 
-      <div class="options-list" id="optionsList">
-        <?php
-        $options = [
-          ['id'=>'raytracing',  'label'=>'Ray Tracing',           'desc'=>'Éclairage et reflets photoréalistes en temps réel',  'price'=>5,
-           'svg'=>'<img src="/NEBULA/public/assets/img/icons/dashboard/horloge.png" alt="icon" width="20" height="20" class="icon-img">'],
-          ['id'=>'savecloud',   'label'=>'Sauvegardes illimitées', 'desc'=>'Historique complet et stockage cloud sans limite',    'price'=>3,
-           'svg'=>'<img src="/NEBULA/public/assets/img/icons/dashboard/horloge.png" alt="icon" width="20" height="20" class="icon-img">'],
-          ['id'=>'support',     'label'=>'Support prioritaire',    'desc'=>'Réponse garantie en moins de 2h, 7j/7',               'price'=>4,
-           'svg'=>'<img src="/NEBULA/public/assets/img/icons/ecommerce/bouclier-securite.png" alt="icon" width="20" height="20" class="icon-img">'],
-          ['id'=>'multidevice', 'label'=>'Multi-appareils',        'desc'=>'Jouez sur 2 appareils simultanément',                 'price'=>6,
-           'svg'=>'<img src="/NEBULA/public/assets/img/icons/platforms/nintendo.png" alt="icon" width="24" height="24" class="platform-icon">'],
-        ];
-        foreach ($options as $opt): ?>
-        <label class="option-row" for="opt_<?= $opt['id'] ?>">
-          <input type="checkbox" id="opt_<?= $opt['id'] ?>" name="options[]"
-                 value="<?= htmlspecialchars($opt['id']) ?>" data-price="<?= $opt['price'] ?>"
-                 class="option-checkbox" hidden>
-          <div class="option-icon-wrap"><?= $opt['svg'] ?></div>
-          <div class="option-info">
-            <div class="option-name"><?= htmlspecialchars($opt['label']) ?></div>
-            <div class="option-desc"><?= htmlspecialchars($opt['desc']) ?></div>
+      <div class="options-grid" id="optionsGrid">
+        <!-- Ray Tracing -->
+        <div class="option-card">
+          <div class="option-icon">
+            <img src="/NEBULA/public/assets/img/icons/platforms/nvidia.png" alt="icon" width="24" height="24" class="icon-img">
           </div>
-          <div class="option-price">+<?= $opt['price'] ?>,00 <span class="option-price-unit">€/mois</span></div>
-          <div class="option-switch-track">
-            <div class="option-switch-thumb"></div>
+          <div class="option-body">
+            <div class="option-name">Ray Tracing</div>
+            <div class="option-desc">Éclairage et reflets photoréalistes en temps réel</div>
+            <div class="option-price">+5,00 €/mois</div>
+            <button class="btn btn-outline btn-sm btn-full" data-option="raytracing" data-price="5">Ajouter</button>
           </div>
-        </label>
-        <?php endforeach; ?>
+        </div>
+
+        <!-- Sauvegardes illimitées -->
+        <div class="option-card">
+          <div class="option-icon">
+            <img src="/NEBULA/public/assets/img/icons/platforms/database.png" alt="icon" width="24" height="24" class="icon-img">
+          </div>
+          <div class="option-body">
+            <div class="option-name">Sauvegardes illimitées</div>
+            <div class="option-desc">Historique complet et stockage cloud sans limite</div>
+            <div class="option-price">+3,00 €/mois</div>
+            <button class="btn btn-outline btn-sm btn-full" data-option="savecloud" data-price="3">Ajouter</button>
+          </div>
+        </div>
+
+        <!-- Support prioritaire -->
+        <div class="option-card">
+          <div class="option-icon">
+            <img src="/NEBULA/public/assets/img/icons/dashboard/support.png" alt="icon" width="24" height="24" class="icon-img">
+          </div>
+          <div class="option-body">
+            <div class="option-name">Support prioritaire</div>
+            <div class="option-desc">Réponse garantie en moins de 2h, 7j/7</div>
+            <div class="option-price">+4,00 €/mois</div>
+            <button class="btn btn-outline btn-sm btn-full" data-option="support" data-price="4">Ajouter</button>
+          </div>
+        </div>
+
+        <!-- Multi-appareils -->
+        <div class="option-card">
+          <div class="option-icon">
+            <img src="/NEBULA/public/assets/img/icons/platforms/multi.png" alt="icon" width="24" height="24" class="icon-img">
+          </div>
+          <div class="option-body">
+            <div class="option-name">Multi-appareils</div>
+            <div class="option-desc">Jouez sur 2 appareils simultanément</div>
+            <div class="option-price">+6,00 €/mois</div>
+            <button class="btn btn-outline btn-sm btn-full" data-option="multidevice" data-price="6">Ajouter</button>
+          </div>
+        </div>
       </div>
     </div>
 
   </div><!-- /.config-steps-col -->
 
-  <!-- ── Sticky summary sidebar ──────────────────────────────── -->
+  <!-- ── Sidebar résumé sticky ────────────────────────────────
+       La fonction majResume() du JS met à jour :
+       - #summaryTotal     → total général (boutique + offre + options)
+       - #summaryPlanName  → nom du plan choisi
+       - #summaryPlanPrice → prix du plan
+       Le bouton Commander (#summaryOrderBtn) redirige
+       vers panier.php avec le total en paramètre GET. ──────── -->
   <aside class="config-summary-col">
-    <div class="config-summary-card">
-      <div class="config-summary-glow"></div>
-
-      <div class="config-summary-head">
-        <h3>Mon bouquet</h3>
-        <span class="config-summary-badge">Personnalisé</span>
+    <div class="config-card">
+      <div class="config-card-head summary-header">
+        <div class="config-card-title">
+          <img src="/NEBULA/public/assets/img/icons/dashboard/colis.png" alt="" width="16" height="16">
+          Mon bouquet
+        </div>
       </div>
 
-      <div class="config-summary-body">
-        <div class="summary-block">
-          <div class="summary-block-label">Genres sélectionnés</div>
-          <div id="summaryGenres">
-            <span class="summary-empty">Aucun genre sélectionné</span>
+      <div class="summary-content">
+        <div class="summary-section">
+          <div class="summary-label">Accessoires</div>
+          <div id="summaryBoutique"><span class="summary-empty">Aucun article</span></div>
+        </div>
+
+        <div class="summary-section">
+          <div class="summary-label">Offre</div>
+          <div class="summary-row"><span id="summaryPlanName">-</span><span id="summaryPlanPrice">-</span></div>
+        </div>
+
+        <div class="summary-section">
+          <div class="summary-label">Options</div>
+          <div id="summaryOptionsList"><span class="summary-empty">Aucune option</span></div>
+        </div>
+
+        <div class="summary-total">
+          <div class="summary-total-row">
+            <span>Total mensuel</span>
+            <span id="summaryTotal" class="summary-total-price">0 €</span>
           </div>
+          <div class="summary-total-note">TVA incluse · Sans engagement</div>
         </div>
 
-        <div class="config-summary-sep"></div>
+        <a href="/NEBULA/auth.php?tab=register" class="btn btn-primary btn-full" id="summaryOrderBtn">Commander</a>
 
-        <div class="summary-block">
-          <div class="summary-block-label">Qualité de streaming</div>
-          <div class="summary-line">
-            <span class="summary-line-name" id="summaryQualityName">Full HD (1080p)</span>
-            <span class="summary-line-price" id="summaryQualityPrice">9,99 €</span>
-          </div>
-        </div>
-
-        <div class="config-summary-sep"></div>
-
-        <div class="summary-block" id="summaryOptionsSection" style="display:none">
-          <div class="summary-block-label">Options</div>
-          <div id="summaryOptionsList"></div>
-        </div>
-      </div>
-
-      <div class="config-summary-total-wrap">
-        <div class="summary-total-row">
-          <span class="summary-total-label">Total mensuel</span>
-          <span class="summary-total-price" id="summaryTotal">9,99 €</span>
-        </div>
-        <div class="summary-total-note">TVA incluse · Sans engagement</div>
-      </div>
-
-      <div class="config-summary-actions">
-        <a href="/NEBULA/auth.php?tab=register" class="btn btn-primary btn-full" id="summaryOrderBtn">
-          Commander mon bouquet
-        </a>
-        <div class="config-trust">
-          <span>
-            <img src="/NEBULA/public/assets/img/icons/dashboard/colis.png" alt="icon" width="20" height="20" class="icon-img">
-            Paiement sécurisé
-          </span>
-          <span>
-            <img src="/NEBULA/public/assets/img/icons/dashboard/horloge.png" alt="icon" width="14" height="14" class="icon-img">
-            Résiliation en 1 clic
-          </span>
+        <div class="summary-trust">
+          <span><img src="/NEBULA/public/assets/img/icons/dashboard/bouclier-securite.png" alt="" width="14" height="14">Paiement sécurisé</span>
+          <span><img src="/NEBULA/public/assets/img/icons/dashboard/clic.png" alt="" width="14" height="14">Annulation facile</span>
         </div>
       </div>
     </div>

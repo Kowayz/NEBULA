@@ -1,176 +1,179 @@
-// configurateur.js — Calculateur de prix en temps réel
+// configurateur.js — Configurateur de bouquet Nebula
 
-document.addEventListener('DOMContentLoaded', function() {
+// ── Variables pour stocker les prix de chaque étape ──
+var prixBoutique = 0;   // total des accessoires
+var prixOffre    = 0;   // prix de l'abonnement choisi
+var prixOptions  = 0;   // total des options
+var nomOffre     = '';   // nom du plan (Starter, Gamer, Ultra)
 
-    var boutiqueCases  = document.querySelectorAll('.boutique-checkbox');
-    var boutiqueCartes = document.querySelectorAll('.boutique-card');
-    var qualiteRadios  = document.querySelectorAll('.quality-radio');
-    var optionCases    = document.querySelectorAll('.option-checkbox');
-    var optionCartes   = document.querySelectorAll('.option-card');
+// ── Fonction qui met à jour le résumé sidebar ──
+function majResume() {
+  var total = prixBoutique + prixOffre + prixOptions;
 
-    var resumeBoutique       = document.getElementById('summaryBoutique');
-    var resumeQualiteNom     = document.getElementById('summaryQualityName');
-    var resumeQualitePrix    = document.getElementById('summaryQualityPrice');
-    var resumeOptionsListe   = document.getElementById('summaryOptionsList');
-    var resumeOptionsSection = document.getElementById('summaryOptionsSection');
-    var resumeTotal          = document.getElementById('summaryTotal');
-    var compteurBoutique     = document.getElementById('boutiqueCount');
+  // Afficher le total
+  document.getElementById('summaryTotal').textContent = total.toFixed(2).replace('.', ',') + ' €';
 
-    // Noms lisibles pour le résumé
-    var nomsQualite = {
-        'starter': 'Starter',
-        'gamer':   'Gamer',
-        'ultra':   'Ultra'
-    };
+  // Afficher le nom et le prix de l'offre
+  document.getElementById('summaryPlanName').textContent = nomOffre || '-';
+  document.getElementById('summaryPlanPrice').textContent = prixOffre > 0 ? prixOffre.toFixed(2).replace('.', ',') + ' €' : '-';
 
-    var nomsOptions = {
-        'raytracing':  'Ray Tracing',
-        'savecloud':   'Cloud illimité',
-        'support':     'Support 24/7',
-        'multidevice': 'Multi-appareils'
-    };
+  // Afficher la liste des accessoires sélectionnés
+  var elBoutique = document.getElementById('summaryBoutique');
+  var cartesProduits = document.querySelectorAll('.merch-card.selected');
+  if (cartesProduits.length === 0) {
+    elBoutique.innerHTML = '<span class="summary-empty">Aucun article</span>';
+  } else {
+    var html = '';
+    for (var i = 0; i < cartesProduits.length; i++) {
+      var nom  = cartesProduits[i].querySelector('button').dataset.nom;
+      var prix = parseFloat(cartesProduits[i].querySelector('button').dataset.prix);
+      html += '<div class="summary-line">';
+      html += '<span class="summary-line-name">' + nom + '</span>';
+      html += '<span class="summary-line-price">+' + prix.toFixed(2).replace('.', ',') + ' €</span>';
+      html += '</div>';
+    }
+    elBoutique.innerHTML = html;
+  }
 
-    function formaterPrix(n) {
-        return n.toFixed(2).replace('.', ',') + ' €';
+  // Afficher la liste des options sélectionnées
+  var elOptions = document.getElementById('summaryOptionsList');
+  var cartesOptions = document.querySelectorAll('.option-card.selected');
+  if (cartesOptions.length === 0) {
+    elOptions.innerHTML = '<span class="summary-empty">Aucune option</span>';
+  } else {
+    var htmlOpt = '';
+    for (var j = 0; j < cartesOptions.length; j++) {
+      var nomOpt  = cartesOptions[j].querySelector('.option-name').textContent;
+      var prixOpt = parseFloat(cartesOptions[j].querySelector('button').dataset.price);
+      htmlOpt += '<div class="summary-line">';
+      htmlOpt += '<span class="summary-line-name">' + nomOpt + '</span>';
+      htmlOpt += '<span class="summary-line-price">+' + prixOpt.toFixed(2).replace('.', ',') + ' €</span>';
+      htmlOpt += '</div>';
+    }
+    elOptions.innerHTML = htmlOpt;
+  }
+}
+
+
+// ══════════════════════════════════════════════════════════════
+// ÉTAPE 1 : ACCESSOIRES (on peut en sélectionner plusieurs)
+// ══════════════════════════════════════════════════════════════
+
+// On récupère tous les boutons "Ajouter" des cartes accessoires
+var btnsProduits = document.querySelectorAll('.merch-card button');
+
+// Pour chaque bouton, on écoute le clic
+for (var p = 0; p < btnsProduits.length; p++) {
+  btnsProduits[p].addEventListener('click', function() {
+    var btn  = this;                              // le bouton cliqué
+    var card = btn.closest('.merch-card');         // la carte parente
+    var prix = parseFloat(btn.dataset.prix);      // le prix depuis data-prix
+
+    // Si déjà sélectionné → on désélectionne
+    if (card.classList.contains('selected')) {
+      card.classList.remove('selected');
+      btn.textContent = 'Ajouter';
+      btn.classList.remove('btn-primary');
+      btn.classList.add('btn-outline');
+      prixBoutique = prixBoutique - prix;
+    }
+    // Sinon → on sélectionne
+    else {
+      card.classList.add('selected');
+      btn.textContent = 'Ajouté';
+      btn.classList.remove('btn-outline');
+      btn.classList.add('btn-primary');
+      prixBoutique = prixBoutique + prix;
     }
 
-    // Met à jour le résumé et le total affiché
-    function mettreAJour() {
+    majResume();
+  });
+}
 
-        // Boutique : articles cochés
-        var articlesCochesCases = [];
-        for (var i = 0; i < boutiqueCases.length; i++) {
-            if (boutiqueCases[i].checked) articlesCochesCases.push(boutiqueCases[i]);
-        }
 
-        var totalBoutique = 0;
-        var nb = articlesCochesCases.length;
+// ══════════════════════════════════════════════════════════════
+// ÉTAPE 2 : OFFRE (un seul choix possible à la fois)
+// ══════════════════════════════════════════════════════════════
 
-        if (compteurBoutique) {
-            compteurBoutique.textContent = nb === 0 ? '0 article' : nb + ' article' + (nb > 1 ? 's' : '');
-        }
+var btnsOffres  = document.querySelectorAll('.pricing-card button');
+var cardsOffres = document.querySelectorAll('.pricing-card');
 
-        if (nb === 0) {
-            resumeBoutique.innerHTML = '<span class="summary-empty">Aucun article</span>';
-        } else {
-            var htmlBoutique = '';
-            for (var j = 0; j < articlesCochesCases.length; j++) {
-                var prix = parseFloat(articlesCochesCases[j].dataset.price);
-                totalBoutique += prix;
-                htmlBoutique +=
-                    '<div class="summary-line">' +
-                        '<span class="summary-line-name">' + articlesCochesCases[j].dataset.label + '</span>' +
-                        '<span class="summary-line-price">+' + formaterPrix(prix) + '</span>' +
-                    '</div>';
-            }
-            resumeBoutique.innerHTML = htmlBoutique;
-        }
+for (var i = 0; i < btnsOffres.length; i++) {
+  btnsOffres[i].addEventListener('click', function() {
+    var btn = this;
 
-        // Qualité : radio sélectionné
-        var qualiteActive = null;
-        for (var k = 0; k < qualiteRadios.length; k++) {
-            if (qualiteRadios[k].checked) {
-                qualiteActive = qualiteRadios[k];
-                break;
-            }
-        }
-
-        var prixQualite = qualiteActive ? parseFloat(qualiteActive.dataset.price) : 24.99;
-        var idQualite   = qualiteActive ? qualiteActive.value : 'gamer';
-
-        resumeQualiteNom.textContent  = nomsQualite[idQualite] ? nomsQualite[idQualite] : idQualite;
-        resumeQualitePrix.textContent = formaterPrix(prixQualite);
-
-        // Options cochées
-        var optionsCochees = [];
-        for (var l = 0; l < optionCases.length; l++) {
-            if (optionCases[l].checked) optionsCochees.push(optionCases[l]);
-        }
-
-        var totalOptions = 0;
-
-        if (optionsCochees.length === 0) {
-            resumeOptionsSection.style.display = 'none';
-            resumeOptionsListe.innerHTML = '';
-        } else {
-            resumeOptionsSection.style.display = '';
-            var htmlOptions = '';
-            for (var m = 0; m < optionsCochees.length; m++) {
-                var prixOpt = parseFloat(optionsCochees[m].dataset.price);
-                totalOptions += prixOpt;
-                var nomOpt = nomsOptions[optionsCochees[m].value] ? nomsOptions[optionsCochees[m].value] : optionsCochees[m].value;
-                htmlOptions +=
-                    '<div class="summary-line">' +
-                        '<span class="summary-line-name">' + nomOpt + '</span>' +
-                        '<span class="summary-line-price">+' + formaterPrix(prixOpt) + '</span>' +
-                    '</div>';
-            }
-            resumeOptionsListe.innerHTML = htmlOptions;
-        }
-
-        // Total final
-        var total = prixQualite + totalOptions + totalBoutique;
-        resumeTotal.textContent = formaterPrix(total);
-
-        // Petite animation pour signaler le changement de prix
-        resumeTotal.classList.remove('price-bump');
-        resumeTotal.classList.add('price-bump');
+    // D'abord on remet TOUTES les cartes à l'état "non sélectionné"
+    for (var j = 0; j < cardsOffres.length; j++) {
+      cardsOffres[j].classList.remove('selected');
+      btnsOffres[j].textContent = 'Sélectionner';
+      btnsOffres[j].classList.remove('btn-primary');
+      btnsOffres[j].classList.add('btn-outline');
     }
 
-    // Cocher/décocher un article boutique met à jour la carte correspondante
-    for (var i = 0; i < boutiqueCases.length; i++) {
-        boutiqueCases[i].addEventListener('change', function() {
-            for (var j = 0; j < boutiqueCases.length; j++) {
-                boutiqueCartes[j].classList.toggle('selected', boutiqueCases[j].checked);
-            }
-            mettreAJour();
-        });
+    // Puis on sélectionne celle qui a été cliquée
+    btn.textContent = 'Sélectionné';
+    btn.classList.remove('btn-outline');
+    btn.classList.add('btn-primary');
+    btn.closest('.pricing-card').classList.add('selected');
+
+    // On enregistre le prix et le nom du plan
+    prixOffre = parseFloat(btn.dataset.price);
+    var plans = { starter: 'Starter', gamer: 'Gamer', ultra: 'Ultra' };
+    nomOffre  = plans[btn.dataset.plan];
+
+    majResume();
+  });
+}
+
+// Au chargement, on sélectionne Gamer par défaut (le 2e bouton)
+if (btnsOffres.length > 1) {
+  btnsOffres[1].click();
+}
+
+
+// ══════════════════════════════════════════════════════════════
+// ÉTAPE 3 : OPTIONS (on peut en sélectionner plusieurs)
+// ══════════════════════════════════════════════════════════════
+
+var btnsOptions = document.querySelectorAll('.option-card button');
+
+for (var k = 0; k < btnsOptions.length; k++) {
+  btnsOptions[k].addEventListener('click', function() {
+    var btn  = this;
+    var card = btn.closest('.option-card');
+    var prix = parseFloat(btn.dataset.price);
+
+    if (card.classList.contains('selected')) {
+      card.classList.remove('selected');
+      btn.textContent = 'Ajouter';
+      btn.classList.remove('btn-primary');
+      btn.classList.add('btn-outline');
+      prixOptions = prixOptions - prix;
+    } else {
+      card.classList.add('selected');
+      btn.textContent = 'Ajouté';
+      btn.classList.remove('btn-outline');
+      btn.classList.add('btn-primary');
+      prixOptions = prixOptions + prix;
     }
 
-    // Changer la qualité
-    for (var k = 0; k < qualiteRadios.length; k++) {
-        qualiteRadios[k].addEventListener('change', mettreAJour);
-    }
+    majResume();
+  });
+}
 
-    // Cocher/décocher une option
-    for (var l = 0; l < optionCases.length; l++) {
-        optionCases[l].addEventListener('change', function() {
-            for (var m = 0; m < optionCases.length; m++) {
-                optionCartes[m].classList.toggle('selected', optionCases[m].checked);
-            }
-            mettreAJour();
-        });
-    }
 
-    // Bouton "Commander" : construit l'URL panier avec les choix et redirige
-    var btnCommander = document.getElementById('cmdCommander');
-    if (btnCommander) {
-        btnCommander.addEventListener('click', function() {
-            var qualiteActive = null;
-            for (var i = 0; i < qualiteRadios.length; i++) {
-                if (qualiteRadios[i].checked) {
-                    qualiteActive = qualiteRadios[i];
-                    break;
-                }
-            }
+// ══════════════════════════════════════════════════════════════
+// BOUTON COMMANDER → envoie le total au panier
+// ══════════════════════════════════════════════════════════════
 
-            var idFallback = parseInt(btnCommander.dataset.fallbackOffre, 10) || 0;
-            var idOffre    = qualiteActive ? parseInt(qualiteActive.dataset.dbId, 10) : 0;
-            if (!idOffre) idOffre = idFallback;
-            if (!idOffre) return;
+var btnCommander = document.getElementById('summaryOrderBtn');
+if (btnCommander) {
+  btnCommander.addEventListener('click', function(e) {
+    e.preventDefault();
+    var total = prixBoutique + prixOffre + prixOptions;
+    window.location.href = '/NEBULA/panier.php?add=999&cat=boutique&nom=Bouquet+Nebula&prix=' + total.toFixed(2);
+  });
+}
 
-            var url = '/NEBULA/panier.php?offre=' + idOffre;
-
-            for (var j = 0; j < boutiqueCases.length; j++) {
-                if (boutiqueCases[j].checked && boutiqueCases[j].dataset.dbId) {
-                    url += '&produits[]=' + boutiqueCases[j].dataset.dbId;
-                }
-            }
-
-            window.location.href = url;
-        });
-    }
-
-    // Affichage initial au chargement de la page
-    mettreAJour();
-});
+// Premier affichage du résumé
+majResume();

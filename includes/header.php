@@ -45,8 +45,8 @@ $pageJS  = $pageJS  ?? [];
   <ul class="navbar-links" id="navLinks">
     <li><a href="/NEBULA/jeux.php"  <?= $currentPage==='jeux'   ? 'class="active"':'' ?>>Jeux</a></li>
     <li><a href="/NEBULA/offres.php"<?= $currentPage==='offres' ? 'class="active"':'' ?>>Tarifs</a></li>
-    <li><a href="/NEBULA/demo.php"  <?= $currentPage==='demo'   ? 'class="active"':'' ?>>Démo</a></li>
-    <li><a href="/NEBULA/faq.php"   <?= $currentPage==='faq'    ? 'class="active"':'' ?>>FAQ</a></li>
+    <li><a href="/NEBULA/configurateur.php"<?= $currentPage==='configurateur' ? 'class="active"':'' ?>>Configurateur</a></li>
+    <li><a href="/NEBULA/boutique.php"<?= $currentPage==='boutique'? 'class="active"':'' ?>>Boutique</a></li>
   </ul>
 
   <!-- Desktop actions -->
@@ -66,35 +66,5 @@ $pageJS  = $pageJS  ?? [];
     <?php endif; ?>
   </div>
 
-  <!-- Hamburger (mobile only) -->
-  <button class="navbar-hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
-
 </nav>
-
-<!-- Mobile panel -->
-<div class="navbar-panel" id="navPanel">
-  <ul class="navbar-panel-links">
-    <li><a href="/NEBULA/jeux.php"  <?= $currentPage==='jeux'   ? 'class="active"':'' ?>>Jeux</a></li>
-    <li><a href="/NEBULA/offres.php"<?= $currentPage==='offres' ? 'class="active"':'' ?>>Tarifs</a></li>
-    <li><a href="/NEBULA/demo.php"  <?= $currentPage==='demo'   ? 'class="active"':'' ?>>Démo</a></li>
-    <li><a href="/NEBULA/faq.php"   <?= $currentPage==='faq'    ? 'class="active"':'' ?>>FAQ</a></li>
-  </ul>
-  <div class="navbar-panel-actions">
-    <a href="/NEBULA/panier.php" class="btn btn-ghost btn-sm" style="display:flex;align-items:center;gap:8px">
-      <img src="/NEBULA/public/assets/img/icons/ecommerce/panier.png" alt="icon" width="18" height="18" class="icon-img">
-      Panier<?php if (!empty($_SESSION['panier'])): ?> <span style="background:linear-gradient(135deg,#9f1239,#7c3aed);border-radius:10px;padding:1px 7px;font-size:.65rem;font-weight:700">1</span><?php endif; ?>
-    </a>
-    <?php if (!empty($_SESSION['user_id'])): ?>
-      <a href="/NEBULA/dashboard.php" class="btn btn-outline btn-sm">Mon espace</a>
-      <a href="?logout=1"             class="btn btn-ghost btn-sm">Déconnexion</a>
-    <?php else: ?>
-      <a href="/NEBULA/auth.php"              class="btn btn-ghost btn-sm">Se connecter</a>
-      <a href="/NEBULA/auth.php?tab=register" class="btn btn-primary btn-sm btn-full">Commencer</a>
-    <?php endif; ?>
-  </div>
-</div>
-
-<div class="navbar-overlay" id="navOverlay"></div>
 

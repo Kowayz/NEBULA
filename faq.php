@@ -1,195 +1,231 @@
 <?php
-$pageTitle = 'FAQ — Guide & Aide';
-$pageCSS   = ['faq'];
-$pageJS    = ['faq'];
+/* ============================================================
+   FAQ.PHP — Page Foire Aux Questions
+   Contient : hero, présentation de Nebula, étapes de fonctionnement,
+   avantages, accordéon de questions/réponses et CTA final.
+   Le JS (faq.js) gère l'ouverture/fermeture de l'accordéon.
+   ============================================================ */
 
-$faqs = [
-  ["Ai-je besoin d'un PC puissant ?", "Non. Nebula fonctionne sur n'importe quel appareil disposant d'une connexion internet : PC bas de gamme, Mac, smartphone, tablette ou Smart TV. Toute la puissance de calcul est sur nos serveurs."],
-  ["Quelle connexion est recommandée ?", "Pour une expérience en HD (720p), 10 Mb/s suffisent. Pour du 4K à 144 FPS, nous recommandons 35 Mb/s minimum en fibre ou Ethernet."],
-  ["Puis-je jouer avec ma manette ?", "Oui. Nebula est compatible avec toutes les manettes Bluetooth et USB : DualSense PlayStation, Xbox Series, Nintendo Switch Pro et claviers-souris."],
-  ["Mes sauvegardes sont-elles conservées ?", "Vos sauvegardes cloud sont conservées 90 jours après la résiliation. En cas de réabonnement dans ce délai, vous retrouvez exactement votre progression."],
-  ["Puis-je changer d'offre ?", "Oui, à tout moment depuis votre espace personnel. Les changements sont effectifs immédiatement avec ajustement au prorata."],
-  ["Y a-t-il des frais cachés ?", "Aucun. Le prix affiché est tout inclus : aucun frais d'installation, de téléchargement, ou de DLC obligatoire."],
-  ["Comment fonctionne le bouquet ?", "Le configurateur vous permet de sélectionner uniquement les genres et fonctionnalités qui vous intéressent. Vous payez exactement pour ce que vous utilisez."],
-  ["Le service fonctionne-t-il en déplacement ?", "Oui, Nebula fonctionne depuis n'importe quel réseau — fibre, 4G/5G ou Wi-Fi public. Pour une qualité optimale nous recommandons une connexion stable et non partagée."],
-  ["Quelle est la politique de remboursement ?", "Nous offrons un remboursement complet dans les 7 jours suivant le premier abonnement, sans condition. La demande se fait directement depuis votre espace personnel."],
-];
-
+// -- Inclure le header commun --
 require 'includes/header.php';
 ?>
 
+<!-- CSS et JS spécifiques à la page FAQ -->
+<link rel="stylesheet" href="/NEBULA/css/faq.css">
+<script src="/NEBULA/js/faq.js" defer></script>
+
 <div class="faq-page">
 
-<!-- ══════════════════════════ HERO ══════════════════════════ -->
+<!-- ══════════════════════════ HERO ══════════════════════════
+     Bannière titre de la page FAQ
+     ══════════════════════════════════════════════════════════ -->
 <div class="faq-hero">
-  <div class="faq-hero-orb faq-hero-orb-a"></div>
-  <div class="faq-hero-orb faq-hero-orb-b"></div>
-  <div class="faq-hero-orb faq-hero-orb-c"></div>
-  <div class="faq-hero-inner">
-    <div class="faq-hero-tag">
-      <img src="/NEBULA/public/assets/img/icons/nav/fleche-droite.png" alt="icon" width="20" height="20" class="icon-img">
-      Aide &amp; Support
-    </div>
     <h1 class="faq-hero-title">Questions <span class="gradient-text">fréquentes</span></h1>
     <p class="faq-hero-sub">Tout ce que vous devez savoir sur Nebula, le cloud gaming et votre abonnement.</p>
-  </div>
 </div>
 
-<!-- ══════════════════════════ QU'EST-CE QUE NEBULA ══════════════════════════ -->
-<div class="faq-section faq-section--concept">
-  <div class="faq-section-head">
-    <div class="faq-section-tag">Concept</div>
+<!-- ══════════════════════════ QU'EST-CE QUE NEBULA ═══════════
+     3 cartes expliquant le concept de cloud gaming Nebula
+     ══════════════════════════════════════════════════════════ -->
+<section class="section features-section">
+  <div class="faq-section-head container">
     <h2 class="faq-section-title">Qu'est-ce que Nebula ?</h2>
     <p class="faq-section-sub">Une plateforme de cloud gaming — jouer sans télécharger, depuis n'importe quel appareil.</p>
   </div>
-  <div class="what-grid">
-    <div class="what-card">
-      <div class="what-card-icon" style="background:linear-gradient(135deg,rgba(124,58,237,.4),rgba(159,18,57,.25))">
-        <img src="/NEBULA/public/assets/img/icons/ecommerce/coche-incluse.png" alt="icon" width="22" height="22" class="icon-img">
-      </div>
-      <div class="what-card-title">Streaming haute performance</div>
-      <div class="what-card-desc">Vos jeux tournent sur nos serveurs GPU et sont diffusés en direct sur votre écran, comme Netflix mais interactif. Moins de 20 ms de latence.</div>
+  <div class="features-grid container">
+    <div class="feature-card">
+      <div class="feature-icon"><img src="/NEBULA/public/assets/img/icons/dashboard/4K.png" alt="icon" width="22" height="22" class="icon-img"></div>
+      <h3>Streaming haute performance</h3>
+      <div class="feature-desc">Vos jeux tournent sur nos serveurs GPU et sont diffusés en direct sur votre écran, comme Netflix mais interactif. Moins de 20 ms de latence.</div>
     </div>
-    <div class="what-card">
-      <div class="what-card-icon" style="background:linear-gradient(135deg,rgba(244,114,182,.35),rgba(124,58,237,.25))">
-        <img src="/NEBULA/public/assets/img/icons/platforms/nintendo.png" alt="icon" width="24" height="24" class="platform-icon">
-      </div>
-      <div class="what-card-title">Tous vos appareils</div>
-      <div class="what-card-desc">PC, Mac, Smart TV, smartphone, tablette. Reprenez votre partie là où vous l'avez laissée, sur l'appareil de votre choix.</div>
+    <div class="feature-card">
+      <div class="feature-icon"><img src="/NEBULA/public/assets/img/icons/platforms/multi.png" alt="icon" width="22" height="22" class="platform-icon"></div>
+      <h3>Tous vos appareils</h3>
+      <div class="feature-desc">PC, Mac, Smart TV, smartphone, tablette. Reprenez votre partie là où vous l'avez laissée, sur l'appareil de votre choix.</div>
     </div>
-    <div class="what-card">
-      <div class="what-card-icon" style="background:linear-gradient(135deg,rgba(34,197,94,.3),rgba(124,58,237,.25))">
-        <img src="/NEBULA/public/assets/img/icons/contact/document-legal.png" alt="icon" width="22" height="22" class="icon-img">
-      </div>
-      <div class="what-card-title">Sans engagement</div>
-      <div class="what-card-desc">Aucun téléchargement, aucun matériel coûteux, aucun engagement. Abonnez-vous et commencez à jouer en quelques secondes.</div>
+    <div class="feature-card">
+      <div class="feature-icon"><img src="/NEBULA/public/assets/img/icons/contact/document-legal.png" alt="icon" width="22" height="22" class="icon-img"></div>
+      <h3>Sans engagement</h3>
+      <div class="feature-desc">Aucun téléchargement, aucun matériel coûteux, aucun engagement. Abonnez-vous et commencez à jouer en quelques secondes.</div>
     </div>
   </div>
-</div>
+</section>
 
-<!-- ══════════════════════════ COMMENT ÇA MARCHE ══════════════════════════ -->
-<div class="faq-section-dark faq-section--steps">
-  <div class="faq-section-head">
-    <div class="faq-section-tag">Démarrage</div>
+<!-- ══════════════════════════ COMMENT ÇA MARCHE ══════════════
+     3 étapes pour commencer à utiliser Nebula
+     ══════════════════════════════════════════════════════════ -->
+<section class="section features-section faq-section--alt">
+  <div class="faq-section-head container">
     <h2 class="faq-section-title">Comment ça marche ?</h2>
     <p class="faq-section-sub">En 4 étapes, passez de nouveau joueur à gamer cloud en moins de 5 minutes.</p>
   </div>
-  <div class="steps-grid">
-    <div class="step-card">
-      <div class="step-top">
-        <div class="step-num">01</div>
-        <div class="step-connector"></div>
-      </div>
-      <div class="step-icon-wrap">
-        <img src="/NEBULA/public/assets/img/icons/contact/localisation.png" alt="icon" width="20" height="20" class="icon-img">
-      </div>
-      <div class="step-title">Créer un compte</div>
-      <div class="step-desc">Inscrivez-vous en 60 secondes avec votre adresse e-mail. Aucune carte bancaire requise pour l'offre Starter.</div>
+  <div class="features-grid container">
+    <div class="feature-card">
+      <div class="feature-icon"><img src="/NEBULA/public/assets/img/icons/dashboard/utilisateur.png" alt="icon" width="22" height="22" class="icon-img"></div>
+      <h3>01 · Créer un compte</h3>
+      <p>Inscrivez-vous en 60 secondes avec votre adresse e-mail. Aucune carte bancaire requise pour l'offre Starter.</p>
     </div>
-    <div class="step-card">
-      <div class="step-top">
-        <div class="step-num">02</div>
-        <div class="step-connector"></div>
-      </div>
-      <div class="step-icon-wrap">
-        <img src="/NEBULA/public/assets/img/icons/ecommerce/serveur.png" alt="icon" width="22" height="22" class="icon-img">
-      </div>
-      <div class="step-title">Choisir un jeu</div>
-      <div class="step-desc">Parcourez notre catalogue de +200 titres. Filtrez par genre, nouveautés ou popularité.</div>
+    <div class="feature-card">
+      <div class="feature-icon"><img src="/NEBULA/public/assets/img/icons/dashboard/clic.png" alt="icon" width="22" height="22" class="icon-img"></div>
+      <h3>02 · Choisir un jeu</h3>
+      <p>Parcourez notre catalogue de +200 titres. Filtrez par genre, nouveautés ou popularité.</p>
     </div>
-    <div class="step-card">
-      <div class="step-top">
-        <div class="step-num">03</div>
-        <div class="step-connector"></div>
-      </div>
-      <div class="step-icon-wrap">
-        <img src="/NEBULA/public/assets/img/icons/platforms/bouton-play.png" alt="icon" width="16" height="16" class="icon-img">
-      </div>
-      <div class="step-title">Appuyer sur Jouer</div>
-      <div class="step-desc">Le jeu démarre en quelques secondes directement dans votre navigateur. Aucun téléchargement.</div>
-    </div>
-    <div class="step-card">
-      <div class="step-top">
-        <div class="step-num">04</div>
-      </div>
-      <div class="step-icon-wrap">
-        <img src="/NEBULA/public/assets/img/icons/nav/fleche-droite.png" alt="icon" width="20" height="20" class="icon-img">
-      </div>
-      <div class="step-title">Sauvegardes auto</div>
-      <div class="step-desc">Votre progression est sauvegardée automatiquement dans le cloud. Reprenez sur n'importe quel appareil.</div>
+    <div class="feature-card">
+      <div class="feature-icon"><img src="/NEBULA/public/assets/img/icons/platforms/bouton-play.png" alt="icon" width="22" height="22" class="icon-img"></div>
+      <h3>03 · Appuyer sur Jouer</h3>
+      <p>Le jeu démarre en quelques secondes directement dans votre navigateur. Aucun téléchargement.</p>
     </div>
   </div>
-</div>
+</section>
 
-<!-- ══════════════════════════ POURQUOI NEBULA ══════════════════════════ -->
-<div class="faq-section faq-section--benefits">
-  <div class="faq-section-head">
-    <div class="faq-section-tag">Avantages</div>
-    <h2 class="faq-section-title">Pourquoi choisir Nebula ?</h2>
-    <p class="faq-section-sub">Ce qui nous distingue des autres services de cloud gaming.</p>
+<!-- ══════════════════════════ POURQUOI NEBULA ═════════════════
+     Grille de 6 avantages (même structure que index.php)
+     ══════════════════════════════════════════════════════════ -->
+<section class="section features-section">
+  <div class="faq-section-head container">
+    <h2 class="faq-section-title">Tout ce dont vous avez besoin</h2>
+    <p class="faq-section-sub">Une technologie de pointe pour une expérience de jeu sans friction</p>
   </div>
-  <div class="benefits-grid">
-    <div class="benefit-item">
-      <div class="benefit-icon"><img src="/NEBULA/public/assets/img/icons/ecommerce/coche-incluse.png" alt="icon" width="22" height="22" class="icon-img"></div>
-      <div class="benefit-body"><div class="benefit-title">Latence &lt; 20 ms</div><div class="benefit-desc">Inférieure à la plupart des concurrents. Idéal pour les jeux compétitifs.</div></div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon"><img src="/NEBULA/public/assets/img/icons/dashboard/horloge.png" alt="icon" width="22" height="22" class="icon-img"></div>
+      <h3>Latence ultra-faible</h3>
+      <p>Moins de 20ms grâce à notre infrastructure distribuée, peu importe votre localisation.</p>
     </div>
-    <div class="benefit-item">
-      <div class="benefit-icon"><img src="/NEBULA/public/assets/img/icons/nav/fleche-droite.png" alt="icon" width="20" height="20" class="icon-img"></div>
-      <div class="benefit-body"><div class="benefit-title">4K · 144 FPS</div><div class="benefit-desc">Ultra HD avec HDR10 et ray tracing sur tous vos jeux inclus.</div></div>
+    <div class="feature-card">
+      <div class="feature-icon"><img src="/NEBULA/public/assets/img/icons/dashboard/4K.png" alt="icon" width="22" height="22" class="icon-img"></div>
+      <h3>4K 144 FPS</h3>
+      <p>Qualité d'image exceptionnelle jusqu'en 4K Ultra HD à 144 FPS, sur n'importe quel écran.</p>
     </div>
-    <div class="benefit-item">
-      <div class="benefit-icon"><img src="/NEBULA/public/assets/img/icons/ecommerce/coche-incluse.png" alt="icon" width="20" height="20" class="icon-img"></div>
-      <div class="benefit-body"><div class="benefit-title">Sauvegardes cloud</div><div class="benefit-desc">Synchronisation automatique et conservation 90 jours après résiliation.</div></div>
+    <div class="feature-card">
+      <div class="feature-icon"><img src="/NEBULA/public/assets/img/icons/platforms/multi.png" alt="icon" width="22" height="22" class="platform-icon"></div>
+      <h3>Multi-appareils</h3>
+      <p>PC, Mac, TV, smartphone — reprenez votre partie là où vous l'avez laissée.</p>
     </div>
-    <div class="benefit-item">
-      <div class="benefit-icon"><img src="/NEBULA/public/assets/img/icons/contact/document-legal.png" alt="icon" width="22" height="22" class="icon-img"></div>
-      <div class="benefit-body"><div class="benefit-title">Sans engagement</div><div class="benefit-desc">Résiliation en un clic depuis votre espace. Remboursement garanti 7 jours.</div></div>
+    <div class="feature-card">
+      <div class="feature-icon"><img src="/NEBULA/public/assets/img/icons/ecommerce/serveur.png" alt="icon" width="22" height="22" class="icon-img"></div>
+      <h3>Sauvegardes cloud</h3>
+      <p>Vos sauvegardes sont synchronisées automatiquement. Ne perdez plus jamais votre progression.</p>
     </div>
-    <div class="benefit-item">
-      <div class="benefit-icon"><img src="/NEBULA/public/assets/img/icons/platforms/nintendo.png" alt="icon" width="24" height="24" class="platform-icon"></div>
-      <div class="benefit-body"><div class="benefit-title">Multi-appareils</div><div class="benefit-desc">PC, Mac, TV, smartphone — reprenez exactement là où vous étiez.</div></div>
+    <div class="feature-card">
+      <div class="feature-icon"><img src="/NEBULA/public/assets/img/icons/dashboard/game.png" alt="icon" width="22" height="22" class="icon-img"></div>
+      <h3>Compatible manettes</h3>
+      <p>DualSense, Xbox Series, contrôleurs Bluetooth — plug & play garanti.</p>
     </div>
-    <div class="benefit-item">
-      <div class="benefit-icon"><img src="/NEBULA/public/assets/img/icons/ecommerce/serveur.png" alt="icon" width="22" height="22" class="icon-img"></div>
-      <div class="benefit-body"><div class="benefit-title">+200 jeux AAA</div><div class="benefit-desc">Catalogue mis à jour chaque semaine avec les dernières sorties.</div></div>
+    <div class="feature-card">
+      <div class="feature-icon"><img src="/NEBULA/public/assets/img/icons/contact/document-legal.png" alt="icon" width="22" height="22" class="icon-img"></div>
+      <h3>Sans engagement</h3>
+      <p>Résiliez quand vous voulez. Nos abonnements sont flexibles, sans frais cachés.</p>
     </div>
   </div>
-</div>
+</section>
 
-<!-- ══════════════════════════ FAQ ACCORDION ══════════════════════════ -->
-<div class="faq-section-dark faq-section--faq">
-  <div class="faq-section-head">
-    <div class="faq-section-tag">FAQ</div>
+<!-- ══════════════════════════ ACCORDÉON FAQ ═══════════════════
+     9 questions/réponses cliquables (gérées par faq.js).
+     Chaque faq-item contient un bouton et un bloc réponse.
+     ══════════════════════════════════════════════════════════ -->
+<section class="faq-section faq-section--alt">
+  <div class="faq-section-head container">
     <h2 class="faq-section-title">Questions fréquentes</h2>
     <p class="faq-section-sub">Les réponses aux questions les plus posées par notre communauté.</p>
   </div>
 
-  <div class="faq-list">
-    <?php foreach ($faqs as $i => $f): ?>
+  <div class="faq-list container">
     <div class="faq-item">
       <button class="faq-question" type="button">
-        <span class="faq-q-num"><?= str_pad($i + 1, 2, '0', STR_PAD_LEFT) ?></span>
-        <span class="faq-q-text"><?= htmlspecialchars($f[0]) ?></span>
-        <img src="/NEBULA/public/assets/img/icons/nav/fleche-bas.png" alt="icon" width="12" height="12" class="icon-img">
+        <span class="faq-q-num">01</span>
+        <span class="faq-q-text">Ai-je besoin d'un PC puissant ?</span>
       </button>
       <div class="faq-answer-wrap">
-        <div class="faq-answer"><p><?= htmlspecialchars($f[1]) ?></p></div>
+        <div class="faq-answer"><p>Non. Nebula fonctionne sur n'importe quel appareil disposant d'une connexion internet : PC bas de gamme, Mac, smartphone, tablette ou Smart TV. Toute la puissance de calcul est sur nos serveurs.</p></div>
       </div>
     </div>
-    <?php endforeach; ?>
+    <div class="faq-item">
+      <button class="faq-question" type="button">
+        <span class="faq-q-num">02</span>
+        <span class="faq-q-text">Quelle connexion est recommandée ?</span>
+      </button>
+      <div class="faq-answer-wrap">
+        <div class="faq-answer"><p>Pour une expérience en HD (720p), 10 Mb/s suffisent. Pour du 4K à 144 FPS, nous recommandons 35 Mb/s minimum en fibre ou Ethernet.</p></div>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" type="button">
+        <span class="faq-q-num">03</span>
+        <span class="faq-q-text">Puis-je jouer avec ma manette ?</span>
+      </button>
+      <div class="faq-answer-wrap">
+        <div class="faq-answer"><p>Oui. Nebula est compatible avec toutes les manettes Bluetooth et USB : DualSense PlayStation, Xbox Series, Nintendo Switch Pro et claviers-souris.</p></div>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" type="button">
+        <span class="faq-q-num">04</span>
+        <span class="faq-q-text">Mes sauvegardes sont-elles conservées ?</span>
+      </button>
+      <div class="faq-answer-wrap">
+        <div class="faq-answer"><p>Vos sauvegardes cloud sont conservées 90 jours après la résiliation. En cas de réabonnement dans ce délai, vous retrouvez exactement votre progression.</p></div>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" type="button">
+        <span class="faq-q-num">05</span>
+        <span class="faq-q-text">Puis-je changer d'offre ?</span>
+      </button>
+      <div class="faq-answer-wrap">
+        <div class="faq-answer"><p>Oui, à tout moment depuis votre espace personnel. Les changements sont effectifs immédiatement avec ajustement au prorata.</p></div>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" type="button">
+        <span class="faq-q-num">06</span>
+        <span class="faq-q-text">Y a-t-il des frais cachés ?</span>
+      </button>
+      <div class="faq-answer-wrap">
+        <div class="faq-answer"><p>Aucun. Le prix affiché est tout inclus : aucun frais d'installation, de téléchargement, ou de DLC obligatoire.</p></div>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" type="button">
+        <span class="faq-q-num">07</span>
+        <span class="faq-q-text">Comment fonctionne le bouquet ?</span>
+      </button>
+      <div class="faq-answer-wrap">
+        <div class="faq-answer"><p>Le configurateur vous permet de sélectionner uniquement les genres et fonctionnalités qui vous intéressent. Vous payez exactement pour ce que vous utilisez.</p></div>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" type="button">
+        <span class="faq-q-num">08</span>
+        <span class="faq-q-text">Le service fonctionne-t-il en déplacement ?</span>
+      </button>
+      <div class="faq-answer-wrap">
+        <div class="faq-answer"><p>Oui, Nebula fonctionne depuis n'importe quel réseau — fibre, 4G/5G ou Wi-Fi public. Pour une qualité optimale nous recommandons une connexion stable et non partagée.</p></div>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" type="button">
+        <span class="faq-q-num">09</span>
+        <span class="faq-q-text">Quelle est la politique de remboursement ?</span>
+      </button>
+      <div class="faq-answer-wrap">
+        <div class="faq-answer"><p>Nous offrons un remboursement complet dans les 7 jours suivant le premier abonnement, sans condition. La demande se fait directement depuis votre espace personnel.</p></div>
+      </div>
+    </div>
   </div>
 
+  <!-- Lien vers la page contact si la réponse n'est pas trouvée -->
   <div class="faq-not-found">
     Vous ne trouvez pas votre réponse ?
     <a href="/NEBULA/contact.php" style="color:var(--accent);text-decoration:underline">Contactez notre équipe</a>
   </div>
-</div>
+</section>
 
-<!-- ══════════════════════════ CTA ══════════════════════════ -->
-<div class="faq-cta">
-  <div class="faq-cta-glow"></div>
+<!-- ══════════════════════════ CTA ══════════════════════════
+     Bandeau final d'appel à l'action (inscription + offres)
+     ══════════════════════════════════════════════════════════ -->
+<section class="faq-cta"> 
   <div class="faq-cta-inner">
-    <div class="faq-cta-tag">Prêt à jouer ?</div>
     <h2 class="faq-cta-title">Commencez gratuitement</h2>
     <p class="faq-cta-sub">Rejoignez des milliers de joueurs. Aucune carte bancaire pour démarrer.</p>
     <div class="faq-cta-btns">
@@ -197,7 +233,7 @@ require 'includes/header.php';
       <a href="/NEBULA/offres.php" class="btn btn-outline btn-lg">Voir les offres</a>
     </div>
   </div>
-</div>
+</section>
 
 </div><!-- /.faq-page -->
 

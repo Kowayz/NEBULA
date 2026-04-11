@@ -1,216 +1,168 @@
 <?php
+/* ============================================================
+   PANIER.PHP — Page du panier d'achats
+   Gère l'ajout, la suppression et le vidage du panier via
+   les paramètres GET (?add=, ?remove=, ?vider=).
+   Les articles sont stockés en BDD (table "panier") et liés
+   à l'utilisateur connecté via son user_id en session.
+   ============================================================ */
+
+// -- Connexion BDD et démarrage de la session --
 require 'includes/db.php';
 if (session_status() === PHP_SESSION_NONE) session_start();
 
+$pdo = getPDO();
+
+// -- Configuration de la page --
 $pageTitle = 'Panier';
 $pageCSS   = ['panier'];
 $pageJS    = [];
 
-// Handle add to cart via GET
-if (isset($_GET['offre'])) {
-    $offreId = (int)$_GET['offre'];
-    try {
-        $pdo  = getPDO();
-        $stmt = $pdo->prepare('SELECT * FROM offre WHERE id_offre = :id');
-        $stmt->execute([':id' => $offreId]);
-        $offre = $stmt->fetch();
-        if ($offre) {
-            $_SESSION['panier'] = [
-                'id'  => $offre['id_offre'],
-                'nom' => $offre['nom_offre'],
-                'prix'=> $offre['prix_mensuel'],
-            ];
-        }
-    } catch (Exception $e) {
-        // ignore
+// -- Récupérer l'ID utilisateur depuis la session --
+$userId = $_SESSION['user_id'] ?? 0;
+
+// -- ACTION : AJOUTER un article au panier (?add=ID&nom=...&prix=...) --
+if (isset($_GET['add'])) {
+    // Vérifier que l'utilisateur est connecté
+    if (empty($_SESSION['user_id'])) {
+        header('Location: /NEBULA/auth.php?tab=login&redirect=panier.php');
+        exit;
     }
+    
+    // Récupérer les infos de l'article depuis l'URL
+    $jeuId = (int)$_GET['add'];
+    $nom = $_GET['nom'] ?? 'Article';
+    $prix = (float)($_GET['prix'] ?? 0);
+    $categorie = $_GET['cat'] ?? 'jeu';
+    
+    // Vérifier si l'article existe déjà dans le panier
+    $exist = $pdo->query("SELECT id, quantite, categorie FROM panier WHERE jeu_id = $jeuId AND user_id = $userId")->fetch();
+    
+    if ($exist) {
+        // Produit boutique : augmenter la quantité (+1)
+        if ($exist['categorie'] === 'boutique') {
+            $newQty = $exist['quantite'] + 1;
+            $pdo->query("UPDATE panier SET quantite = $newQty WHERE id = {$exist['id']}");
+        }
+        // Jeu : ne pas ajouter de doublon (on ignore)
+    } else {
+        // Insérer un nouvel article dans le panier
+        $qty = 1;
+        $pdo->query("INSERT INTO panier (user_id, jeu_id, nom, prix, quantite, categorie) 
+                     VALUES ($userId, $jeuId, '$nom', $prix, $qty, '$categorie')");
+    }
+    header('Location: panier.php');
+    exit;
 }
 
-// Handle remove
+// -- ACTION : SUPPRIMER un article du panier (?remove=ID) --
+if (isset($_GET['remove'])) {
+    if (empty($_SESSION['user_id'])) {
+        header('Location: /NEBULA/auth.php?tab=login');
+        exit;
+    }
+    $jeuId = (int)$_GET['remove'];
+    $pdo->query("DELETE FROM panier WHERE jeu_id = $jeuId AND user_id = $userId");
+    header('Location: panier.php');
+    exit;
+}
+
+// -- ACTION : VIDER tout le panier (?vider=1) --
 if (isset($_GET['vider'])) {
-    unset($_SESSION['panier']);
+    if (empty($_SESSION['user_id'])) {
+        header('Location: /NEBULA/auth.php?tab=login');
+        exit;
+    }
+    $pdo->query("DELETE FROM panier WHERE user_id = $userId");
+    header('Location: panier.php');
+    exit;
 }
 
-$panier   = $_SESSION['panier'] ?? null;
-$tvaRate  = 0.20;
-$sousTotal = $panier ? (float)$panier['prix'] : 0;
-$tva      = round($sousTotal * $tvaRate, 2);
-$total    = round($sousTotal + $tva, 2);
+// -- Récupérer les articles du panier depuis la BDD (si connecté) --
+if (!empty($_SESSION['user_id'])) {
+    $panier = $pdo->query("SELECT * FROM panier WHERE user_id = $userId ORDER BY date_ajout DESC")->fetchAll();
+} else {
+    $panier = [];
+}
 
+// -- Calculs des totaux (sous-total, TVA 20%, total TTC) --
+$sousTotal = 0;
+foreach ($panier as $item) {
+    $sousTotal += $item['prix'] * $item['quantite'];
+}
+$tva = $sousTotal * 0.20;
+$total = $sousTotal + $tva;
+
+// -- Inclure le header commun --
 require 'includes/header.php';
 ?>
 
-<!-- ── Hero header ───────────────────────────────────────────── -->
-<section class="section text-center cart-hero" style="padding-bottom:36px">
-  <div class="section-tag">Panier</div>
-  <h1 class="cart-hero-title">Votre <span class="gradient-text">panier</span></h1>
+<!-- ── Hero du panier ── -->
+<section class='section text-center cart-hero'>
+  <div class='section-tag'>Panier</div>
+  <h1>Votre <span class='gradient-text'>panier</span></h1>
 </section>
 
-<!-- ── Cart content ─────────────────────────────────────────── -->
-<section class="section" style="padding-top:0">
+<section class='section'>
 
-  <?php if (!$panier): ?>
-  <!-- Empty state -->
-  <div class="cart-empty">
-    <div class="cart-empty-icon">
-      <img src="/NEBULA/public/assets/img/icons/ecommerce/panier.png" alt="icon" width="18" height="18" class="icon-img">
-    </div>
-    <h2 class="cart-empty-title">Votre panier est vide</h2>
-    <p class="cart-empty-sub">Vous n'avez ajouté aucun abonnement à votre panier pour le moment.</p>
-    <div class="cart-empty-actions">
-      <a href="/NEBULA/boutique.php" class="btn btn-primary btn-lg">Voir la boutique</a>
-      <a href="/NEBULA/offres.php"   class="btn btn-outline btn-lg">Comparer les offres</a>
+<!-- État 1 : Utilisateur non connecté → message + boutons login/register -->
+<?php if (empty($_SESSION['user_id'])): ?>
+  <div class='cart-empty'>
+    <div class='cart-empty-icon'><img src='/NEBULA/public/assets/img/icons/ecommerce/padlock.png' alt='Connexion' width='64' height='64'></div>
+    <h2 class='cart-empty-title'>Connexion requise</h2>
+    <p class='cart-empty-sub'>Connectez-vous pour accéder à votre panier et effectuer des achats.</p>
+    <div class='cart-empty-actions'>
+      <a href='/NEBULA/auth.php?tab=login' class='btn btn-primary'>Se connecter</a>
+      <a href='/NEBULA/auth.php?tab=register' class='btn btn-outline'>Créer un compte</a>
     </div>
   </div>
 
-  <?php else: ?>
-  <!-- Cart with item -->
-  <div class="cart-layout">
-
-    <!-- Left: items -->
-    <div class="cart-items-col">
-      <div class="cart-items-card">
-        <div class="cart-items-header">
-          <span>Abonnement sélectionné</span>
-          <span class="cart-item-count">1 article</span>
-        </div>
-
-        <div class="cart-item">
-          <div class="cart-item-icon">
-            <?php
-            $planIcons = [
-              'Starter' => '<img src="/NEBULA/public/assets/img/icons/ecommerce/composant-cpu.png" alt="icon" width="26" height="26" class="icon-img">',
-              'Gamer'   => '<img src="/NEBULA/public/assets/img/icons/ecommerce/serveur.png" alt="icon" width="22" height="22" class="icon-img">',
-              'Ultra'   => '<img src="/NEBULA/public/assets/img/icons/platforms/etoile-pleine.png" alt="icon" width="14" height="14" class="icon-img">',
-            ];
-            echo $planIcons[$panier['nom']] ?? $planIcons['Gamer'];
-            ?>
-          </div>
-          <div class="cart-item-info">
-            <div class="cart-item-name">Abonnement <?= htmlspecialchars($panier['nom']) ?></div>
-            <div class="cart-item-desc">
-              <?php
-              $descs = [
-                'Starter' => 'Accès Starter — 10h/mois, HD 720p, +25 jeux',
-                'Gamer'   => 'Accès Gamer — Illimité, 4K 144FPS, +200 jeux, ray tracing',
-                'Ultra'   => 'Accès Ultra — Tout Gamer + support 24/7, multi-appareils',
-              ];
-              echo htmlspecialchars($descs[$panier['nom']] ?? 'Abonnement mensuel');
-              ?>
-            </div>
-            <div class="cart-item-pills">
-              <span class="cart-pill">Sans engagement</span>
-              <span class="cart-pill">Résiliation en 1 clic</span>
-              <?php if ($panier['prix'] == 0): ?>
-              <span class="cart-pill cart-pill-free">Gratuit</span>
-              <?php endif; ?>
-            </div>
-          </div>
-          <div class="cart-item-price-col">
-            <?php if ($panier['prix'] == 0): ?>
-              <div class="cart-item-price">Gratuit</div>
-            <?php else: ?>
-              <div class="cart-item-price"><?= number_format($panier['prix'], 2, ',', '') ?> €</div>
-              <div class="cart-item-period">/mois</div>
-            <?php endif; ?>
-          </div>
-        </div>
-
-        <div class="cart-item-footer">
-          <a href="/NEBULA/panier.php?vider=1" class="cart-remove-btn">
-            <img src="/NEBULA/public/assets/img/icons/ecommerce/poubelle.png" alt="icon" width="14" height="14" class="icon-img">
-            Supprimer
-          </a>
-          <a href="/NEBULA/boutique.php" class="cart-continue-btn">
-            <img src="/NEBULA/public/assets/img/icons/nav/fleche-bas.png" alt="icon" width="14" height="14" class="icon-img">
-            Continuer mes achats
-          </a>
-        </div>
-      </div>
-
-      <!-- Security badges -->
-      <div class="cart-security">
-        <div class="cart-security-item">
-          <img src="/NEBULA/public/assets/img/icons/ecommerce/bouclier-securite.png" alt="icon" width="20" height="20" class="icon-img">
-          <span>Paiement 100% sécurisé</span>
-        </div>
-        <div class="cart-security-item">
-          <img src="/NEBULA/public/assets/img/icons/dashboard/horloge.png" alt="icon" width="14" height="14" class="icon-img">
-          <span>Remboursement 7 jours</span>
-        </div>
-        <div class="cart-security-item">
-          <img src="/NEBULA/public/assets/img/icons/ecommerce/calendrier.png" alt="icon" width="14" height="14" class="icon-img">
-          <span>Facturation mensuelle</span>
-        </div>
-      </div>
+<!-- État 2 : Panier vide → message + liens vers boutique/jeux -->
+<?php elseif (empty($panier)): ?>
+  <div class='cart-empty'>
+    <div class='cart-empty-icon'><img src='/NEBULA/public/assets/img/icons/ecommerce/cadille.png' alt='Panier vide' width='64' height='64'></div>
+    <h2 class='cart-empty-title'>Votre panier est vide</h2>
+    <p class='cart-empty-sub'>Découvrez nos jeux et commencez à remplir votre panier.</p>
+    <div class='cart-empty-actions'>
+      <a href='/NEBULA/boutique.php' class='btn btn-primary'>Voir la boutique</a>
+      <a href='/NEBULA/jeux.php' class='btn btn-outline'>Parcourir les jeux</a>
     </div>
-
-    <!-- Right: order summary -->
-    <aside class="cart-summary-col">
-      <div class="cart-summary-card">
-        <div class="cart-summary-title">Récapitulatif</div>
-
-        <div class="cart-summary-lines">
-          <div class="cart-summary-line">
-            <span>Abonnement <?= htmlspecialchars($panier['nom']) ?></span>
-            <?php if ($panier['prix'] == 0): ?>
-              <span>Gratuit</span>
-            <?php else: ?>
-              <span><?= number_format($sousTotal, 2, ',', '') ?> €</span>
-            <?php endif; ?>
-          </div>
-
-          <?php if ($panier['prix'] > 0): ?>
-          <div class="cart-summary-line cart-summary-line-muted">
-            <span>TVA (20%)</span>
-            <span><?= number_format($tva, 2, ',', '') ?> €</span>
-          </div>
-          <?php endif; ?>
-        </div>
-
-        <div class="cart-summary-divider"></div>
-
-        <div class="cart-summary-total">
-          <span>Total TTC</span>
-          <?php if ($panier['prix'] == 0): ?>
-            <span class="cart-total-price">Gratuit</span>
-          <?php else: ?>
-            <span class="cart-total-price"><?= number_format($total, 2, ',', '') ?> €<small>/mois</small></span>
-          <?php endif; ?>
-        </div>
-
-        <?php if (!empty($_SESSION['user_id'])): ?>
-          <a href="/NEBULA/dashboard.php" class="btn btn-primary btn-full btn-lg cart-checkout-btn">
-            Confirmer l'abonnement
-          </a>
-        <?php else: ?>
-          <a href="/NEBULA/auth.php?tab=register" class="btn btn-primary btn-full btn-lg cart-checkout-btn">
-            Créer un compte &amp; payer
-          </a>
-          <a href="/NEBULA/auth.php" class="btn btn-outline btn-full btn-sm" style="margin-top:10px">
-            Déjà client ? Se connecter
-          </a>
-        <?php endif; ?>
-
-        <div class="cart-summary-note">
-          En validant, vous acceptez nos
-          <a href="/NEBULA/mentions.php" style="color:var(--accent)">conditions générales</a>.
-          Résiliation possible à tout moment.
-        </div>
-      </div>
-
-      <!-- Promo code -->
-      <div class="cart-promo-card">
-        <div class="cart-promo-title">Code promo</div>
-        <div class="cart-promo-row">
-          <input type="text" class="form-control" placeholder="NEBULA2026" style="flex:1">
-          <button class="btn btn-outline btn-sm">Appliquer</button>
-        </div>
-      </div>
-    </aside>
-
   </div>
-  <?php endif; ?>
+
+<!-- État 3 : Panier avec articles → liste + résumé des prix -->
+<?php else: ?>
+  <div class='cart-layout'>
+    <!-- Liste des articles du panier -->
+    <div class='cart-items'>
+      <?php foreach ($panier as $item): ?>
+        <div class='cart-item'>
+          <div class='cart-item-info'>
+            <h4 class='cart-item-name'><?= htmlspecialchars($item['nom']) ?></h4>
+            <p class='cart-item-price'><?= number_format($item['prix'], 2) ?> €</p>
+          </div>
+          <div class='cart-item-actions'>
+            <!-- Afficher la quantité si > 1 (produits boutique) -->
+            <?php if ($item['categorie'] === 'boutique' && $item['quantite'] > 1): ?>
+              <span>x<?= $item['quantite'] ?></span>
+            <?php endif; ?>
+            <p class='cart-item-total'><?= number_format($item['prix'] * $item['quantite'], 2) ?> €</p>
+            <a href='?remove=<?= $item['jeu_id'] ?>' class='cart-remove' title='Supprimer'>
+              <img src='/NEBULA/public/assets/img/icons/ecommerce/poubelle.png' alt='Supprimer' width='18' height='18'>
+            </a>
+          </div>
+        </div>
+      <?php endforeach; ?>
+    </div>
+    
+    <!-- Résumé : sous-total, TVA, total et bouton payer (vide le panier) -->
+    <div class='cart-summary'>
+      <p>Sous-total: <?= number_format($sousTotal, 2) ?> €</p>
+      <p>TVA (20%): <?= number_format($tva, 2) ?> €</p>
+      <p><strong>Total: <?= number_format($total, 2) ?> €</strong></p>
+      <a href='panier.php?vider=1' class='btn btn-primary'>Payer</a>
+    </div>
+  </div>
+<?php endif; ?>
 
 </section>
 
