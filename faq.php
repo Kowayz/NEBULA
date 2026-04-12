@@ -6,13 +6,14 @@
    Le JS (faq.js) gère l'ouverture/fermeture de l'accordéon.
    ============================================================ */
 
+// -- Configuration de la page --
+$pageTitle = 'FAQ';
+$pageCSS   = ['faq'];
+$pageJS    = ['faq'];
+
 // -- Inclure le header commun --
 require 'includes/header.php';
 ?>
-
-<!-- CSS et JS spécifiques à la page FAQ -->
-<link rel="stylesheet" href="/NEBULA/css/faq.css">
-<script src="/NEBULA/js/faq.js" defer></script>
 
 <div class="faq-page">
 

@@ -55,7 +55,7 @@ require 'includes/header.php';
         <div class="merch-desc">100% coton · Noir · Logo violet</div>
         <div class="merch-footer">
           <div class="merch-price">29,99 €</div>
-          <a href="/NEBULA/panier.php?add=1&amp;type=produit&amp;nom=T-Shirt+Nebula&amp;prix=29.99" class="btn btn-outline btn-sm">Ajouter</a>
+          <a href="/NEBULA/panier.php?add=1&amp;cat=boutique&amp;nom=T-Shirt+Nebula&amp;prix=29.99" class="btn btn-outline btn-sm">Ajouter</a>
         </div>
       </div>
     </div>
@@ -71,7 +71,7 @@ require 'includes/header.php';
         <div class="merch-desc">Coton doux · Poche kangourou · Unisexe</div>
         <div class="merch-footer">
           <div class="merch-price">49,99 €</div>
-          <a href="/NEBULA/panier.php?add=2&amp;type=produit&amp;nom=Hoodie+Nebula&amp;prix=49.99" class="btn btn-primary btn-sm">Ajouter</a>
+          <a href="/NEBULA/panier.php?add=2&amp;cat=boutique&amp;nom=Hoodie+Nebula&amp;prix=49.99" class="btn btn-primary btn-sm">Ajouter</a>
         </div>
       </div>
     </div>
@@ -87,7 +87,7 @@ require 'includes/header.php';
         <div class="merch-desc">Céramique · 350ml · Thermosensible</div>
         <div class="merch-footer">
           <div class="merch-price">14,99 €</div>
-          <a href="/NEBULA/panier.php?add=3&amp;type=produit&amp;nom=Mug+Gaming&amp;prix=14.99" class="btn btn-outline btn-sm">Ajouter</a>
+          <a href="/NEBULA/panier.php?add=3&amp;cat=boutique&amp;nom=Mug+Gaming&amp;prix=14.99" class="btn btn-outline btn-sm">Ajouter</a>
         </div>
       </div>
     </div>
@@ -103,7 +103,7 @@ require 'includes/header.php';
         <div class="merch-desc">Snapback · Brodé · Réglable</div>
         <div class="merch-footer">
           <div class="merch-price">24,99 €</div>
-          <a href="/NEBULA/panier.php?add=4&amp;type=produit&amp;nom=Casquette+Nebula&amp;prix=24.99" class="btn btn-outline btn-sm">Ajouter</a>
+          <a href="/NEBULA/panier.php?add=4&amp;cat=boutique&amp;nom=Casquette+Nebula&amp;prix=24.99" class="btn btn-outline btn-sm">Ajouter</a>
         </div>
       </div>
     </div>
@@ -119,7 +119,7 @@ require 'includes/header.php';
         <div class="merch-desc">900x400mm · Surface lisse · Base antidérapante</div>
         <div class="merch-footer">
           <div class="merch-price">19,99 €</div>
-          <a href="/NEBULA/panier.php?add=5&amp;type=produit&amp;nom=Mousepad+XXL&amp;prix=19.99" class="btn btn-outline btn-sm">Ajouter</a>
+          <a href="/NEBULA/panier.php?add=5&amp;cat=boutique&amp;nom=Mousepad+XXL&amp;prix=19.99" class="btn btn-outline btn-sm">Ajouter</a>
         </div>
       </div>
     </div>
@@ -135,7 +135,7 @@ require 'includes/header.php';
         <div class="merch-desc">15 stickers · Vinyle waterproof · Mix designs</div>
         <div class="merch-footer">
           <div class="merch-price">9,99 €</div>
-          <a href="/NEBULA/panier.php?add=6&amp;type=produit&amp;nom=Pack+Stickers&amp;prix=9.99" class="btn btn-outline btn-sm">Ajouter</a>
+          <a href="/NEBULA/panier.php?add=6&amp;cat=boutique&amp;nom=Pack+Stickers&amp;prix=9.99" class="btn btn-outline btn-sm">Ajouter</a>
         </div>
       </div>
     </div>

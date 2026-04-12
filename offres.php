@@ -5,12 +5,14 @@
    comparatif détaillé et un CTA vers le configurateur.
    ============================================================ */
 
+// -- Configuration de la page --
+$pageTitle = 'Nos offres';
+$pageCSS   = ['offres'];
+$pageJS    = [];
+
 // -- Inclure le header commun --
 require 'includes/header.php';
 ?>
-
-<!-- CSS spécifique à la page offres -->
-<link rel="stylesheet" href="/NEBULA/css/offres.css">
 
 <!-- ══════════════════════════ CARTES TARIFS ═══════════════════
      Titre + 3 cartes : Starter (gratuit), Gamer (24.99€), Ultra (44.99€)
@@ -59,7 +61,7 @@ require 'includes/header.php';
         <li class="pricing-feature yes"><img src="/NEBULA/public/assets/img/icons/ecommerce/coche-incluse.png" alt="icon" width="14" height="14" class="icon-img"> Sauvegardes illimitées</li>
         <li class="pricing-feature"><img src="/NEBULA/public/assets/img/icons/nav/croix-fermer.png" alt="icon" width="14" height="14" class="icon-img"> Support prioritaire</li>
       </ul>
-      <a href="/NEBULA/auth.php?tab=register" class="btn btn-primary btn-full">S'abonner</a>
+      <a href="/NEBULA/panier.php?add=200&amp;nom=Offre+Gamer+(mensuel)&amp;prix=24.99&amp;cat=offre" class="btn btn-primary btn-full">S'abonner</a>
     </div>
 
     <!-- Ultra : offre premium complète -->
@@ -78,7 +80,7 @@ require 'includes/header.php';
         <li class="pricing-feature yes"><img src="/NEBULA/public/assets/img/icons/ecommerce/coche-incluse.png" alt="icon" width="14" height="14" class="icon-img"> Cadeaux exclusifs</li>
         <li class="pricing-feature yes"><img src="/NEBULA/public/assets/img/icons/ecommerce/coche-incluse.png" alt="icon" width="14" height="14" class="icon-img"> Support prioritaire</li>
       </ul>
-      <a href="/NEBULA/auth.php?tab=register" class="btn btn-outline btn-full">S'abonner</a>
+      <a href="/NEBULA/panier.php?add=201&amp;nom=Offre+Ultra+(mensuel)&amp;prix=44.99&amp;cat=offre" class="btn btn-outline btn-full">S'abonner</a>
     </div>
 
   </div>

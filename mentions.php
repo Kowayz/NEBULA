@@ -12,9 +12,6 @@ $pageJS    = [];
 require 'includes/header.php';
 ?>
 
-<!-- CSS spécifique à la page mentions légales -->
-<link rel="stylesheet" href="/NEBULA/css/mentions.css">
-
 <section class="section">
   <div class="section-header">
     <h1 class="ml-title">Mentions <span class="gradient-text">légales</span></h1>

@@ -29,12 +29,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 
+// -- Configuration de la page --
+$pageTitle = 'Contact';
+$pageCSS   = ['contact'];
+$pageJS    = [];
+
 // -- Inclure le header commun --
 require 'includes/header.php';
 ?>
-
-<!-- CSS spécifique à la page contact -->
-<link rel="stylesheet" href="/NEBULA/css/contact.css">
 
 <section class="section">
   <div class="section-header">
