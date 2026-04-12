@@ -1,472 +1,186 @@
-/* panier.css */
+/* ============================================================
+   PANIER.CSS — Page du panier d'achat
+   ============================================================ */
 
-.cart-hero-title {
-  font-size: clamp(2rem, 4vw, 3rem);
+/* ----------------------------------------------------------
+   1. HERO (en-tête de la page panier)
+   ---------------------------------------------------------- */
+
+/* Bloc titre centré en haut de page */
+.cart-hero {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+/* Titre "Mon panier" */
+.cart-hero h1 {
+  font-size: 2.5rem;
   font-weight: 800;
   margin-bottom: 8px;
-  font-family: var(--font-heading);
-  letter-spacing: -.03em;
 }
 
-/* Panier vide */
+/* ----------------------------------------------------------
+   2. PANIER VIDE (affiché quand aucun article)
+   ---------------------------------------------------------- */
+
+/* Conteneur centré avec icône + message */
 .cart-empty {
   text-align: center;
-  padding: 64px 20px;
-  max-width: 480px;
+  padding: 80px 20px;
+  max-width: 400px;
   margin: 0 auto;
 }
+
+/* Espacement sous l'icône du panier vide */
 .cart-empty-icon {
-  font-size: 4.5rem;
-  margin-bottom: 20px;
-  filter: grayscale(.3) opacity(.7);
+  margin-bottom: 24px;
 }
+
+/* Image de l'icône (panier vide) centrée */
+.cart-empty-icon img {
+  width: 80px;
+  height: 80px;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Titre "Votre panier est vide" */
 .cart-empty-title {
   font-size: 1.5rem;
-  font-weight: 800;
+  font-weight: 700;
   margin-bottom: 10px;
 }
+
+/* Sous-titre explicatif */
 .cart-empty-sub {
-  color: var(--text-muted);
-  font-size: .92rem;
-  line-height: 1.65;
-  margin-bottom: 28px;
+  color: var(--text-gray);
+  margin-bottom: 24px;
 }
+
+/* Boutons d'action (ex: "Voir le catalogue") */
 .cart-empty-actions {
   display: flex;
   gap: 12px;
   justify-content: center;
-  flex-wrap: wrap;
 }
 
-/* Mise en page */
+/* ----------------------------------------------------------
+   3. LAYOUT (grille articles + résumé)
+   ---------------------------------------------------------- */
+
+/* Grille 2 colonnes : articles à gauche, résumé à droite */
 .cart-layout {
   display: grid;
-  grid-template-columns: 1fr 360px;
-  gap: 28px;
-  align-items: start;
-  max-width: 1020px;
+  grid-template-columns: 1fr 320px;
+  gap: 24px;
+  max-width: 960px;
   margin: 0 auto;
+  padding: 20px;
 }
 
-.cart-items-col {
+/* ----------------------------------------------------------
+   4. ITEMS (liste des articles dans le panier)
+   ---------------------------------------------------------- */
+
+/* Conteneur vertical des articles */
+.cart-items {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.cart-items-card {
-  background: rgba(12,6,28,.8);
-  border: 1px solid rgba(124,58,237,.15);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-}
-
-.cart-items-header {
+/* Ligne d'un article : nom + prix à gauche, total + supprimer à droite */
+.cart-item {
+  background: rgba(8,3,20,.98);
+  border: 1px solid rgba(124,58,237,.35);
+  border-radius: var(--radius);
+  padding: 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 24px;
-  border-bottom: 1px solid rgba(124,58,237,.1);
-  font-size: .82rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .07em;
-  color: var(--text-muted);
 }
 
-.cart-item-count {
-  background: rgba(124,58,237,.15);
-  border: 1px solid rgba(124,58,237,.25);
-  border-radius: 20px;
-  padding: 2px 10px;
-  color: var(--accent);
-  font-size: .7rem;
-}
-
-.cart-item {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  padding: 22px 24px;
-}
-
-.cart-item-icon {
-  font-size: 2rem;
-  width: 56px;
-  height: 56px;
-  border-radius: 14px;
-  background: linear-gradient(135deg, rgba(124,58,237,.25), rgba(159,18,57,.15));
-  border: 1px solid rgba(124,58,237,.25);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
+/* Bloc gauche : nom + prix unitaire */
 .cart-item-info {
   flex: 1;
-  min-width: 0;
 }
+
+/* Nom du jeu */
 .cart-item-name {
-  font-size: 1rem;
-  font-weight: 800;
+  font-weight: 700;
   margin-bottom: 4px;
-}
-.cart-item-desc {
-  font-size: .82rem;
-  color: var(--text-muted);
-  margin-bottom: 10px;
-  line-height: 1.5;
-}
-.cart-item-pills {
-  display: flex;
-  gap: 7px;
-  flex-wrap: wrap;
+  font-size: 1.05rem;
 }
 
-.cart-pill {
-  background: rgba(124,58,237,.15);
-  border: 1px solid rgba(124,58,237,.25);
-  border-radius: 20px;
-  padding: 3px 10px;
-  color: var(--accent);
-  font-size: .7rem;
-  font-weight: 600;
-}
-
-.cart-pill-free {
-  background: rgba(34,197,94,.1);
-  border-color: rgba(34,197,94,.3);
-  color: var(--success);
-}
-
-.cart-item-price-col {
-  text-align: right;
-  flex-shrink: 0;
-}
+/* Prix unitaire en gris */
 .cart-item-price {
-  font-size: 1.4rem;
-  font-weight: 900;
-  letter-spacing: -.02em;
-}
-.cart-item-period {
-  font-size: .75rem;
-  color: var(--text-muted);
-  margin-top: 2px;
-}
-
-.cart-item-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 24px 16px;
-  border-top: 1px solid rgba(124,58,237,.08);
-}
-
-.cart-remove-btn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: .8rem;
-  color: var(--danger);
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  font-family: inherit;
-  transition: color var(--t);
-}
-.cart-remove-btn:hover {
-  color: #fca5a5;
-}
-
-.cart-continue-btn {
-  font-size: .8rem;
-  color: var(--text-muted);
-  transition: color var(--t);
-}
-.cart-continue-btn:hover {
-  color: var(--accent);
-}
-
-.cart-security {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  padding: 12px 24px 18px;
-  border-top: 1px solid rgba(124,58,237,.08);
-}
-
-.cart-security-item {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  font-size: .79rem;
-  color: var(--text-muted);
-}
-
-/* Résumé */
-.cart-summary-col {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  position: sticky;
-  top: 84px;
-}
-
-.cart-summary-card {
-  background: rgba(12,6,28,.85);
-  border: 1px solid rgba(124,58,237,.25);
-  border-radius: var(--radius-xl);
-  padding: 24px;
-}
-
-.cart-summary-title {
-  font-size: 1rem;
-  font-weight: 800;
-  margin-bottom: 18px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid rgba(124,58,237,.12);
-}
-
-.cart-summary-lines {
-  display: flex;
-  flex-direction: column;
-  gap: 11px;
-  margin-bottom: 16px;
-}
-.cart-summary-line {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: .87rem;
-}
-.cart-summary-line-muted {
-  color: var(--text-muted);
-  font-size: .82rem;
-}
-
-.cart-summary-divider {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(124,58,237,.3), transparent);
-  margin: 14px 0;
-}
-
-.cart-summary-total {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-.cart-summary-total > span:first-child {
+  color: var(--text-gray);
   font-size: .9rem;
-  font-weight: 700;
 }
 
-.cart-total-price {
-  font-size: 1.85rem;
-  font-weight: 800;
-  letter-spacing: -.03em;
-  font-family: var(--font-heading);
-  color: var(--accent);
-}
-.cart-total-price small {
-  font-size: .78rem;
-  font-weight: 400;
-  color: var(--text-muted);
-}
+/* ----------------------------------------------------------
+   5. ACTIONS (boutons par article)
+   ---------------------------------------------------------- */
 
-.cart-checkout-btn {
-  margin-bottom: 0;
-}
-.cart-summary-note {
-  font-size: .72rem;
-  color: var(--text-faint);
-  text-align: center;
-  margin-top: 12px;
-  line-height: 1.5;
-}
-
-.cart-section-label {
-  font-size: .7rem;
-  font-weight: 700;
-  letter-spacing: .09em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  padding: 14px 24px 4px;
-  border-top: 1px solid rgba(124,58,237,.08);
-}
-
+/* Bloc droite : total + bouton supprimer */
 .cart-item-actions {
   display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Prix total de l'article en violet */
+.cart-item-total {
+  font-weight: 700;
+  color: var(--highlight);
+  font-size: 1.1rem;
+}
+
+/* Bouton supprimer (icône croix, semi-transparent) */
+.cart-remove {
+  display: flex;
+  align-items: center;
+  opacity: .6;
+}
+
+/* ----------------------------------------------------------
+   6. RÉSUMÉ (carte récapitulative à droite)
+   ---------------------------------------------------------- */
+
+/* Carte sticky qui suit le scroll avec le total */
+.cart-summary {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  position: sticky;
+  top: 100px;
+}
+
+/* Ligne du résumé : label à gauche, montant à droite */
+.cart-summary p {
+  display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 4px 24px 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
 }
 
-.cart-item-icon-merch {
-  background: linear-gradient(135deg, rgba(124,58,237,.2), rgba(244,114,182,.15));
-  border-color: rgba(244,114,182,.2);
-}
-.cart-item-icon-option {
-  background: linear-gradient(135deg, rgba(124,58,237,.2), rgba(34,197,94,.1));
-  border-color: rgba(34,197,94,.2);
-}
-
-.cart-clear-row {
-  text-align: right;
-  padding: 4px 0;
-}
-.cart-clear-all {
-  font-size: .78rem;
-  color: var(--text-faint);
-  transition: color var(--t);
-}
-.cart-clear-all:hover {
-  color: var(--danger);
-}
-
-.btn-success-outline {
-  background: rgba(34,197,94,.1);
-  border: 1px solid rgba(34,197,94,.35);
-  color: var(--success) !important;
-}
-
-/* Code promo */
-.cart-promo-card {
-  background: rgba(12,6,28,.8);
-  border: 1px solid rgba(124,58,237,.15);
-  border-radius: var(--radius-lg);
-  padding: 18px 22px;
-}
-
-.cart-promo-title {
-  font-size: .8rem;
-  font-weight: 700;
-  margin-bottom: 10px;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: .07em;
-}
-
-.cart-promo-row {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-
-.cart-promo-success {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  background: rgba(34,197,94,.08);
-  border: 1px solid rgba(34,197,94,.25);
-  border-radius: 10px;
-  padding: 10px 14px;
-  font-size: .84rem;
-  color: var(--success);
-}
-
-.cart-promo-success-icon {
-  flex-shrink: 0;
-  font-size: .9rem;
-}
-.cart-promo-success span {
-  flex: 1;
-  color: var(--text-white);
-}
-.cart-promo-success strong {
-  color: var(--success);
-}
-
-.cart-promo-remove {
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  cursor: pointer;
-  padding: 2px;
-  display: flex;
-  align-items: center;
-  font-size: .9rem;
-  transition: color var(--t);
-}
-.cart-promo-remove:hover {
-  color: var(--danger);
-}
-
-.cart-summary-line-discount {
-  color: var(--success);
-  font-size: .84rem;
-}
-.cart-discount-value {
-  font-weight: 700;
-}
-
-.cart-promo-error {
-  font-size: .78rem;
-  color: var(--danger);
-  margin-top: 7px;
-}
-
-.cart-checkout-error {
-  font-size: .8rem;
-  color: var(--danger);
-  text-align: center;
-  margin-top: 10px;
-  padding: 8px 12px;
-  background: rgba(239,68,68,.08);
-  border: 1px solid rgba(239,68,68,.2);
-  border-radius: 8px;
-}
-
-.btn.loading {
-  opacity: .75;
-  cursor: not-allowed;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.cart-btn-spinner {
-  width: 14px;
-  height: 14px;
-  border: 2px solid rgba(255,255,255,.3);
-  border-top-color: #fff;
-  border-radius: 50%;
-  animation: spin .7s linear infinite;
-  flex-shrink: 0;
-}
-
-.cart-login-hint {
-  text-align: center;
+/* Dernière ligne (total) : sans bordure, plus d'espace au-dessus */
+.cart-summary p:last-of-type {
+  border-bottom: none;
+  padding-top: 16px;
   margin-top: 8px;
-  font-size: .8rem;
-  color: var(--text-muted);
 }
 
-/* Responsive */
-@media (max-width: 820px) {
-  .cart-layout {
-    grid-template-columns: 1fr;
-    max-width: 560px;
-  }
-  .cart-summary-col {
-    position: static;
-    order: -1;
-  }
+/* Montant total en violet et grand */
+.cart-summary strong {
+  font-size: 1.3rem;
+  color: var(--highlight);
 }
 
-@media (max-width: 520px) {
-  .cart-item {
-    flex-wrap: wrap;
-  }
-  .cart-item-price-col {
-    text-align: left;
-    width: 100%;
-  }
-  .cart-security {
-    flex-direction: column;
-    gap: 10px;
-  }
+/* Bouton "Passer commande" pleine largeur */
+.cart-summary .btn {
+  width: 100%;
+  margin-top: 16px;
+  justify-content: center;
 }

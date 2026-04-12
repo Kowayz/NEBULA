@@ -1,94 +1,95 @@
-/* offres.css */
+/* ============================================================
+   OFFRES — Page des abonnements et tarifs
+   ============================================================ */
 
-/* Grille abonnements */
+/* ----------------------------------------------------------
+   1. GRILLE DES OFFRES (Pricing cards)
+   ---------------------------------------------------------- */
+
+/* Grille 3 colonnes pour les cartes d'abonnement */
 .pricing-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(268px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
   max-width: 900px;
   margin: 0 auto 60px;
   padding-top: 16px;
 }
 
+/* Carte d'abonnement individuelle */
 .pricing-card {
-  background: rgba(12,6,28,.75);
-  border: 1px solid rgba(124,58,237,.15);
-  border-radius: var(--radius-xl);
-  padding: 34px 28px;
+  background: rgba(124,58,237,.04);
+  border: 1px solid rgba(124,58,237,.1);
+  border-radius: var(--radius);
+  padding: 28px;
   display: flex;
   flex-direction: column;
   position: relative;
-  transition: transform .28s ease, border-color .28s ease;
 }
 
-.pricing-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(124,58,237,.4);
-}
-
+/* Carte mise en avant (Gamer) - bordure violette */
 .pricing-card.featured {
-  background: rgba(14,5,32,.85);
-  border-color: rgba(124,58,237,.5);
-  transform: translateY(-10px) scale(1.04);
-  z-index: 2;
+  background: rgba(124,58,237,.04);
+  border-color: var(--highlight);
 }
 
-.pricing-card.featured:hover {
-  transform: translateY(-14px) scale(1.04);
-}
-
+/* Badge "Populaire" */
 .pricing-badge {
   position: absolute;
-  top: -13px;
+  top: -12px;
   left: 50%;
   transform: translateX(-50%);
-  background: linear-gradient(90deg, var(--bordeaux), var(--purple));
-  color: #fff;
-  font-size: .71rem;
+  background: rgba(10,2,20,.9);
+  border: 1px solid rgba(159,18,57,.5);
+  border-radius: 8px;
+  padding: 5px 12px;
+  font-size: .75rem;
   font-weight: 800;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  padding: 4px 16px;
-  border-radius: 20px;
-  white-space: nowrap;
-  z-index: 3;
+  color: #fca5a5;
 }
 
+/* Nom de l'offre (Starter, Gamer, Ultra) */
 .pricing-name {
   font-size: 1.1rem;
   font-weight: 800;
   margin-bottom: 3px;
 }
+
+/* Description courte sous le nom */
 .pricing-sub {
   font-size: .8rem;
-  color: var(--text-muted);
+  color: var(--text-gray);
   margin-bottom: 18px;
 }
 
+/* Prix de l'offre (format: 24.99 €/mois) */
 .pricing-price {
   font-size: 2.8rem;
   font-weight: 900;
   line-height: 1;
   margin-bottom: 4px;
-  letter-spacing: -.03em;
 }
 
+/* Prix coloré en violet pour la carte mise en avant */
 .pricing-card.featured .price-amount {
-  color: #c4b5fd;
+  color: var(--highlight);
 }
 
+/* Montant du prix (ex: 24.99, Gratuit) */
 .price-amount {
   font-size: 2.8rem;
   font-weight: 900;
-  letter-spacing: -.03em;
 }
+
+/* Période de facturation (ex: €/mois) */
 .price-period {
   font-size: .9rem;
   font-weight: 400;
-  color: var(--text-muted);
+  color: var(--text-gray);
   margin-left: 2px;
 }
 
+/* Liste des fonctionnalités incluses/non incluses */
 .pricing-features {
   flex: 1;
   margin: 22px 0 24px;
@@ -97,113 +98,98 @@
   gap: 11px;
   list-style: none;
 }
+
+/* Ligne de fonctionnalité (icône + texte) */
 .pricing-feature {
   display: flex;
   align-items: center;
   gap: 10px;
   font-size: .86rem;
-  color: var(--text-faint);
+  color: var(--text-gray);
 }
+
+/* Fonctionnalité incluse — texte blanc */
 .pricing-feature.yes {
-  color: var(--text-white);
+  color: var(--text);
 }
 
-.feature-icon {
-  width: 12px;
-  height: 12px;
-  flex-shrink: 0;
-  color: var(--accent);
-}
-.check {
-  width: 13px;
-  height: 13px;
-  flex-shrink: 0;
-  color: var(--success);
-  font-weight: 700;
-}
-.cross {
-  width: 12px;
-  height: 12px;
-  flex-shrink: 0;
-  color: rgba(255,255,255,.2);
-}
+/* ----------------------------------------------------------
+   2. TABLEAU COMPARATIF
+   ---------------------------------------------------------- */
 
-/* Tableau comparatif */
+/* Conteneur scrollable du tableau */
 .compare-wrap {
   overflow-x: auto;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-big);
   border: 1px solid rgba(124,58,237,.15);
   background: rgba(12,6,28,.75);
 }
 
-.compare-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: .86rem;
-  min-width: 540px;
+/* Ligne du tableau (grille 4 colonnes) */
+.compare-row {
+  display: grid;
+  grid-template-columns: 1fr repeat(3, 100px);
+  border-bottom: 1px solid rgba(255,255,255,.06);
 }
 
-.compare-table th,
-.compare-table td {
-  padding: 14px 18px;
-  text-align: center;
-  border-bottom: 1px solid rgba(124,58,237,.12);
-}
-
-.compare-table th:first-child,
-.compare-table td:first-child {
-  text-align: left;
-  color: var(--text-muted);
-  font-weight: 500;
-}
-
-.compare-table thead th {
-  background: rgba(124,58,237,.08);
-  font-weight: 800;
-  font-size: .82rem;
-  text-transform: uppercase;
-  letter-spacing: .06em;
-  color: var(--text-white);
-}
-
-.compare-table thead th.col-featured {
-  color: var(--accent);
-  background: rgba(124,58,237,.14);
-}
-.compare-table tbody tr:last-child td {
-  border-bottom: none;
-}
-.compare-table tbody tr:hover td {
+/* Surbrillance au survol */
+.compare-row:hover {
   background: rgba(124,58,237,.04);
 }
 
-.bouquet-cta {
-  border-top: 1px solid rgba(124,58,237,.12);
-  padding: 48px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  text-align: center;
-  margin-top: 8px;
-}
-
-.bouquet-cta-title {
-  font-size: 1.1rem;
+/* En-tête du tableau */
+.compare-head {
   font-weight: 700;
-  color: var(--text-white);
-  margin: 0;
-}
-.bouquet-cta-sub {
-  font-size: .95rem;
-  color: var(--text-muted);
-  margin: 0;
+  background: rgba(124,58,237,.08);
 }
 
-@media (max-width: 600px) {
-  .pricing-grid {
-    max-width: 360px;
-    margin: 0 auto;
-  }
+/* Nom de la fonctionnalité (première colonne) */
+.compare-label {
+  padding: 14px 16px;
+  text-align: left;
+  font-size: .86rem;
+}
+
+/* Cellule de valeur (oui/non) */
+.compare-cell {
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .86rem;
+}
+
+/* Colonne mise en avant (Gamer) */
+.compare-featured {
+  background: rgba(124,58,237,.1);
+}
+
+/* Titre principal de la page */
+.offres-title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 900;
+  margin-bottom: 12px;
+  letter-spacing: -.03em;
+}
+
+/* Titre du tableau comparatif */
+.compare-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  margin-bottom: 28px;
+  letter-spacing: -.02em;
+}
+
+/* Titre du CTA configurateur */
+.offres-cta-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+/* Sous-titre du CTA */
+.offres-cta-sub {
+  color: var(--text-muted);
+  margin-bottom: 24px;
 }
 

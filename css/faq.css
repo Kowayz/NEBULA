@@ -1,493 +1,299 @@
-/* faq.css */
+/* ============================================================
+   FAQ.CSS - Page des questions fréquentes Nebula
+   Styles pour la page FAQ (hero, sections, accordéon)
+   ============================================================ */
 
+/* ----------------------------------------------------------
+   1. HERO FAQ
+   ---------------------------------------------------------- */
+
+/* Conteneur principal de la page */
 .faq-page {
   min-height: 100vh;
 }
 
-/* Hero */
+/* Section hero avec titre principal */
 .faq-hero {
-  position: relative;
-  padding: 120px 24px 96px;
   text-align: center;
-  overflow: hidden;
-}
-.faq-hero-inner {
-  position: relative;
-  z-index: 1;
-  max-width: 680px;
-  margin: 0 auto;
+  padding: 100px 24px 60px;
 }
 
-.faq-hero-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: .72rem;
-  font-weight: 700;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: var(--accent);
-  background: rgba(124,58,237,.1);
-  border: 1px solid rgba(124,58,237,.25);
-  border-radius: 20px;
-  padding: 5px 16px;
-  margin-bottom: 24px;
-}
-
+/* Titre principal de la page FAQ */
 .faq-hero-title {
-  font-size: clamp(2.8rem, 7vw, 4.8rem);
+  font-size: clamp(2rem, 5vw, 3.5rem);
   font-weight: 800;
-  line-height: 1.0;
-  letter-spacing: -.04em;
-  margin-bottom: 20px;
-  font-family: var(--font-heading);
+  margin-bottom: 16px;
 }
 
+/* Sous-titre descriptif */
 .faq-hero-sub {
-  font-size: 1.05rem;
-  color: var(--text-muted);
-  line-height: 1.65;
-  max-width: 520px;
+  font-size: 1rem;
+  color: var(--text-gray);
+  max-width: 500px;
   margin: 0 auto;
 }
 
-/* Sections */
+/* ----------------------------------------------------------
+   2. SECTIONS FAQ
+   ---------------------------------------------------------- */
+
+/* Sections standards avec padding */
 .faq-section {
-  padding: 80px 24px;
+  padding: 90px 24px;
+}
+
+/* Variante avec fond alternatif pour créer du rythme visuel */
+.faq-section--alt {
+  background: var(--bg-section, rgba(12,6,28,.4));
+  border-top: 1px solid var(--border, rgba(124,58,237,.15));
+  border-bottom: 1px solid var(--border, rgba(124,58,237,.15));
+}
+
+/* Container simple pour centrer le contenu */
+.container {
   max-width: 1100px;
   margin: 0 auto;
 }
 
-.faq-section-dark {
-  max-width: 100%;
-  background: rgba(8,4,18,.6);
-  border-top: 1px solid rgba(124,58,237,.1);
-  border-bottom: 1px solid rgba(124,58,237,.1);
-  padding: 80px 24px;
+/* Conteneur CTA avec largeur limitée */
+.faq-cta > .faq-cta-inner {
+  max-width: 700px;
+  margin: 0 auto;
 }
 
-.faq-section-dark .faq-section-head,
-.faq-section-dark .faq-list,
-.faq-section-dark .faq-not-found,
-.faq-section-dark .steps-grid,
-.faq-section-dark .benefits-grid {
-  max-width: 1100px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
+/* En-tête de section (titre + sous-titre) */
 .faq-section-head {
   text-align: center;
-  margin-bottom: 56px;
+  margin-bottom: 40px;
 }
 
+/* Titre de section FAQ */
 .faq-section-title {
-  font-size: clamp(1.7rem, 3.5vw, 2.6rem);
+  font-size: clamp(1.5rem, 3vw, 2rem);
   font-weight: 800;
-  letter-spacing: -.03em;
-  margin-bottom: 10px;
-  font-family: var(--font-heading);
+  margin-bottom: 12px;
 }
 
+/* Sous-titre de section FAQ */
 .faq-section-sub {
-  font-size: .92rem;
-  color: var(--text-muted);
-  max-width: 520px;
+  color: var(--text-gray);
+  max-width: 500px;
   margin: 0 auto;
-  line-height: 1.65;
 }
 
-/* Section variants */
-.faq-section--concept {
-  position: relative;
-  overflow: hidden;
-}
-.faq-section--steps {
-  position: relative;
-  background: rgba(8,4,18,.7) !important;
-}
-.faq-section--benefits {
-  position: relative;
-  overflow: hidden;
-}
+/* ----------------------------------------------------------
+   3. CARTES FEATURES (réutilisé par 3 sections)
+      — Qu'est-ce que Nebula ?
+      — Comment ça marche ?
+      — Tout ce dont vous avez besoin
+   ---------------------------------------------------------- */
 
-.faq-section--faq {
-  position: relative;
-  background: rgba(6,2,14,.75) !important;
-}
-
-.faq-section--faq::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 100px;
-  background: linear-gradient(to bottom, transparent, #0a0a12);
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* What is Nebula */
-.what-grid {
+/* Grille responsive pour les cartes */
+.features-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.what-card {
-  background: rgba(12,6,28,.7);
-  border: 1px solid rgba(124,58,237,.15);
-  border-radius: var(--radius-xl);
-  padding: 36px 28px 32px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  transition: transform .25s ease, border-color .25s ease;
+/* Carte individuelle */
+.feature-card {
+  background: rgba(124,58,237,.04);
+  border: 1px solid rgba(124,58,237,.1);
+  border-radius: 16px;
+  padding: 32px 24px;
+  text-align: center;
 }
 
-.what-card:hover {
-  transform: translateY(-6px);
+/* Effet au survol */
+.feature-card:hover {
+  transform: translateY(-2px);
   border-color: rgba(124,58,237,.3);
 }
 
-.what-card-icon {
-  width: 56px;
-  height: 56px;
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.4rem;
-  color: #fff;
-  flex-shrink: 0;
-}
-
-.what-card-title {
-  font-size: 1.1rem;
-  font-weight: 800;
-  letter-spacing: -.01em;
-}
-.what-card-desc {
-  font-size: .87rem;
-  color: var(--text-muted);
-  line-height: 1.7;
-}
-
-/* How it works */
-.steps-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0;
-}
-.step-card {
-  padding: 0 24px 0 0;
-}
-.step-top {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.step-num {
-  font-size: .68rem;
-  font-weight: 900;
-  letter-spacing: .08em;
-  color: var(--accent);
-  background: rgba(124,58,237,.12);
-  border: 1px solid rgba(124,58,237,.3);
-  border-radius: 8px;
-  padding: 4px 10px;
-  flex-shrink: 0;
-}
-
-.step-connector {
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, rgba(124,58,237,.4), rgba(124,58,237,.06));
-  margin-left: 12px;
-}
-
-.step-icon-wrap {
+/* Icône carrée avec fond violet */
+.feature-icon {
   width: 48px;
   height: 48px;
-  border-radius: 14px;
-  background: rgba(124,58,237,.1);
-  border: 1px solid rgba(124,58,237,.2);
+  background: rgba(124,58,237,.15);
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.1rem;
-  color: var(--accent);
-  margin-bottom: 16px;
-  transition: background .25s ease;
+  margin: 0 auto 20px;
 }
 
-.step-card:hover .step-icon-wrap {
-  background: rgba(124,58,237,.2);
-}
-.step-title {
-  font-size: .95rem;
-  font-weight: 800;
-  margin-bottom: 8px;
-  letter-spacing: -.01em;
-}
-.step-desc {
-  font-size: .82rem;
-  color: var(--text-muted);
-  line-height: 1.65;
+/* Titre de la carte */
+.feature-card h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--text);
+  font-family: var(--font-title);
 }
 
-/* Why Nebula */
-.benefits-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  max-width: 860px;
-  margin: 0 auto;
-}
-
-.benefit-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  background: rgba(12,6,28,.55);
-  border: 1px solid rgba(124,58,237,.12);
-  border-radius: var(--radius-lg);
-  padding: 20px 22px;
-  transition: border-color .25s ease, transform .25s ease;
-}
-
-.benefit-item:hover {
-  border-color: rgba(124,58,237,.26);
-  transform: translateY(-3px);
-}
-
-.benefit-icon {
-  width: 38px;
-  height: 38px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, rgba(124,58,237,.18), rgba(159,18,57,.1));
-  border: 1px solid rgba(124,58,237,.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: .9rem;
-  color: var(--accent);
-  flex-shrink: 0;
-}
-
-.benefit-body {
-  min-width: 0;
-}
-.benefit-title {
-  font-size: .9rem;
-  font-weight: 800;
-  margin-bottom: 4px;
-  letter-spacing: -.01em;
-}
-.benefit-desc {
-  font-size: .8rem;
-  color: var(--text-muted);
+/* Description (balise <p>) */
+.feature-card p,
+.feature-desc {
+  color: var(--text-gray);
   line-height: 1.6;
+  font-size: .95rem;
 }
 
-/* FAQ accordion */
+/* ----------------------------------------------------------
+   4. SECTION ACCORDÉON FAQ
+   ---------------------------------------------------------- */
+
+/* Conteneur principal de l'accordéon */
 .faq-list {
   max-width: 760px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
+/* Élément individuel de l'accordéon */
 .faq-item {
-  background: rgba(12,6,28,.68);
-  border: 1px solid rgba(124,58,237,.14);
-  border-radius: var(--radius-lg);
+  background: rgba(12,6,28,.7);
+  border: 1px solid rgba(124,58,237,.15);
+  border-radius: 12px;
   overflow: hidden;
-  transition: border-color .22s ease, background .22s ease;
 }
 
-.faq-item:hover {
-  border-color: rgba(124,58,237,.32);
-  background: rgba(16,8,36,.7);
-}
-.faq-item.open {
-  border-color: rgba(124,58,237,.42);
-  background: rgba(16,8,36,.75);
-}
-
+/* Bouton question cliquable */
 .faq-question {
   width: 100%;
   background: none;
   border: none;
-  text-align: left;
+  padding: 20px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 20px 22px;
-  cursor: pointer;
-  color: var(--text-white);
-  user-select: none;
-  transition: background .2s ease;
+  gap: 16px;
 }
 
-.faq-question:hover {
-  background: rgba(124,58,237,.05);
-}
-
+/* Numéro de la question (01, 02, etc.) */
 .faq-q-num {
-  font-size: .62rem;
-  font-weight: 900;
-  letter-spacing: .06em;
-  color: var(--accent);
-  opacity: .55;
-  flex-shrink: 0;
-  width: 20px;
-}
-.faq-q-text {
-  font-size: .92rem;
+  font-size: .85rem;
   font-weight: 700;
+  color: var(--highlight);
+  min-width: 24px;
+}
+
+/* Texte de la question (prend l'espace restant) */
+.faq-question .faq-q-text {
   flex: 1;
-  line-height: 1.45;
-  font-family: var(--font-heading);
-}
-.faq-icon {
-  flex-shrink: 0;
-  font-size: .8rem;
-  color: var(--text-muted);
-  transition: transform .3s ease, color .2s ease;
+  text-align: center;
 }
 
-.faq-item.open .faq-icon {
-  transform: rotate(180deg);
-  color: var(--accent);
+/* Cache l'icône flèche d'origine */
+.faq-question img {
+  display: none;
 }
 
+/* Signe plus pour indiquer l'état fermé */
+.faq-question::after {
+  content: '+';
+  font-size: 1.4rem;
+  color: var(--highlight);
+  margin-left: auto;
+}
+
+/* Rotation du signe plus quand l'élément est ouvert */
+.faq-item.open .faq-question::after {
+  transform: rotate(45deg);
+}
+
+/* Conteneur pour l'animation de hauteur */
 .faq-answer-wrap {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows .32s cubic-bezier(.4,0,.2,1);
 }
+
+/* Extension du conteneur quand l'élément est ouvert */
 .faq-item.open .faq-answer-wrap {
   grid-template-rows: 1fr;
 }
+
+/* Conteneur de la réponse */
 .faq-answer {
   overflow: hidden;
 }
 
+/* Texte de la réponse */
 .faq-answer p {
-  font-size: .86rem;
-  color: var(--text-muted);
-  line-height: 1.8;
-  padding: 16px 22px 20px 56px;
-  border-top: 1px solid rgba(124,58,237,.09);
+  padding: 0 24px 20px;
+  font-size: .9rem;
+  color: var(--text-gray);
+  line-height: 1.7;
 }
 
+/* ----------------------------------------------------------
+   5. SECTION "NON TROUVÉ" - CONTACT
+   ---------------------------------------------------------- */
+
+/* Message quand aucune réponse n'est trouvée */
 .faq-not-found {
   text-align: center;
-  margin-top: 36px;
-  font-size: .86rem;
-  color: var(--text-muted);
+  margin-top: 40px;
+  font-size: .95rem;
+  color: var(--text-gray);
 }
 
-/* CTA */
+/* Lien vers la page de contact */
+.faq-not-found a {
+  color: var(--highlight);
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 8px;
+}
+
+.faq-not-found a:hover {
+  text-decoration: underline;
+}
+
+/* ----------------------------------------------------------
+   6. SECTION CTA FINALE
+   ---------------------------------------------------------- */
+
+/* Section CTA avec style similaire à index */
 .faq-cta {
-  padding: 96px 24px;
   text-align: center;
-  position: relative;
-  overflow: hidden;
-  background: linear-gradient(to bottom, rgba(6,2,14,.45) 0%, transparent 40%);
+  padding: 90px 24px;
 }
 
-.faq-cta-glow {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-.faq-cta-inner {
-  position: relative;
-  z-index: 1;
-  max-width: 580px;
-  margin: 0 auto;
-  background: rgba(12,6,28,.55);
-  border: 1px solid rgba(124,58,237,.2);
-  border-radius: var(--radius-xl);
-  padding: 60px 48px;
-}
-
-.faq-cta-tag {
-  font-size: .7rem;
-  font-weight: 700;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: var(--rose);
-  margin-bottom: 14px;
-}
+/* Titre principal du CTA */
 .faq-cta-title {
-  font-size: clamp(1.5rem, 3vw, 2.1rem);
-  font-weight: 900;
-  letter-spacing: -.02em;
-  margin-bottom: 10px;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  margin-bottom: 14px;
+  letter-spacing: -.03em;
 }
+
+/* Sous-titre du CTA */
 .faq-cta-sub {
-  font-size: .9rem;
-  color: var(--text-muted);
-  line-height: 1.6;
-  margin-bottom: 32px;
+  color: var(--text-gray);
+  max-width: 440px;
+  margin: 0 auto 32px;
 }
+
+/* Conteneur des boutons CTA */
 .faq-cta-btns {
   display: flex;
-  gap: 14px;
   justify-content: center;
+  gap: 14px;
   flex-wrap: wrap;
 }
 
-/* Responsive */
-@media (max-width: 900px) {
-  .what-grid {
-    grid-template-columns: 1fr;
-    max-width: 460px;
-    margin: 0 auto;
-  }
-  .steps-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 28px;
-  }
-  .step-card {
-    padding: 0;
-  }
-  .step-connector {
-    display: none;
-  }
-  .benefits-grid {
-    grid-template-columns: 1fr;
-    max-width: 480px;
-  }
-}
 
-@media (max-width: 600px) {
-  .faq-hero {
-    padding: 100px 20px 72px;
-  }
-  .faq-section {
-    padding: 56px 20px;
-  }
-  .faq-section-dark {
-    padding: 56px 20px;
-  }
-  .steps-grid {
-    grid-template-columns: 1fr;
-  }
-  .faq-cta-inner {
-    padding: 40px 24px;
-  }
-  .faq-answer p {
-    padding-left: 22px;
-  }
-  .faq-q-num {
-    display: none;
-  }
+
+/* Conteneur interne du CTA */
+.faq-cta-inner {
+  position: relative;
+  z-index: 1;
 }

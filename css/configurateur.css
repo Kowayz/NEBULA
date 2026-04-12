@@ -1,81 +1,138 @@
-/* configurateur.css — Page de configuration d'abonnement */
+/* ============================================================
+   CONFIGURATEUR.CSS - Page de configuration d'abonnement
+   Styles pour la page configurateur (bouquet, genres, options)
+   ============================================================ */
 
-.config-page { min-height: 100vh; }
+/* ----------------------------------------------------------
+   1. STRUCTURE PRINCIPALE
+   ---------------------------------------------------------- */
 
-/* Hero */
-.config-hero { position: relative; padding: 96px 24px 64px; text-align: center; overflow: hidden; }
-.config-hero-inner { max-width: 640px; margin: 0 auto; }
-.config-hero-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font-size: .72rem;
-  font-weight: 700;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--accent);
-  background: rgba(124,58,237,.1);
-  border: 1px solid rgba(124,58,237,.28);
-  border-radius: 20px;
-  padding: 5px 14px;
-  margin-bottom: 22px;
+/* Conteneur principal de la page */
+.config-page { 
+  min-height: 100vh; 
 }
+
+/* ----------------------------------------------------------
+   2. HERO (en-tête de la page)
+   ---------------------------------------------------------- */
+
+.config-hero { 
+  position: relative; 
+  padding: 96px 24px 64px; 
+  text-align: center; 
+  overflow: hidden; 
+}
+
+.config-hero-inner { 
+  max-width: 640px;  
+  margin: 0 auto; 
+}
+
 .config-hero-title {
-  font-size: clamp(2.4rem, 5.5vw, 3.8rem);
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
   font-weight: 900;
   line-height: 1.05;
-  letter-spacing: -.04em;
   margin-bottom: 14px;
-  font-family: var(--font-heading);
 }
+
 .config-hero-sub {
-  font-size: .95rem;
-  color: var(--text-muted);
-  line-height: 1.65;
+  font-size: 1rem;
+  color: var(--text-gray);
+  line-height: 1.6;
   margin-bottom: 40px;
 }
 
-/* Stepper */
-.config-stepper { display: flex; align-items: center; justify-content: center; gap: 0; }
-.config-stepper-item { display: flex; flex-direction: column; align-items: center; gap: 6px; }
-.config-stepper-dot {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: rgba(124,58,237,.12);
-  border: 1.5px solid rgba(124,58,237,.25);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: .8rem;
-  font-weight: 800;
-  color: var(--text-faint);
-  transition: all .3s ease;
-}
-.config-stepper-item.active .config-stepper-dot {
-  background: linear-gradient(135deg, var(--bordeaux), var(--purple));
-  border-color: transparent;
-  color: #fff;
-}
-.config-stepper-label {
-  font-size: .68rem;
-  font-weight: 700;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  color: var(--text-faint);
-  transition: color .3s;
-}
-.config-stepper-item.active .config-stepper-label { color: var(--accent); }
-.config-stepper-line {
-  width: 64px;
-  height: 1px;
-  background: rgba(124,58,237,.2);
-  margin: 0 4px;
-  margin-bottom: 22px;
-  flex-shrink: 0;
+/* ----------------------------------------------------------
+   3. MERCH CARDS (Accessoires Nebula)
+   ---------------------------------------------------------- */
+
+/* Grille des produits dérivés */
+.merch-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  padding-top: 20px;
 }
 
-/* Layout */
+/* Carte individuelle de produit */
+.merch-card {
+  display: flex;
+  flex-direction: column;
+  background: rgba(124,58,237,.04);
+  border: 1px solid rgba(124,58,237,.1);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+/* Image du produit */
+.merch-img {
+  width: 100%;
+  height: 100px;
+  overflow: hidden;
+  position: relative;
+}
+
+.merch-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Contenu sous l'image */
+.merch-body {
+  padding: 10px 12px 12px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+/* Catégorie du produit */
+.merch-category {
+  font-size: .58rem;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--highlight);
+}
+
+/* Nom du produit */
+.merch-name {
+  font-size: .8rem;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+/* Description courte */
+.merch-desc {
+  font-size: .68rem;
+  color: var(--text-gray);
+  line-height: 1.3;
+  flex: 1;
+}
+
+/* Footer avec prix */
+.merch-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+/* Prix du produit */
+.merch-price {
+  font-size: .85rem;
+  font-weight: 800;
+  color: var(--text);
+}
+
+/* ----------------------------------------------------------
+   4. LAYOUT PRINCIPAL (2 colonnes)
+   ---------------------------------------------------------- */
+
+/* Grille principale : étapes + résumé */
 .config-layout {
   display: grid;
   grid-template-columns: 1fr 340px;
@@ -85,334 +142,380 @@
   margin: 0 auto;
   padding: 0 24px 80px;
 }
-.config-steps-col { display: flex; flex-direction: column; gap: 16px; }
 
-/* Step card */
-.config-step-card {
-  background: rgba(10,4,24,.85);
-  border: 1px solid rgba(124,58,237,.14);
-  border-radius: 20px;
-  padding: 26px;
-  box-shadow: 0 8px 48px rgba(0,0,0,.5);
+/* Colonne des étapes */
+.config-steps-col { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 16px; 
 }
-.config-step-header {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 22px;
-}
+
+/* Cercle numéroté de l'étape */
 .config-step-num {
-  width: 36px;
-  height: 36px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
-  flex-shrink: 0;
-  background: linear-gradient(135deg, var(--bordeaux), var(--purple));
-  display: flex;
+  background: var(--main);
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-weight: 900;
-  font-size: .85rem;
-}
-.config-step-titles { flex: 1; }
-.config-step-title { font-size: 1rem; font-weight: 800; margin-bottom: 2px; }
-.config-step-sub { font-size: .79rem; color: var(--text-muted); }
-.config-step-count {
-  flex-shrink: 0;
-  font-size: .7rem;
   font-weight: 700;
-  color: var(--accent);
-  background: rgba(124,58,237,.12);
-  border: 1px solid rgba(124,58,237,.25);
-  border-radius: 20px;
-  padding: 3px 11px;
+  font-size: .75rem;
+  color: #fff;
 }
 
-/* Boutique grid */
-.boutique-grid {
+.config-step-sub { 
+  font-size: .75rem; 
+  color: var(--text-gray);
+}
+
+/* ----------------------------------------------------------
+   5. CARTES DE TARIFICATION (Pricing cards)
+   ---------------------------------------------------------- */
+
+/* Grille des offres d'abonnement */
+.pricing-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  gap: 16px;
+  padding-top: 20px;
 }
-.boutique-card {
-  background: rgba(255,255,255,.03);
-  border: 1px solid rgba(124,58,237,.13);
-  border-radius: 16px;
-  overflow: hidden;
+
+/* Carte d'abonnement individuelle */
+.pricing-card {
+  background: rgba(124,58,237,.04);
+  border: 1px solid rgba(124,58,237,.1);
+  border-radius: var(--radius);
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  cursor: pointer;
-  transition: transform .22s ease, border-color .22s ease;
+  position: relative;
 }
-.boutique-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(124,58,237,.35);
-}
-.boutique-card.selected {
-  border-color: rgba(124,58,237,.55);
-}
-.boutique-card.selected .boutique-add-btn {
-  background: var(--accent);
-  border-color: transparent;
-  color: #fff;
-  transform: rotate(45deg);
-}
-.boutique-card.selected .boutique-selected-mark { opacity: 1; }
 
-.boutique-img { width: 100%; height: 130px; overflow: hidden; position: relative; flex-shrink: 0; background: rgba(12,6,28,.8); }
-.boutique-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .35s ease; }
-.boutique-card:hover .boutique-img img { transform: scale(1.07); }
-.boutique-img-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(6,2,16,.7) 0%, transparent 55%);
+/* Carte mise en avant (Gamer) */
+.pricing-card.featured {
+  background: var(--bg-card);
+  border-color: var(--highlight);
 }
-.boutique-badge {
+
+/* Badge "Populaire" sur la carte */
+.pricing-badge {
   position: absolute;
-  top: 8px;
-  left: 8px;
-  font-size: .58rem;
-  font-weight: 800;
-  letter-spacing: .07em;
-  text-transform: uppercase;
-  background: linear-gradient(90deg, var(--bordeaux), var(--purple));
-  color: #fff;
-  padding: 3px 8px;
-  border-radius: 8px;
-  z-index: 2;
-}
-.boutique-selected-mark {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: var(--accent);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity .2s;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 3;
-}
-.boutique-body { padding: 10px 12px 12px; flex: 1; display: flex; flex-direction: column; gap: 4px; }
-.boutique-cat { font-size: .62rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
-.boutique-name { font-size: .84rem; font-weight: 800; color: var(--text-white); line-height: 1.25; flex: 1; }
-.boutique-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
-.boutique-price { font-size: .92rem; font-weight: 900; color: var(--text-white); letter-spacing: -.02em; }
-.boutique-add-btn {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(124,58,237,.35);
-  background: rgba(124,58,237,.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--accent);
-  flex-shrink: 0;
-  transition: background .2s, border-color .2s, color .2s, transform .25s ease;
-}
-
-/* Quality grid */
-.cfg-quality-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  padding-top: 20px;
-  align-items: start;
-}
-.cfg-quality-grid .pricing-card { margin-top: 14px; }
-.cfg-quality-grid .pricing-card.featured {
-  margin-top: 0;
-  transform: translateY(-4px) scale(1.02);
-}
-.cfg-quality-grid .pricing-card.featured:hover {
-  transform: translateY(-10px) scale(1.02);
-}
-
-.cfg-quality-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  padding: 11px;
+  background: var(--bg-card);
+  border: 1px solid var(--main);
   border-radius: var(--radius);
-  font-size: .83rem;
-  font-weight: 700;
-  border: 1.5px solid rgba(124,58,237,.3);
-  color: var(--text-muted);
-  background: rgba(124,58,237,.07);
-  cursor: pointer;
-  transition: all .2s;
-  margin-top: auto;
-}
-.cfg-quality-btn--featured,
-.quality-radio:checked ~ .cfg-quality-btn {
-  background: linear-gradient(135deg, var(--bordeaux), var(--purple));
-  border-color: transparent;
-  color: #fff;
+  padding: 4px 12px;
+  font-size: .75rem;
+  font-weight: 800;
+  color: var(--main);
+  white-space: nowrap;
 }
 
-/* Options grid */
+/* Nom de l'offre (Starter, Gamer, Ultra) */
+.pricing-name {
+  font-size: .9rem;
+  font-weight: 800;
+  margin-bottom: 3px;
+}
+
+/* Sous-titre de l'offre */
+.pricing-sub {
+  font-size: .7rem;
+  color: var(--text-gray);
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+/* Prix de l'offre */
+.pricing-price {
+  font-size: 1.8rem;
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 12px;
+  letter-spacing: -.02em;
+}
+.pricing-price .price-period {
+  font-size: .7rem;
+  font-weight: 600;
+  color: var(--text-gray);
+}
+
+/* Liste des fonctionnalités */
+.pricing-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px 0;
+  flex: 1;
+}
+
+/* Ligne de fonctionnalité */
+.pricing-feature {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  font-size: .75rem;
+  color: var(--text-gray);
+}
+
+/* Fonctionnalité incluse (en blanc) */
+.pricing-feature.yes {
+  color: var(--text);
+}
+
+/* Icône check/cross */
+.pricing-feature img {
+  flex-shrink: 0;
+}
+
+/* ----------------------------------------------------------
+   6. OPTIONS SUPPLÉMENTAIRES
+   ---------------------------------------------------------- */
+
+/* Grille des options (2 colonnes) */
 .options-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+  gap: 16px;
+  padding-top: 20px;
 }
+
+/* Carte d'option individuelle */
 .option-card {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 18px 18px 16px;
-  background: rgba(255,255,255,.03);
-  border: 1.5px solid rgba(124,58,237,.13);
-  border-radius: 16px;
+  background: rgba(124,58,237,.04);
+  border: 1px solid rgba(124,58,237,.1);
+  border-radius: var(--radius);
+  padding: 20px;
   cursor: pointer;
-  transition: border-color .2s, background .2s, transform .2s;
 }
-.option-card:hover {
-  background: rgba(124,58,237,.07);
-  border-color: rgba(124,58,237,.3);
-  transform: translateY(-2px);
-}
-.option-card.selected {
-  background: rgba(124,58,237,.1);
-  border-color: rgba(124,58,237,.45);
-}
-.option-card-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 4px; }
-.option-icon { width: 42px; height: 42px; border-radius: 12px; background: rgba(124,58,237,.1); border: 1px solid rgba(124,58,237,.2); display: flex; align-items: center; justify-content: center; color: var(--accent); transition: background .2s, border-color .2s; }
-.option-card.selected .option-icon { background: rgba(124,58,237,.22); border-color: rgba(124,58,237,.4); }
-.option-toggle-track {
-  width: 38px;
-  height: 21px;
-  border-radius: 11px;
-  background: rgba(124,58,237,.18);
-  border: 1px solid rgba(124,58,237,.22);
-  position: relative;
-  transition: all .22s ease;
-  flex-shrink: 0;
-}
-.option-card.selected .option-toggle-track {
-  background: var(--purple);
-  border-color: var(--purple);
-}
-.option-toggle-thumb {
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  background: var(--text-faint);
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  transition: all .22s ease;
-}
-.option-card.selected .option-toggle-thumb {
-  left: 19px;
-  background: #fff;
-}
-.option-label { font-size: .9rem; font-weight: 800; color: var(--text-white); }
-.option-desc  { font-size: .75rem; color: var(--text-muted); flex: 1; line-height: 1.4; }
-.option-price-tag {
-  font-size: .84rem;
-  font-weight: 800;
-  color: var(--accent);
-  margin-top: 4px;
-}
-.option-price-tag span { font-size: .68rem; font-weight: 400; color: var(--text-faint); }
 
-/* Summary sidebar */
-.config-summary-col { position: sticky; top: 80px; }
-.config-summary-card {
-  border-radius: 20px;
-  overflow: hidden;
-  background: rgba(8,3,20,.98);
-  border: 1px solid rgba(124,58,237,.35);
-  box-shadow: 0 16px 60px rgba(0,0,0,.7);
+/* Option sélectionnée */
+.option-card.selected {
+  border-color: var(--highlight);
+  background: rgba(124,58,237,.08);
 }
-.config-summary-head {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 16px 20px;
-  background: rgba(8,3,20,.96);
-  border-bottom: 1px solid rgba(124,58,237,.18);
-}
-.config-summary-head-icon {
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
-  background: rgba(124,58,237,.15);
-  border: 1px solid rgba(124,58,237,.25);
+
+/* Icône de l'option */
+.option-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius);
+  background: rgba(124,58,237,.1);
+  border: 1px solid rgba(124,58,237,.2);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--accent);
-  flex-shrink: 0;
+  margin-bottom: 12px;
 }
-.config-summary-head h3 { font-size: .92rem; font-weight: 800; flex: 1; }
-.config-summary-badge { font-size: .66rem; font-weight: 700; color: var(--accent); background: rgba(124,58,237,.12); border: 1px solid rgba(124,58,237,.25); border-radius: 20px; padding: 3px 9px; }
-.config-summary-body {
-  padding: 12px 20px;
-  background: rgba(8,3,20,.94);
+
+.option-card.selected .option-icon {
+  background: rgba(124,58,237,.22);
+  border-color: rgba(124,58,237,.4);
+}
+
+.option-icon img {
+  width: 24px;
+  height: 24px;
+}
+
+/* Corps de la carte d'option */
+.option-body {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 0;
 }
-.summary-block { display: flex; flex-direction: column; gap: 7px; padding: 10px 0; }
-.summary-block-label { display: flex; align-items: center; gap: 5px; font-size: .64rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--text-faint); }
-.summary-empty { font-size: .77rem; color: var(--text-faint); font-style: italic; }
-.summary-line { display: flex; justify-content: space-between; align-items: center; font-size: .82rem; }
-.summary-line-name { color: var(--text-white); }
-.summary-line-price { font-weight: 700; color: var(--accent); white-space: nowrap; margin-left: 8px; }
-.config-summary-sep {
+
+/* Nom de l'option */
+.option-name {
+  font-size: .9rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+/* Description de l'option */
+.option-desc {
+  font-size: .75rem;
+  color: var(--text-gray);
+  line-height: 1.4;
+  flex: 1;
+  margin-bottom: 12px;
+}
+
+/* Prix de l'option */
+.option-price {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--highlight);
+  margin-bottom: 12px;
+}
+
+/* ----------------------------------------------------------
+   7. CARTES GÉNÉRIQUES (système de cards du dashboard)
+   ---------------------------------------------------------- */
+
+/* Style de base pour toutes les cartes */
+.config-card {
+  background: rgba(10,6,24,.7);
+  border: 1px solid rgba(124,58,237,.13);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+
+/* En-tête de la carte (titre + lien) */
+.config-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  gap: 12px;
+}
+
+/* Titre de section */
+.config-card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: .8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-dark);
+}
+
+/* Lien dans l'en-tête de carte */
+.config-card-link {
+  font-size: .75rem;
+  color: var(--highlight);
+  text-decoration: none;
+}
+
+.config-card-link:hover {
+  text-decoration: underline;
+}
+
+/* ----------------------------------------------------------
+   8. RÉSUMÉ DE LA COMMANDE (sidebar droite)
+   ---------------------------------------------------------- */
+
+/* Colonne sticky du résumé */
+.config-summary-col {
+  position: sticky;
+  top: 80px;
+}
+
+/* Header avec soulignement */
+.summary-header {
+  border-bottom: 1px solid rgba(124,58,237,.2);
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+}
+
+/* Contenu de la sidebar */
+.summary-content {
+  padding: 0 24px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Section (Accessoires, Offre, Options) */
+.summary-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Label de section */
+.summary-label {
+  font-size: .7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-dark);
+}
+
+/* Ligne d'info (nom + prix) */
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: .85rem;
+}
+
+/* Ligne d'article avec espacement */
+.summary-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: .85rem;
+  padding: 4px 0;
+}
+
+.summary-line-name {
+  color: var(--text);
+}
+
+.summary-line-price {
+  font-weight: 700;
+  color: var(--highlight);
+}
+
+/* Message vide */
+.summary-empty {
+  font-size: .8rem;
+  color: var(--text-dark);
+  font-style: italic;
+}
+
+/* Barre de séparation */
+.summary-divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(124,58,237,.18), transparent);
+  background: rgba(124,58,237,.1);
 }
-.config-summary-total-wrap {
-  padding: 14px 20px;
-  background: rgba(8,3,20,.97);
-  border-top: 1px solid rgba(124,58,237,.18);
+
+/* Zone total */
+.summary-total {
+  padding: 16px 0;
+  border-top: 1px solid rgba(124,58,237,.13);
 }
-.summary-total-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 3px; }
-.summary-total-label { font-size: .78rem; font-weight: 600; color: var(--text-muted); }
+
+.summary-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 4px;
+  font-size: .9rem;
+  font-weight: 700;
+}
+
 .summary-total-price {
-  font-size: 1.8rem;
+  font-size: 1.3rem;
   font-weight: 900;
-  letter-spacing: -.04em;
-  line-height: 1;
-  color: #c4b5fd;
-}
-@keyframes price-bump {
-  0%   { transform: scale(1); }
-  40%  { transform: scale(1.08); }
-  100% { transform: scale(1); }
-}
-.price-bump { animation: price-bump .28s ease; }
-.summary-total-note { font-size: .67rem; color: var(--text-faint); text-align: right; }
-.config-summary-actions { padding: 14px 20px 18px; background: rgba(8,3,20,.97); display: flex; flex-direction: column; gap: 12px; }
-.config-summary-actions .btn { display: flex; align-items: center; justify-content: center; gap: 8px; }
-.config-trust { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 8px; font-size: .68rem; color: var(--text-faint); }
-.config-trust span { display: flex; align-items: center; gap: 4px; }
-.config-trust-sep { width: 1px; height: 10px; background: rgba(255,255,255,.1); }
-
-/* Responsive */
-@media (max-width: 980px) {
-  .config-layout { grid-template-columns: 1fr; }
-  .config-summary-col { position: static; order: -1; }
-  .config-summary-card { max-width: 560px; margin: 0 auto; }
-}
-@media (max-width: 760px) {
-  .boutique-grid { grid-template-columns: repeat(2, 1fr); }
-  .config-stepper-line { width: 40px; }
-}
-@media (max-width: 600px) {
-  #qualityGrid { grid-template-columns: 1fr; max-width: 340px; }
-}
-@media (max-width: 520px) {
-  .boutique-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
-  .options-grid { grid-template-columns: 1fr; }
-  .config-stepper-line { width: 24px; }
+  color: var(--highlight);
 }
 
+.summary-total-note {
+  font-size: .65rem;
+  color: var(--text-dark);
+  text-align: right;
+}
+
+/* Bloc de confiance */
+.summary-trust {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: .65rem;
+  color: var(--text-dark);
+}
+
+.summary-trust span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}

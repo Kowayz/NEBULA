@@ -1,69 +1,32 @@
-/* contact.css */
+/* ============================================================
+   CONTACT — Page de contact simplifiée
+   ============================================================ */
 
-.contact-grid {
-  display: grid;
-  grid-template-columns: 1fr 1.6fr;
-  gap: 40px;
-  max-width: 900px;
+/* ----------------------------------------------------------
+   1. LAYOUT CONTACT
+   ---------------------------------------------------------- */
+
+/* Conteneur centré du formulaire */
+.contact-form-wrapper {
+  background: rgba(124,58,237,.04);
+  border: 1px solid rgba(124,58,237,.1);
+  border-radius: var(--radius-big);
+  padding: 20px;
+  max-width: 600px;
   margin: 0 auto;
 }
 
-.contact-info h3 {
-  font-size: 1.05rem;
-  font-weight: 700;
+/* Titre principal de la page */
+.contact-title {
+  font-size: 2rem;
+  font-weight: 900;
   margin-bottom: 10px;
 }
-.contact-info > p {
-  font-size: .86rem;
-  color: var(--text-muted);
-  line-height: 1.65;
-  margin-bottom: 28px;
-}
 
-.contact-item {
-  display: flex;
-  gap: 14px;
-  align-items: flex-start;
-  margin-bottom: 14px;
-  background: rgba(12,6,28,.8);
-  border: 1px solid rgba(124,58,237,.15);
-  border-radius: var(--radius-lg);
-  padding: 16px 18px;
-  transition: border-color .28s ease, transform .28s ease;
-}
-
-.contact-item:hover {
-  border-color: rgba(124,58,237,.38);
-  transform: translateY(-3px);
-}
-
-.contact-item-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
-  background: linear-gradient(135deg, rgba(124,58,237,.35) 0%, rgba(159,18,57,.2) 100%);
-  border: 1px solid rgba(124,58,237,.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.15rem;
-  flex-shrink: 0;
-  transition: transform .28s ease;
-}
-
-.contact-item:hover .contact-item-icon {
-  transform: scale(1.06);
-}
-.contact-item-text strong {
-  display: block;
-  font-size: .87rem;
+/* Titre du formulaire */
+.contact-card-title {
+  font-size: 1.5rem;
+  text-align: center;
   font-weight: 700;
-  color: var(--text-white);
-  margin-bottom: 3px;
+  margin-bottom: 20px;
 }
-.contact-item-text span {
-  font-size: .81rem;
-  color: var(--text-muted);
-}
-
-@media (max-width: 700px) { .contact-grid { grid-template-columns: 1fr; } }

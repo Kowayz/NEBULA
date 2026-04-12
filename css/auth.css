@@ -1,127 +1,110 @@
-/* auth.css */
+/* ============================================================
+   AUTH.CSS — Page d'authentification (connexion / inscription)
+   ============================================================ */
 
-body {
-  background: radial-gradient(ellipse 70% 60% at 50% 40%, rgba(124,58,237,.22) 0%, transparent 65%), var(--bg-base);
-}
+/* ----------------------------------------------------------
+   1. LAYOUT (centrage vertical de la carte)
+   ---------------------------------------------------------- */
 
+/* Conteneur pleine page, centre la carte au milieu de l'écran */
 .auth-wrapper {
-  min-height: calc(100vh - 66px);
+  min-height: 80vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 60px 20px;
+  padding: 40px 20px;
 }
 
+/* ----------------------------------------------------------
+   2. CARTE (formulaire de connexion / inscription)
+   ---------------------------------------------------------- */
+
+/* Carte sombre avec bordure violette */
 .auth-card {
-  background: rgba(12,6,28,.85);
+  background: rgba(12,6,28,.9);
   border: 1px solid rgba(124,58,237,.2);
-  border-radius: var(--radius-xl);
-  padding: 44px 40px;
+  border-radius: 12px;
+  padding: 40px;
   width: 100%;
-  max-width: 420px;
-  transition: border-color .3s ease;
+  max-width: 360px;
 }
 
-.auth-card:focus-within {
-  border-color: rgba(124,58,237,.4);
-}
-
-.auth-panel {
-  display: none;
-}
-.auth-panel.active {
-  display: block;
-  animation: panelFadeIn .2s ease;
-}
-
-@keyframes panelFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.auth-card h1 {
-  font-size: 1.6rem;
-  font-weight: 900;
+/* Titre "Connexion" ou "Inscription" centré */
+.auth-card h2 {
   text-align: center;
-  margin-bottom: 8px;
-  letter-spacing: -.02em;
+  margin-bottom: 20px;
 }
 
-.auth-card h1::after {
-  content: '';
-  display: block;
-  width: 48px;
-  height: 2px;
-  margin: 10px auto 0;
-  background: linear-gradient(90deg, var(--bordeaux), var(--purple));
-  border-radius: 2px;
+/* Texte sous le titre (lien vers l'autre formulaire) */
+.auth-card p {
+  margin-bottom: 12px;
 }
 
-.auth-subtitle {
-  text-align: center;
-  font-size: .84rem;
-  color: var(--text-muted);
-  margin-bottom: 28px;
-  margin-top: 4px;
-}
+/* ----------------------------------------------------------
+   3. CHAMPS DE SAISIE (icône + input)
+   ---------------------------------------------------------- */
 
-.auth-divider {
+/* Ligne icône + champ texte avec fond sombre */
+.input-box {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin: 20px 0;
-  color: var(--text-faint);
-  font-size: .78rem;
+  background: rgba(30,20,60,0.8);
+  border: 1px solid rgba(124,58,237,.3);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
 }
-.auth-divider::before, .auth-divider::after {
-  content: '';
+
+/* Bordure plus visible quand le champ est actif */
+.input-box:focus-within {
+  border-color: rgba(124,58,237,.6);
+}
+
+/* Icône à gauche du champ (email, mot de passe, etc.) */
+.input-img {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* Champ texte transparent qui hérite du fond parent */
+.input-box input {
   flex: 1;
-  height: 1px;
-  background: rgba(124,58,237,.2);
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  padding: 0;
 }
 
-.auth-footer {
-  text-align: center;
-  margin-top: 22px;
-  font-size: .84rem;
-  color: var(--text-muted);
-}
-.auth-footer a {
-  color: var(--accent);
-  font-weight: 600;
-}
-.auth-footer a:hover {
-  text-decoration: underline;
+/* Supprime le contour bleu natif au focus */
+.input-box input:focus {
+  outline: none;
 }
 
-.form-link {
-  float: right;
-  font-size: .78rem;
-  color: var(--text-muted);
-  margin-top: 5px;
-  transition: color var(--t);
-}
-.form-link:hover {
-  color: var(--accent);
+/* Autofill — force le fond sombre quand le navigateur remplit automatiquement */
+.input-box input:-webkit-autofill,
+.input-box input:-webkit-autofill:hover,
+.input-box input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px rgba(30,20,60,0.8) inset;
+  -webkit-text-fill-color: white;
+  transition: background-color 5000s ease-in-out 0s;
 }
 
-.clearfix::after {
-  content: '';
-  display: table;
-  clear: both;
+/* ----------------------------------------------------------
+   4. BOUTON ET LIEN
+   ---------------------------------------------------------- */
+
+/* Bouton "Se connecter" / "S'inscrire" pleine largeur */
+.auth-card button {
+  width: 100%;
+  padding: 14px;
+  font-size: 1rem;
+  justify-content: center;
 }
 
-.input-wrapper {
-  position: relative;
+/* Lien violet (ex: "Pas encore de compte ?") */
+.auth-card a {
+  color: #a78bfa;
 }
-.input-wrapper .form-control {
-  padding-left: 38px;
-}
-
-@media (max-width: 460px) { .auth-card { padding: 30px 22px; } }

@@ -1,21 +1,31 @@
-/* boutique.css */
+/* ============================================================
+   BOUTIQUE.CSS — Page des produits dérivés (goodies Nebula)
+   ============================================================ */
 
+/* ----------------------------------------------------------
+   1. HERO (bannière d'accroche en haut de page)
+   ---------------------------------------------------------- */
+
+/* Conteneur global de la page */
 .boutique-page {
   min-height: 100vh;
 }
 
-/* Hero */
+/* Bannière hero centrée avec padding généreux */
 .boutique-hero {
   position: relative;
   padding: 110px 24px 80px;
   text-align: center;
   overflow: hidden;
 }
+
+/* Limite la largeur du contenu hero */
 .boutique-hero-inner {
   max-width: 640px;
   margin: 0 auto;
 }
 
+/* Petit badge violet "Boutique officielle" */
 .boutique-hero-tag {
   display: inline-flex;
   align-items: center;
@@ -24,7 +34,7 @@
   font-weight: 700;
   letter-spacing: .1em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--highlight);
   background: rgba(124,58,237,.1);
   border: 1px solid rgba(124,58,237,.25);
   border-radius: 20px;
@@ -32,53 +42,70 @@
   margin-bottom: 20px;
 }
 
+/* Titre principal du hero — taille responsive via clamp() */
 .boutique-hero-title {
   font-size: clamp(2.6rem, 6vw, 4.2rem);
   font-weight: 800;
   line-height: 1.0;
   margin-bottom: 16px;
   letter-spacing: -.03em;
-  font-family: var(--font-heading);
+  font-family: var(--font-title);
 }
 
+/* Sous-titre descriptif */
 .boutique-hero-sub {
   font-size: 1.05rem;
-  color: var(--text-muted);
+  color: var(--text-gray);
   line-height: 1.6;
 }
 
-/* Section layout */
+/* ----------------------------------------------------------
+   2. SECTIONS (titre + grille de produits)
+   ---------------------------------------------------------- */
+
+/* Conteneur de section centré avec largeur max */
 .boutique-section {
   max-width: 1100px;
   margin: 0 auto;
   padding: 0 24px 72px;
 }
+
+/* En-tête de section (titre + sous-titre centrés) */
 .boutique-section-header {
   text-align: center;
   margin-bottom: 40px;
 }
+
+/* Titre de section — taille responsive */
 .boutique-section-title {
   font-size: clamp(1.5rem, 3vw, 2rem);
   font-weight: 900;
   letter-spacing: -.02em;
   margin-bottom: 8px;
 }
+
+/* Sous-titre de section */
 .boutique-section-sub {
   font-size: .9rem;
-  color: var(--text-muted);
+  color: var(--text-gray);
 }
 
-/* Merch grid */
+/* ----------------------------------------------------------
+   3. CARTES PRODUIT (grille de goodies)
+   ---------------------------------------------------------- */
+
+/* Grille 3 colonnes pour les cartes produit */
 .merch-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 22px;
 }
 
+/* Carte produit : fond sombre, bordure violette, structure verticale */
 .merch-card {
   background: rgba(12,6,28,.8);
   border: 1px solid rgba(124,58,237,.15);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-huge);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -86,56 +113,26 @@
   cursor: pointer;
 }
 
+/* Soulèvement au hover */
 .merch-card:hover {
   transform: translateY(-6px);
   border-color: rgba(124,58,237,.4);
 }
+
+/* Retour léger au clic */
 .merch-card:active {
   transform: translateY(-3px);
 }
 
-.merch-card-hot {
-  border-color: rgba(159,18,57,.25);
-}
-.merch-card-hot:hover {
-  border-color: rgba(159,18,57,.5);
-}
-
-.merch-hot-badge {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  background: linear-gradient(90deg, #9f1239, #7c3aed);
-  color: #fff;
-  font-size: .68rem;
-  font-weight: 800;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  padding: 4px 10px;
-  border-radius: 20px;
-}
-
+/* Zone image du produit (hauteur fixe) */
 .merch-img {
   height: 200px;
   flex-shrink: 0;
   overflow: hidden;
   position: relative;
 }
-.merch-img-photo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform .35s ease;
-}
-.merch-card:hover .merch-img-photo {
-  transform: scale(1.06);
-}
 
+/* Corps de la carte : catégorie, nom, description */
 .merch-body {
   padding: 18px 20px 20px;
   display: flex;
@@ -143,39 +140,53 @@
   gap: 6px;
   flex: 1;
 }
+
+/* Catégorie du produit (ex: "Vêtements", "Accessoires") */
 .merch-category {
   font-size: .68rem;
   font-weight: 700;
   letter-spacing: .09em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--highlight);
 }
+
+/* Nom du produit */
 .merch-name {
   font-size: 1rem;
   font-weight: 800;
-  color: var(--text-white);
+  color: var(--text);
   line-height: 1.3;
 }
+
+/* Description courte du produit */
 .merch-desc {
   font-size: .8rem;
-  color: var(--text-muted);
+  color: var(--text-gray);
   line-height: 1.5;
   flex: 1;
 }
+
+/* Pied de carte : prix à gauche, bouton à droite */
 .merch-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-top: 12px;
 }
+
+/* Prix du produit */
 .merch-price {
   font-size: 1.25rem;
   font-weight: 900;
   letter-spacing: -.02em;
-  color: var(--text-white);
+  color: var(--text);
 }
 
-/* Guarantees */
+/* ----------------------------------------------------------
+   4. GARANTIES (bandeau de réassurance)
+   ---------------------------------------------------------- */
+
+/* Ligne de garanties centrée avec séparateur en bas */
 .boutique-guarantees {
   display: flex;
   align-items: center;
@@ -185,161 +196,51 @@
   padding: 0 24px 64px;
   max-width: 860px;
   margin: 0 auto;
-  border-bottom: 1px solid rgba(124,58,237,.1);
   margin-bottom: 64px;
 }
 
+/* Élément de garantie (icône + texte) */
 .boutique-guarantee {
   display: flex;
   align-items: center;
   gap: 8px;
   font-size: .82rem;
-  color: var(--text-muted);
+  color: var(--text-gray);
 }
+
+/* Icône de la garantie en violet */
 .boutique-guarantee-icon {
   font-size: .95rem;
-  color: var(--accent);
+  color: var(--highlight);
 }
 
-/* Gift cards */
-.gift-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  max-width: 860px;
-  margin: 0 auto;
-}
+/* ----------------------------------------------------------
+   5. BANDEAU CTA (renvoi vers le configurateur)
+   ---------------------------------------------------------- */
 
-.gift-card {
-  background: rgba(12,6,28,.8);
-  border: 1px solid rgba(124,58,237,.15);
-  border-radius: var(--radius-xl);
-  padding: 28px 24px 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-  transition: transform .25s ease, border-color .25s ease;
-  cursor: pointer;
-}
-
-.gift-card:hover {
-  transform: translateY(-5px);
-  border-color: rgba(124,58,237,.35);
-}
-
-.gift-card-featured {
-  border-color: rgba(124,58,237,.5);
-}
-.gift-card-featured:hover {
-  transform: translateY(-6px);
-}
-
-.gift-card-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.gift-card-icon {
-  font-size: 1.4rem;
-  color: var(--accent);
-}
-
-.gift-card-validity {
-  font-size: .68rem;
-  font-weight: 700;
-  color: var(--accent);
-  background: rgba(124,58,237,.12);
-  border: 1px solid rgba(124,58,237,.22);
-  border-radius: 20px;
-  padding: 3px 10px;
-}
-
-.gift-card-amount {
-  font-size: 3rem;
-  font-weight: 800;
-  letter-spacing: -.05em;
-  line-height: 1;
-  font-family: var(--font-heading);
-}
-.gift-card-name {
-  font-size: .88rem;
-  font-weight: 700;
-}
-.gift-card-desc {
-  font-size: .8rem;
-  color: var(--text-muted);
-  line-height: 1.55;
-  flex: 1;
-}
-.gift-card .btn {
-  margin-top: 4px;
-}
-
-/* Sub CTA */
+/* Conteneur du bandeau CTA */
 .boutique-sub-cta {
   max-width: 1100px;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 80px;
   padding: 0 24px;
-}
-
-.boutique-sub-cta-inner {
-  background: rgba(124,58,237,.07);
-  border: 1px solid rgba(124,58,237,.2);
-  border-radius: var(--radius-xl);
-  padding: 56px 40px;
   text-align: center;
+  border-top: 1px solid var(--border);
+  padding-top: 64px;
 }
 
-.boutique-sub-cta-eyebrow {
-  font-size: .72rem;
-  font-weight: 700;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 12px;
-}
+/* Titre du bandeau CTA */
 .boutique-sub-cta-title {
   font-size: clamp(1.5rem, 3vw, 2.2rem);
   font-weight: 900;
   letter-spacing: -.02em;
   margin-bottom: 10px;
 }
+
+/* Sous-titre du bandeau CTA */
 .boutique-sub-cta-sub {
   font-size: .95rem;
-  color: var(--text-muted);
+  color: var(--text-gray);
   margin-bottom: 28px;
-}
-
-/* Responsive */
-@media (max-width: 900px) {
-  .merch-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .gift-grid {
-    grid-template-columns: repeat(2, 1fr);
-    max-width: 600px;
-  }
-}
-
-@media (max-width: 560px) {
-  .merch-grid {
-    grid-template-columns: 1fr;
-    max-width: 420px;
-    margin: 0 auto;
-  }
-  .gift-grid {
-    grid-template-columns: 1fr;
-    max-width: 360px;
-  }
-  .boutique-guarantees {
-    gap: 20px;
-  }
-  .boutique-sub-cta-inner {
-    padding: 40px 24px;
-  }
 }

@@ -1,14 +1,29 @@
-/* dashboard.css — Espace utilisateur */
+/* ============================================================
+   DASHBOARD.CSS - Espace utilisateur Nebula
+   Styles pour la page dashboard (profil, stats, jeux, chat)
+   ============================================================ */
 
-.dashboard-page { min-height: calc(100vh - 66px); }
+/* ----------------------------------------------------------
+   1. STRUCTURE PRINCIPALE
+   ---------------------------------------------------------- */
 
-/* Hero */
+/* Conteneur principal de la page */
+.dashboard-page {
+  min-height: calc(100vh - 66px);
+}
+
+/* ----------------------------------------------------------
+   2. SECTION HERO (en-tête utilisateur)
+   ---------------------------------------------------------- */
+
+/* Fond avec dégradé visuel */
 .db-hero {
   position: relative;
   padding: 52px 6% 40px;
   border-bottom: 1px solid rgba(124,58,237,.1);
   overflow: hidden;
 }
+/* Conteneur flex centré (nom, email, badge) */
 .db-hero-inner {
   position: relative;
   z-index: 1;
@@ -18,74 +33,124 @@
   flex-wrap: wrap;
 }
 
-/* Avatar */
-.db-avatar-wrap { position: relative; flex-shrink: 0; }
-.db-avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--bordeaux), var(--purple));
-  border: 2px solid rgba(124,58,237,.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.6rem;
-  font-weight: 900;
-  color: #fff;
-  font-family: var(--font-heading);
+/* Bloc texte (nom + email) */
+.db-hero-info {
+  flex: 1;
+  min-width: 0;
 }
-.db-online-dot {
-  position: absolute;
-  bottom: 3px;
-  right: 3px;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: #22c55e;
-  border: 2px solid var(--bg-base);
-}
-.db-hero-info { flex: 1; min-width: 0; }
-.db-hero-sub { font-size: .75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .04em; }
+/* Nom de l'utilisateur (titre principal) */
 .db-hero-name {
   font-size: clamp(1.5rem, 2.5vw, 2rem);
   font-weight: 800;
-  color: var(--text-white);
-  font-family: var(--font-heading);
+  color: var(--text);
+  font-family: var(--font-title);
   line-height: 1.1;
 }
-.db-hero-email { font-size: .8rem; color: var(--text-muted); }
-.db-hero-meta {
+
+/* Pseudo sous le nom */
+.db-hero-pseudo {
+  font-size: .8rem;
+  color: var(--text-gray);
+}
+
+/* Avatar circulaire avec initiale de l'utilisateur */
+.db-hero-avatar {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #660042;
+  background: radial-gradient(circle, rgba(102, 0, 66, 1) 0%, rgba(255, 55, 0, 1) 50%, rgba(252, 247, 96, 1) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #fff;
+}
+/* Texte de bienvenue ("Bon retour") */
+.db-hero-welcome {
+  font-size: 0.85rem;
+  color: var(--text-gray);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+/* Badge du plan d'abonnement (Starter/Gamer/Ultra) */
+.db-hero-plan {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: .78rem;
-  color: var(--text-muted);
-  margin-top: 5px;
-  flex-wrap: wrap;
-}
-.db-hero-sep { width: 3px; height: 3px; border-radius: 50%; background: rgba(255,255,255,.2); }
-.db-hero-right { margin-left: auto; display: flex; flex-direction: column; align-items: flex-end; }
-
-.db-plan-card {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 9px 20px;
+  padding: 8px 18px;
   border-radius: 30px;
-  font-size: .8rem;
   font-weight: 700;
+  font-size: 0.85rem;
   color: #fff;
 }
 
-/* Stats bar */
-.db-stats-bar { margin-top: 32px; border-top: 1px solid rgba(124,58,237,.1); padding-top: 24px; }
-.db-stats-bar-inner { display: flex; align-items: center; }
-.db-hstat { flex: 1; text-align: center; }
-.db-hstat-val { font-size: 1.4rem; font-weight: 900; color: var(--text-white); font-family: var(--font-heading); }
-.db-hstat-key { font-size: .68rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .08em; margin-top: 3px; }
-.db-hstat-sep { width: 1px; height: 36px; background: rgba(124,58,237,.15); flex-shrink: 0; }
+/* ----------------------------------------------------------
+   3. CARTES DE STATISTIQUES (4 blocs en haut)
+   ---------------------------------------------------------- */
 
-/* Layout */
+/* Conteneur des 4 stat cards */
+.db-stats-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+  grid-column: 1 / -1;
+}
+
+/* Carte individuelle de stat (Jeux, Commandes...) */
+.db-stat-card {
+  flex: 1;
+  min-width: 200px;
+  background: rgba(10,6,24,.7);
+  border: 1px solid rgba(124,58,237,.13);
+  border-radius: var(--radius-huge);
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Icône colorée à gauche du chiffre */
+.db-stat-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Valeur numérique (ex: "12") */
+.db-stat-num {
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: var(--text);
+  font-family: var(--font-title);
+  line-height: 1.2;
+}
+
+/* Label sous le chiffre (ex: "Jeux joués") */
+.db-stat-label {
+  font-size: 0.75rem;
+  color: var(--text-gray);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+/* ----------------------------------------------------------
+   4. LAYOUT PRINCIPAL (2 colonnes)
+   ---------------------------------------------------------- */
+
+/* Grille principale : contenu + sidebar */
 .db-layout {
   padding: 28px 6% 60px;
   display: grid;
@@ -93,15 +158,27 @@
   gap: 24px;
   align-items: start;
 }
-.db-left, .db-sidebar { display: flex; flex-direction: column; gap: 20px; }
 
-/* Cards */
+/* Colonne de gauche (jeux + chat) et colonne de droite (sidebar) */
+.db-left, .db-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ----------------------------------------------------------
+   5. CARTES GÉNÉRIQUES (composants réutilisables)
+   ---------------------------------------------------------- */
+
+/* Style de base pour toutes les cartes */
 .db-card {
   background: rgba(10,6,24,.7);
   border: 1px solid rgba(124,58,237,.13);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-huge);
   padding: 22px 24px;
 }
+
+/* En-tête de la carte (titre + lien) */
 .db-card-head {
   display: flex;
   align-items: center;
@@ -109,6 +186,8 @@
   margin-bottom: 16px;
   gap: 12px;
 }
+
+/* Titre de section en petites majuscules */
 .db-card-title {
   display: flex;
   align-items: center;
@@ -117,14 +196,16 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: .09em;
-  color: var(--text-faint);
+  color: var(--text-dark);
 }
+
+/* Lien "Voir tout" ou action secondaire */
 .db-card-link {
   display: flex;
   align-items: center;
   gap: 4px;
   font-size: .76rem;
-  color: var(--accent);
+  color: var(--highlight);
   opacity: .7;
   transition: opacity .2s;
   text-decoration: none;
@@ -132,163 +213,144 @@
   border: none;
   cursor: pointer;
 }
-.db-card-link:hover { opacity: 1; }
-.db-card-link:disabled { opacity: .3; cursor: default; }
 
-/* Jeux récents */
-.db-recent-list { display: flex; flex-direction: column; gap: 12px; }
-.db-recent-card {
-  display: flex;
-  gap: 14px;
-  align-items: center;
-  padding: 12px;
-  border-radius: var(--radius-lg);
-  border: 1px solid rgba(124,58,237,.1);
-  background: rgba(124,58,237,.04);
-  transition: background .2s, border-color .2s;
+/* État hover du lien */
+.db-card-link:hover {
+  opacity: 1;
 }
-.db-recent-card:hover { background: rgba(124,58,237,.09); border-color: rgba(124,58,237,.25); }
 
-.db-recent-img {
-  width: 120px;
-  height: 72px;
+/* Lien désactivé (grisé) */
+.db-card-link:disabled {
+  opacity: .3;
+  cursor: default;
+}
+
+/* ----------------------------------------------------------
+   6. SECTION ABONNEMENT (sidebar)
+   ---------------------------------------------------------- */
+
+/* Bloc avec fond gradient bleu */
+.db-plan-box {
+  padding: 16px;
+  background: #020024;
+  background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+/* Nom du plan (Starter/Gamer/Ultra) */
+.db-plan-name {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+/* Prix avec devise */
+.db-plan-price {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+/* Texte petit après le prix (ex: "€/mois") */
+.db-plan-price span {
+  font-size: .8rem;
+  opacity: .7;
+}
+
+/* Date de début d'abonnement */
+.db-plan-date {
+  font-size: .75rem;
+  color: rgba(255,255,255,.7);
+}
+
+/* ----------------------------------------------------------
+   7. RÉCEMMENT JOUÉ (3 jeux hardcodés)
+   ---------------------------------------------------------- */
+
+/* Grille des 3 jeux */
+.db-recent-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+/* Carte d'un jeu */
+.db-recent-game {
+  background: rgba(124,58,237,.04);
+  border: 1px solid rgba(124,58,237,.1);
+  border-radius: var(--radius-big);
+  padding: 14px;
+}
+
+/* Hover simple (fond plus clair) */
+.db-recent-game:hover {
+  background: rgba(124,58,237,.08);
+}
+
+/* Image du jeu (16:9) */
+.db-recent-game-img {
+  width: 100%;
+  aspect-ratio: 16/9;
   border-radius: 10px;
   overflow: hidden;
-  flex-shrink: 0;
   background: rgba(124,58,237,.12);
+  margin-bottom: 12px;
+}
+
+.db-recent-game-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
 }
-.db-recent-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.db-recent-placeholder { width: 100%; height: 100%; background: rgba(124,58,237,.2); }
-.db-recent-info { flex: 1; min-width: 0; }
-.db-recent-title {
-  font-size: .92rem;
+
+/* Info sous l'image */
+.db-recent-game-info {
+  margin-bottom: 12px;
+}
+
+/* Nom du jeu */
+.db-recent-game-title {
+  font-size: .88rem;
   font-weight: 800;
-  color: var(--text-white);
-  margin-bottom: 2px;
+  color: var(--text);
+  margin-bottom: 3px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.db-recent-genre { font-size: .7rem; color: var(--accent); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
-.db-recent-hours { font-size: .68rem; font-weight: 700; color: var(--text-muted); }
-.db-recent-session { font-size: .68rem; color: var(--text-faint); margin-bottom: 8px; }
-.db-recent-play {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
+
+/* Genre en majuscules violettes */
+.db-recent-game-genre {
   font-size: .68rem;
-  font-weight: 700;
-  color: var(--accent);
+  color: var(--highlight);
   text-transform: uppercase;
   letter-spacing: .06em;
-  text-decoration: none;
-  transition: color .2s;
+  margin-bottom: 4px;
 }
-.db-recent-play:hover { color: #c084fc; }
-.db-recent-progress { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
-.db-recent-progress-bar { flex: 1; height: 3px; background: rgba(255,255,255,.08); border-radius: 3px; overflow: hidden; }
-.db-recent-progress-fill { height: 100%; background: var(--purple); border-radius: 3px; }
 
-/* Librairie */
-.db-lib-tabs { display: flex; gap: 4px; }
-.db-lib-tab {
-  padding: 4px 12px;
-  border-radius: 20px;
+/* Temps de jeu */
+.db-recent-game-time {
   font-size: .72rem;
-  font-weight: 600;
-  border: 1px solid rgba(124,58,237,.18);
-  background: transparent;
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: all .2s;
+  font-weight: 700;
+  color: var(--text-gray);
 }
-.db-lib-tab:hover { border-color: rgba(124,58,237,.35); color: var(--accent); }
-.db-lib-tab.active { background: rgba(124,58,237,.2); border-color: rgba(124,58,237,.45); color: var(--accent); }
 
-.db-lib-badge { display: inline-flex; align-items: center; gap: 4px; font-size: .6rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; border-radius: 6px; padding: 2px 7px; margin-right: 6px; vertical-align: middle; }
-.db-lib-badge--stream { background: rgba(124,58,237,.18); border: 1px solid rgba(124,58,237,.35); color: var(--accent); }
-.db-lib-badge--buy { background: rgba(159,18,57,.15); border: 1px solid rgba(159,18,57,.35); color: #fca5a5; }
+/* ----------------------------------------------------------
+   8. LIENS RAPIDES (sidebar droite)
+   ---------------------------------------------------------- */
 
-.db-games-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
-.db-game-thumb {
-  position: relative;
-  border-radius: 8px;
-  overflow: hidden;
-  aspect-ratio: 3/4;
-  background: rgba(124,58,237,.08);
-  border: 1px solid rgba(124,58,237,.1);
-  display: block;
-  transition: transform .2s;
-}
-.db-game-thumb:hover { transform: scale(1.05); z-index: 2; }
-.db-game-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.db-game-thumb-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: var(--text-faint); }
-.db-game-thumb-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,.5);
+/* Conteneur vertical des liens */
+.db-quick-links {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  opacity: 0;
-  transition: opacity .2s;
+  flex-direction: column;
+  gap: 3px;
 }
-.db-game-thumb:hover .db-game-thumb-overlay { opacity: 1; }
-.db-thumb-badge { position: absolute; top: 5px; right: 5px; font-size: .55rem; font-weight: 800; border-radius: 4px; padding: 2px 5px; pointer-events: none; }
-.db-thumb-badge--incl { background: rgba(34,197,94,.2); border: 1px solid rgba(34,197,94,.35); color: #4ade80; }
-.db-thumb-badge--buy { background: rgba(10,2,20,.8); border: 1px solid rgba(159,18,57,.45); color: #fca5a5; }
-.db-lib-more { text-align: center; margin-top: 14px; }
-.db-lib-more-link { display: inline-flex; align-items: center; gap: 5px; font-size: .76rem; color: var(--text-muted); transition: color .2s; text-decoration: none; }
-.db-lib-more-link:hover { color: var(--accent); }
 
-/* Commandes */
-.db-orders-list { display: flex; flex-direction: column; gap: 6px; }
-.db-order-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 12px;
-  border-radius: var(--radius);
-  border: 1px solid rgba(124,58,237,.08);
-  background: rgba(124,58,237,.04);
-  transition: background .2s;
-}
-.db-order-row:hover { background: rgba(124,58,237,.08); }
-.db-order-icon { width: 34px; height: 34px; border-radius: 9px; background: rgba(124,58,237,.12); border: 1px solid rgba(124,58,237,.2); display: flex; align-items: center; justify-content: center; color: var(--accent); flex-shrink: 0; }
-.db-order-info { flex: 1; min-width: 0; }
-.db-order-name { font-size: .84rem; font-weight: 600; color: var(--text-white); margin-bottom: 2px; }
-.db-order-date { font-size: .72rem; color: var(--text-muted); }
-.db-order-right { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
-.db-order-price { font-size: .84rem; font-weight: 700; color: var(--text-white); }
-
-/* Status badges */
-.status-badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 20px; font-size: .66rem; font-weight: 600; letter-spacing: .03em; white-space: nowrap; }
-.status-payee { background: rgba(34,197,94,.12); color: var(--success); border: 1px solid rgba(34,197,94,.2); }
-.status-attente { background: rgba(245,158,11,.12); color: var(--warn); border: 1px solid rgba(245,158,11,.2); }
-.status-annulee { background: rgba(239,68,68,.12); color: var(--danger); border: 1px solid rgba(239,68,68,.2); }
-
-/* Abonnement sidebar */
-.db-sub-card { position: relative; overflow: hidden; }
-.db-sub-active-badge { display: inline-flex; align-items: center; gap: 5px; font-size: .68rem; font-weight: 700; color: #4ade80; background: rgba(34,197,94,.18); border: 1px solid rgba(34,197,94,.3); padding: 3px 10px; border-radius: 20px; margin-bottom: 12px; }
-.db-sub-plan-name { font-size: 1.4rem; font-weight: 900; color: #fff; font-family: var(--font-heading); margin-bottom: 4px; }
-.db-sub-price { font-size: 1.8rem; font-weight: 900; color: #fff; font-family: var(--font-heading); margin-bottom: 4px; }
-.db-sub-price span { font-size: .8rem; font-weight: 400; opacity: .7; }
-.db-sub-since { font-size: .74rem; color: rgba(255,255,255,.6); margin-bottom: 18px; }
-
-/* Activité */
-.db-activity-feed { display: flex; flex-direction: column; gap: 2px; }
-.db-act-row { display: flex; align-items: flex-start; gap: 10px; padding: 8px 10px; border-radius: var(--radius); transition: background .2s; }
-.db-act-row:hover { background: rgba(124,58,237,.06); }
-.db-act-dot { width: 28px; height: 28px; border-radius: 8px; background: rgba(124,58,237,.12); border: 1px solid rgba(124,58,237,.18); display: flex; align-items: center; justify-content: center; font-size: .75rem; flex-shrink: 0; }
-.db-act-info { flex: 1; min-width: 0; }
-.db-act-label { font-size: .82rem; font-weight: 600; color: var(--text-white); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.db-act-time { font-size: .68rem; color: var(--text-faint); }
-.db-activity-empty { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 24px 0; text-align: center; color: var(--text-faint); font-size: .82rem; }
-
-/* Liens rapides */
-.db-quick-links { display: flex; flex-direction: column; gap: 3px; }
+/* Lien individuel (Bibliothèque, Offres, etc.) */
 .db-quick-link {
   display: flex;
   align-items: center;
@@ -299,197 +361,235 @@
   transition: background .2s, border-color .2s;
   text-decoration: none;
 }
-.db-quick-link:hover { background: rgba(124,58,237,.07); border-color: rgba(124,58,237,.14); }
-.db-quick-icon { width: 34px; height: 34px; border-radius: 9px; border: 1px solid rgba(124,58,237,.2); display: flex; align-items: center; justify-content: center; color: var(--accent); flex-shrink: 0; }
-.db-quick-label { flex: 1; font-size: .84rem; font-weight: 600; color: var(--text-white); }
-.db-quick-arrow { color: var(--text-faint); transition: transform .2s, color .2s; }
-.db-quick-link:hover .db-quick-arrow { color: var(--accent); transform: translateX(2px); }
-.db-logout-link:hover { background: rgba(239,68,68,.06); border-color: rgba(239,68,68,.15); }
 
-/* États vides */
-.db-empty-state { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 28px 0; text-align: center; }
-.db-empty-state svg { color: var(--text-faint); }
-.db-empty-state p { font-size: .82rem; color: var(--text-muted); }
-
-/* Amis */
-.db-friends-list { display: flex; flex-direction: column; gap: 2px; }
-.db-friend-row { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: var(--radius); transition: background .2s; cursor: default; }
-.db-friend-row:hover { background: rgba(124,58,237,.06); }
-.db-friend-avatar-wrap { position: relative; flex-shrink: 0; }
-.db-friend-avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, rgba(124,58,237,.5), rgba(159,18,57,.5)); display: flex; align-items: center; justify-content: center; font-size: .72rem; font-weight: 800; color: #fff; }
-.db-friend-online { position: absolute; bottom: 0; right: 0; width: 10px; height: 10px; border-radius: 50%; background: #22c55e; border: 2px solid var(--bg-card); }
-.db-friend-info { flex: 1; min-width: 0; }
-.db-friend-name { font-size: .83rem; font-weight: 700; color: var(--text-white); }
-.db-friend-status { font-size: .72rem; color: var(--text-faint); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.db-friend-status--online { color: #22c55e; }
-.db-friend-more { font-size: .75rem; color: var(--text-faint); text-align: center; padding: 8px 0 2px; }
-
-/* Responsive */
-@media (max-width: 1100px) {
-  .db-layout {
-    grid-template-columns: 1fr;
-  }
-  .db-sidebar {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  }
-  .db-games-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-@media (max-width: 640px) {
-  .db-hero { padding: 32px 5% 24px; }
-  .db-layout { padding: 16px 5% 40px; grid-template-columns: 1fr; }
-  .db-sidebar { grid-template-columns: 1fr; }
-  .db-games-grid { grid-template-columns: repeat(3, 1fr); }
-  .db-hero-inner { flex-wrap: wrap; }
-  .db-hero-right { margin-left: 0; }
-  .db-recent-img { width: 90px; height: 56px; }
+/* Surbrillance violette au hover */
+.db-quick-link:hover {
+  background: rgba(124,58,237,.07);
+  border-color: rgba(124,58,237,.14);
 }
 
-/* ---- Ajouts Dashboard Styles manquants --- */
-.db-hero-avatar {
-  flex-shrink: 0; width: 80px; height: 80px; border-radius: 50%;
-  background: linear-gradient(135deg, var(--bordeaux), var(--purple));
-  border: 2px solid rgba(124,58,237,.4);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.8rem; font-weight: 900; color: #fff;
-}
-.db-hero-welcome { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; margin-bottom: 4px; }
-.db-hero-plan {
-  display: inline-flex; align-items: center; gap: 8px; padding: 8px 18px;
-  border-radius: 30px; font-weight: 700; font-size: 0.85rem; color: #fff; margin-left: auto;
-}
-
-.db-stats-row {
-  display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 24px;
-  grid-column: 1 / -1;
-}
-.db-stat-card {
-  flex: 1; min-width: 200px;
-  background: rgba(10,6,24,.7);
-  border: 1px solid rgba(124,58,237,.13); border-radius: var(--radius-xl);
-  padding: 18px 22px; display: flex; align-items: center; gap: 16px;
-}
-.db-stat-icon {
-  width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-}
-.db-stat-num {
-  font-size: 1.4rem; font-weight: 900; color: var(--text-white); font-family: var(--font-heading); line-height: 1.2;
-}
-.db-stat-label {
-  font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; margin-top:2px;
+/* Icône carrée avec bordure violette */
+.db-quick-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  border: 1px solid rgba(124,58,237,.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--highlight);
+  flex-shrink: 0;
 }
 
-.db-sub-band {
-  padding: 16px; border-radius: var(--radius-lg); margin-bottom: 16px; display: flex; align-items: center; gap: 12px;
+/* Texte du lien */
+.db-quick-label {
+  flex: 1;
+  font-size: .84rem;
+  font-weight: 600;
+  color: var(--text);
 }
-.db-sub-band-icon {
-  width: 32px; height: 32px; border-radius: 8px; background: rgba(0,0,0,0.2);
-  display: flex; align-items: center; justify-content: center;
+
+/* ----------------------------------------------------------
+   8. CHAT (liste d'amis + zone messages)
+   ---------------------------------------------------------- */
+
+/* Point vert "en ligne" pour les amis */
+.db-friend-online {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #22c55e;
+  border: 2px solid var(--bg-card);
 }
-.db-sub-name { font-weight: 800; font-size: 1.1rem; color: #fff; flex: 1; }
-.db-sub-price { font-weight: 800; font-size: 1.1rem; color: #fff; }
-.db-sub-meta { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--text-muted); }
-.db-sub-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 0.75rem; font-weight: 700; color: #4ade80; background: rgba(34,197,94,0.15); border: 1px solid rgba(34,197,94,.2); padding: 4px 10px; border-radius: 20px; }
-.sub-empty-card { text-align: center; padding: 24px 12px; }
-.sub-empty-title { font-weight: 700; color: var(--text-white); margin-bottom: 8px; }
-.sub-empty-sub { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 16px; line-height: 1.5; }
-/* ---- Section Chat Discord ---- */
+
+/* Conteneur principal du chat (sidebar + zone centrale) */
 .db-chat-container {
-  display: flex; flex-direction: row; padding: 0; overflow: hidden; min-height: 480px; height: 500px;
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+  overflow: hidden;
+  min-height: 480px;
+  height: 500px;
 }
+
+/* Sidebar gauche avec la liste des amis */
 .db-chat-sidebar {
-  width: 240px; background: rgba(0,0,0,0.15); border-right: 1px solid rgba(124,58,237,.1); display: flex; flex-direction: column;
+  width: 240px;
+  background: rgba(0,0,0,0.15);
+  border-right: 1px solid rgba(124,58,237,.1);
+  display: flex;
+  flex-direction: column;
 }
+
+/* Titre "Amis" en haut de la sidebar */
 .db-chat-sidebar-header {
-  padding: 16px 18px; border-bottom: 1px solid rgba(124,58,237,.1); font-size: 0.78rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; background: rgba(124,58,237,.02);
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(124,58,237,.1);
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--text-gray);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: rgba(124,58,237,.02);
 }
+
+/* Liste scrollable des amis */
 .db-chat-friends {
-  flex: 1; padding: 12px; display: flex; flex-direction: column; gap: 6px; overflow-y: auto;
+  flex: 1;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow-y: auto;
 }
+
+/* Item individuel d'un ami dans la liste */
 .db-chat-friend-item {
-  display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px; cursor: pointer; transition: background 0.2s; border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+  border: 1px solid transparent;
 }
+
+/* Surbrillance subtile au survol */
 .db-chat-friend-item:hover {
   background: rgba(255,255,255,0.03);
 }
+
+/* Ami actuellement sélectionné (surbrillance violette) */
 .db-chat-friend-item.active {
-  background: rgba(124,58,237,.12); border-color: rgba(124,58,237,.2);
+  background: rgba(124,58,237,.12);
+  border-color: rgba(124,58,237,.2);
 }
+
+/* Pas de changement au hover si déjà sélectionné */
 .db-chat-friend-item.active:hover {
   background: rgba(124,58,237,.12);
 }
+
+/* Pseudo de l'ami */
 .db-chat-friend-name {
-  font-size: 0.88rem; font-weight: 600; color: var(--text-muted);
-}
-.db-chat-friend-item.active .db-chat-friend-name {
-  font-weight: 700; color: #fff;
-}
-.db-chat-friend-dot {
-  width: 34px; height: 34px; font-size: 0.95rem; font-weight: 800; position: relative;
+  font-size: 0.88rem;
+  font-weight: 600;
 }
 
+/* Pseudo en blanc quand l'ami est sélectionné */
+.db-chat-friend-item.active .db-chat-friend-name {
+  font-weight: 700;
+  color: #fff;
+}
+
+/* Avatar avec initiale de l'ami (ex: "M" pour MaxGamer) */
+.db-chat-friend-dot {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Position du point "en ligne" sur l'avatar */
+.db-chat-friend-dot .db-friend-online {
+  width: 10px;
+  height: 10px;
+  right: -2px;
+  bottom: -2px;
+  border-width: 2px;
+}
+
+/* Style pour les amis hors ligne (texte grisé) */
+.db-chat-friend-item .db-chat-friend-name.offline {
+  color: var(--text-faint);
+}
+
+/* Zone centrale du chat (messages ou état vide) */
 .db-chat-main {
-  flex: 1; display: flex; flex-direction: column; background: rgba(0,0,0,0.25);
+  flex: 1;
+  background: rgba(0,0,0,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.db-chat-header {
-  padding: 16px 20px; border-bottom: 1px solid rgba(124,58,237,.1); background: rgba(124,58,237,.02);
+
+/* Message "aucune discussion sélectionnée" */
+.db-chat-empty {
+  text-align: center;
+  padding: 40px;
 }
-.db-chat-header-dot {
-  width: 36px; height: 36px; font-size: 1rem; font-weight: 800; position: relative;
+
+/* Cercle violet derrière l'icône chat */
+.db-chat-empty-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(124,58,237,.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
 }
-.db-chat-header-name {
-  font-weight: 700; font-size: 0.95rem; color: #fff; letter-spacing: 0.02em;
+
+/* Titre "Commencer une discussion" */
+.db-chat-empty-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
 }
-.db-chat-header-status {
-  font-size: 0.75rem; color: var(--success);
+
+/* Sous-titre "Sélectionnez un ami..." */
+.db-chat-empty-sub {
+  font-size: .8rem;
+  color: var(--text-gray);
 }
-.db-chat-messages {
-  flex: 1; padding: 18px 20px; display: flex; flex-direction: column; gap: 16px; overflow-y: auto;
+
+/* ----------------------------------------------------------
+   9. À NE PAS MANQUER (sidebar)
+   ---------------------------------------------------------- */
+
+/* Liste des notifications */
+.db-notif-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
-.db-chat-bubble-wrap {
-  max-width: 85%;
+
+/* Item individuel (jeu + titre + description) */
+.db-notif-item {
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
-.db-chat-bubble-wrap.left {
-  align-self: flex-start;
+
+/* Miniature du jeu */
+.db-notif-img {
+  width: 70px;
+  height: 47.1px;
+  border-radius: 8px;
+  object-fit: cover;
 }
-.db-chat-bubble-wrap.right {
-  align-self: flex-end;
+
+/* Titre du jeu */
+.db-notif-title {
+  font-size: .85rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 2px;
 }
-.db-chat-bubble {
-  padding: 12px 16px; font-size: 0.88rem; color: #fff; line-height: 1.45;
-}
-.db-chat-bubble.left {
-  background: rgba(124,58,237,.15); border: 1px solid rgba(124,58,237,.25); border-radius: 14px 14px 14px 4px;
-}
-.db-chat-bubble.right {
-  background: var(--purple); border-radius: 14px 14px 4px 14px;
-}
-.db-chat-time {
-  font-size: 0.65rem; margin-top: 6px;
-}
-.db-chat-bubble-wrap.left .db-chat-time {
-  color: var(--text-faint); margin-left: 2px;
-}
-.db-chat-bubble-wrap.right .db-chat-time {
-  color: rgba(255,255,255,0.4); text-align: right; margin-right: 2px;
-}
-.db-chat-input-area {
-  padding: 14px 20px; border-top: 1px solid rgba(124,58,237,.1); display: flex; gap: 10px; background: rgba(10,6,24,0.6);
-}
-.db-chat-input {
-  flex: 1; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 12px 20px; color: #fff; font-size: 0.88rem; outline: none; transition: border-color 0.2s;
-}
-.db-chat-input:focus {
-  border-color: rgba(124,58,237,.5);
-}
-.db-chat-send {
-  width: 42px; height: 42px; border-radius: 50%; background: var(--purple); border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 0.2s;
-}
-.db-chat-send:hover {
-  background: var(--bordeaux);
-}
-.db-chat-send img {
-  filter: brightness(0) invert(1); width: 16px; height: 16px;
+
+/* Description (ex: "Nouveau DLC dispo") */
+.db-notif-desc {
+  font-size: .75rem;
+  color: var(--highlight);
 }

@@ -1,30 +1,36 @@
-/* index.css — Page d'accueil : hero, vitrine jeux, features */
+/* ----------------------------------------------------------
+   1. HERO (bannière d'accroche en haut de page)
+   ---------------------------------------------------------- */
 
-/* Hero */
+/* Conteneur */
 .hero {
   text-align: center;
   padding: 130px 6% 110px;
   position: relative;
-  overflow: hidden;
-  background: radial-gradient(ellipse 70% 60% at 50% 40%, rgba(124,58,237,.22) 0%, transparent 65%);
+  background: #060210;
+  background: linear-gradient(45deg, rgba(6, 2, 16, 1) 0%, rgba(10, 4, 24, 1) 40%, rgb(28, 4, 60) 100%);
 }
 
+/* Titre principal "Jouez sans limites" — taille responsive via clamp() */
 .hero h1 {
   font-size: clamp(2.8rem, 7vw, 5rem);
   font-weight: 800;
   letter-spacing: -.04em;
   margin-bottom: 22px;
-  font-family: var(--font-heading);
+  font-family: var(--font-title);
   line-height: 1.05;
 }
 
+/* Paragraphe descriptif sous le titre */
 .hero > p {
   font-size: 1.15rem;
-  color: var(--text-muted);
+  color: var(--text-gray);
   max-width: 520px;
   margin: 0 auto 44px;
   line-height: 1.75;
 }
+
+/* Boutons "S'abonner" et "Voir le catalogue" */
 .hero-actions {
   display: flex;
   justify-content: center;
@@ -33,377 +39,51 @@
   margin-bottom: 64px;
 }
 
-/* Barre de statistiques */
-.hero-stats {
-  display: inline-flex;
-  align-items: center;
-  flex-wrap: nowrap;
-  justify-content: center;
-  background: rgba(10,4,24,.55);
-  border: 1px solid rgba(255,255,255,.12);
-  border-radius: 50px;
-  padding: 16px 0;
-  max-width: 680px;
-}
+/* ----------------------------------------------------------
+   2. SECTION BIBLIOTHÈQUE + BANDEAU CTA
+   ---------------------------------------------------------- */
 
-.hero-stat {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 600;
-  color: var(--text-white);
-  padding: 0 28px;
-}
-.hero-stat + .hero-stat {
-  border-left: 1px solid rgba(255,255,255,.1);
-}
-.hero-stat .stat-icon {
-  font-size: 1.1rem;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  color: var(--accent);
-}
-.hero-stat .stat-value {
-  font-size: .92rem;
-  font-weight: 700;
-  display: block;
-}
-.hero-stat .stat-label {
-  font-size: .74rem;
-  font-weight: 400;
-  color: var(--text-muted);
-  display: block;
-}
-
-/* Section avantages */
-.features-section {
-  position: relative;
-  overflow: hidden;
-}
-
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
-.feature-card {
-  background: rgba(12,6,28,.65);
-  border: 1px solid rgba(124,58,237,.15);
-  border-radius: var(--radius-lg);
-  padding: 32px;
-  transition: border-color .28s, transform .28s;
-}
-.feature-card:hover {
-  border-color: rgba(124,58,237,.4);
-  transform: translateY(-6px);
-}
-
-.feature-icon {
-  width: 56px;
-  height: 56px;
-  border-radius: 16px;
-  background: linear-gradient(135deg, rgba(124,58,237,.35) 0%, rgba(159,18,57,.2) 100%);
-  border: 1px solid rgba(124,58,237,.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  margin-bottom: 22px;
-  transition: transform .28s;
-}
-.feature-card:hover .feature-icon {
-  transform: scale(1.06);
-}
-.feature-card h3 {
-  font-size: 1.05rem;
-  font-weight: 800;
-  letter-spacing: -.01em;
-  margin-bottom: 10px;
-  color: var(--text-white);
-}
-.feature-card p {
-  font-size: .83rem;
-  color: var(--text-muted);
-  line-height: 1.75;
-}
-
-/* Vitrine de jeux : une grande bannière + 2 posters */
-.games-showcase {
-  display: grid;
-  grid-template-columns: 1.8fr 1fr 1fr;
-  height: 440px;
-  gap: 12px;
-}
-
-/* Bannière principale */
-.game-spotlight {
-  position: relative;
-  display: block;
-  border-radius: 20px;
-  overflow: hidden;
-  cursor: pointer;
-  text-decoration: none;
-  border: 1px solid rgba(124,58,237,.3);
-  transition: transform .32s ease;
-}
-.game-spotlight:hover {
-  transform: translateY(-4px);
-}
-
-.game-spotlight-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 30%;
-  display: block;
-  transition: transform .55s ease;
-}
-.game-spotlight:hover .game-spotlight-img {
-  transform: scale(1.04);
-}
-
-.game-spotlight-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  background: linear-gradient(to bottom, rgba(3,1,10,.1) 0%, transparent 30%, rgba(3,1,10,.5) 65%, rgba(3,1,10,.92) 100%);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 20px 28px 26px;
-}
-
-.game-spotlight-top {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-/* Badge "jeu disponible" */
-.gs-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: .6rem;
-  font-weight: 700;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,.9);
-  background: rgba(0,0,0,.4);
-  border: 1px solid rgba(255,255,255,.15);
-  border-radius: 20px;
-  padding: 5px 12px;
-}
-.gs-badge::before {
-  content: '';
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--accent);
-  flex-shrink: 0;
-}
-
-/* Badge "en direct" */
-.gs-live {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font-size: .6rem;
-  font-weight: 800;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: #fff;
-  padding: 7px 16px 7px 12px;
-  border-radius: 30px;
-  background: rgba(8,4,20,.55);
-  border: 1px solid rgba(124,58,237,.6);
-}
-
-.game-spotlight-bottom {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 20px;
-}
-.gs-logo {
-  display: block;
-  max-width: 320px;
-  max-height: 120px;
-  object-fit: contain;
-  filter: drop-shadow(0 2px 20px rgba(0,0,0,1));
-}
-.gs-title {
-  font-size: 2.2rem;
-  font-weight: 900;
-  font-family: var(--font-heading);
-  color: var(--text-white);
-  letter-spacing: -.03em;
-}
-.gs-actions {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  flex-shrink: 0;
-}
-
-/* Bouton CTA dans la bannière */
-.gs-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  color: #fff;
-  font-size: .68rem;
-  font-weight: 800;
-  letter-spacing: .13em;
-  text-transform: uppercase;
-  padding: 11px 22px;
-  border-radius: 30px;
-  font-family: var(--font-heading);
-  white-space: nowrap;
-  background: rgba(8,4,20,.6);
-  border: 1px solid rgba(124,58,237,.65);
-  transition: border-color .25s, transform .25s;
-}
-.game-spotlight:hover .gs-cta {
-  border-color: rgba(124,58,237,.9);
-  transform: translateY(-1px);
-}
-.gs-platforms {
-  display: flex;
-  gap: 8px;
-  color: rgba(255,255,255,.35);
-}
-
-/* Posters portrait (covers 3/4) */
-.game-posters {
-  display: contents;
-}
-
-.game-poster {
-  position: relative;
-  display: block;
-  border-radius: 16px;
-  overflow: hidden;
-  cursor: pointer;
-  text-decoration: none;
-  border: 1px solid rgba(124,58,237,.18);
-  transition: transform .3s ease;
-}
-.game-poster:hover {
-  transform: translateY(-6px) scale(1.02);
-}
-
-.game-poster-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-  display: block;
-  transition: transform .5s ease;
-}
-.game-poster:hover .game-poster-img {
-  transform: scale(1.06);
-}
-
-.game-poster-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  background: linear-gradient(to bottom, transparent 45%, rgba(3,1,10,.65) 72%, rgba(3,1,10,.97) 100%);
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 14px 14px 16px;
-  gap: 8px;
-}
-
-.gp-badge {
-  display: inline-flex;
-  align-self: flex-start;
-  align-items: center;
-  gap: 5px;
-  font-size: .55rem;
-  font-weight: 700;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--accent);
-  background: rgba(124,58,237,.2);
-  border: 1px solid rgba(124,58,237,.35);
-  border-radius: 20px;
-  padding: 3px 9px;
-}
-
-.gp-logo {
-  display: block;
-  max-width: 160px;
-  max-height: 58px;
-  object-fit: contain;
-  filter: drop-shadow(0 1px 12px rgba(0,0,0,1));
-}
-.gp-title {
-  font-size: 1rem;
-  font-weight: 900;
-  font-family: var(--font-heading);
-  color: var(--text-white);
-  letter-spacing: -.02em;
-  line-height: 1.15;
-}
-
-/* Bouton CTA sur le poster, visible au hover */
-.gp-cta {
-  display: inline-flex;
-  align-self: flex-start;
-  align-items: center;
-  gap: 7px;
-  color: #fff;
-  font-size: .58rem;
-  font-weight: 800;
-  letter-spacing: .13em;
-  text-transform: uppercase;
-  padding: 7px 14px;
-  border-radius: 30px;
-  font-family: var(--font-heading);
-  background: rgba(8,4,20,.6);
-  border: 1px solid rgba(124,58,237,.65);
-  opacity: 0;
-  transform: translateY(5px);
-  transition: opacity .25s, transform .25s;
-}
-.game-poster:hover .gp-cta {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Sections */
+/* Section bibliothèque (utilise catalogue-grid de jeux.css) */
 .library-section {
   position: relative;
   overflow: hidden;
 }
 
-/* Bandeau CTA final */
+/* Cartes plus grandes sur la page d'accueil */
+.library-section .catalogue-grid {
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+.library-section .catalogue-card {
+  aspect-ratio: 3 / 4;
+  outline-color: rgba(124,58,237,.18);
+}
+
+/* Bandeau d'appel à l'action en bas de page */
 .cta-band {
   text-align: center;
   padding: 90px 6%;
   position: relative;
   overflow: hidden;
 }
+
+/* Titre du bandeau CTA */
 .cta-band h2 {
   font-size: clamp(2rem, 4.5vw, 3.2rem);
   font-weight: 800;
   margin-bottom: 14px;
   letter-spacing: -.03em;
 }
+
+/* Sous-titre du bandeau */
 .cta-band p {
-  color: var(--text-muted);
+  color: var(--text-gray);
   max-width: 440px;
   margin: 0 auto 32px;
+  justify-content: center;
 }
+
+/* Boutons du bandeau CTA */
 .cta-actions {
   display: flex;
   justify-content: center;
@@ -411,61 +91,59 @@
   flex-wrap: wrap;
 }
 
-/* Responsive */
-@media (max-width: 860px) {
-  .games-showcase {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 280px 200px;
-    height: auto;
-  }
-  .game-spotlight {
-    grid-column: 1 / 3;
-  }
-  .gs-logo {
-    max-width: 200px;
-    max-height: 80px;
-  }
-  .gs-title {
-    font-size: 1.6rem;
-  }
+/* ----------------------------------------------------------
+   3. FONCTIONNALITÉS (cartes "Pourquoi Nebula")
+   ---------------------------------------------------------- */
+
+/* Grille responsive : colonnes de 300px minimum */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-@media (max-width: 520px) {
-  .games-showcase {
-    grid-template-columns: 1fr;
-    grid-template-rows: 220px 180px 180px;
-    height: auto;
-  }
-  .game-spotlight {
-    grid-column: auto;
-  }
-  .gs-title {
-    font-size: 1.4rem;
-  }
-  .gs-live {
-    display: none;
-  }
+/* Carte de fonctionnalité (fond violet subtil) */
+.feature-card {
+  background: rgba(124,58,237,.08);
+  border: 1px solid rgba(124,58,237,.15);
+  border-radius: 16px;
+  padding: 32px 24px;
+  text-align: center;
+  transition: transform .25s ease, border-color .25s ease;
 }
 
-@media (max-width: 640px) {
-  .hero {
-    padding: 72px 5% 64px;
-  }
-  .hero-stats {
-    border-radius: 16px;
-    flex-direction: column;
-    padding: 18px 24px;
-    gap: 12px;
-    width: calc(100% - 40px);
-  }
-  .hero-stat {
-    padding: 0;
-    justify-content: center;
-    width: 100%;
-  }
-  .hero-stat + .hero-stat {
-    border-left: none;
-    border-top: 1px solid rgba(255,255,255,.08);
-    padding-top: 12px;
-  }
+/* Léger soulèvement au hover */
+.feature-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(124,58,237,.3);
+}
+
+/* Icône carrée centrée au-dessus du texte */
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  background: rgba(124,58,237,.15);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+}
+
+/* Titre de la fonctionnalité */
+.feature-card h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--text);
+  font-family: var(--font-title);
+}
+
+/* Description de la fonctionnalité */
+.feature-card p {
+  color: var(--text-gray);
+  line-height: 1.6;
+  font-size: .95rem;
 }

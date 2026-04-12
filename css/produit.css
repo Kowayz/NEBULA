@@ -1,6 +1,12 @@
-/* produit.css — Page détail d'un jeu */
+/* ============================================================
+   PRODUIT.CSS — Page détail d'un jeu
+   ============================================================ */
 
-/* Hero */
+/* ----------------------------------------------------------
+   1. HERO (bannière en haut de page)
+   ---------------------------------------------------------- */
+
+/* Conteneur principal du hero, affiche l'artwork du jeu en fond */
 .produit-hero {
   position: relative;
   min-height: 620px;
@@ -13,15 +19,14 @@
   overflow: hidden;
 }
 
+/* Dégradé sombre par-dessus l'image pour lisibilité du texte */
 .produit-hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(0deg,
-    rgba(6,2,16,1)  0%,
-    rgba(6,2,16,.7) 40%,
-    transparent     100%);
+  background: linear-gradient(0deg,rgba(6,2,16,1) 0%,rgba(6,2,16,.7) 40%,transparent 100%);
 }
 
+/* Contenu texte du hero (passe au-dessus de l'overlay grâce au z-index) */
 .produit-hero-content {
   position: relative;
   z-index: 1;
@@ -29,6 +34,7 @@
   padding: 0 6% 52px;
 }
 
+/* Ligne flex : infos à gauche, logo à droite */
 .produit-hero-row {
   display: flex;
   align-items: flex-end;
@@ -36,13 +42,18 @@
   gap: 48px;
 }
 
+/* Colonne gauche du hero (tags, titre, méta, boutons) */
 .produit-hero-left {
   flex: 1;
   min-width: 0;
   max-width: 600px;
 }
 
-/* Tags de genre */
+/* ----------------------------------------------------------
+   2. TAGS (badges "Inclus" / "Acheter" dans le hero)
+   ---------------------------------------------------------- */
+
+/* Conteneur des tags */
 .produit-tags {
   display: flex;
   gap: 8px;
@@ -50,6 +61,7 @@
   margin-bottom: 18px;
 }
 
+/* Tag individuel (pilule violette) */
 .produit-tag {
   background: rgba(124,58,237,.18);
   border: 1px solid rgba(124,58,237,.4);
@@ -57,64 +69,58 @@
   padding: 5px 14px;
   font-size: .7rem;
   font-weight: 700;
-  color: var(--accent);
+  color: var(--highlight);
   text-transform: uppercase;
   letter-spacing: .08em;
 }
 
+/* Variante rouge pour les jeux premium — double spécificité pour passer devant .produit-tag */
+.produit-tag.produit-tag--buy {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(159,18,57,.18);
+  border-color: rgba(159,18,57,.45);
+  color: #fca5a5;
+}
+
+/* Tag de type (toujours gras) */
+.produit-tag--type {
+  font-weight: 700;
+}
+
+/* ----------------------------------------------------------
+   3. TITRE ET MÉTA (nom du jeu, développeur, année)
+   ---------------------------------------------------------- */
+
+/* Titre principal du jeu */
 .produit-title {
   font-size: clamp(2.2rem, 5vw, 3.6rem);
   font-weight: 800;
   line-height: 1.03;
   margin-bottom: 18px;
   letter-spacing: -.03em;
-  font-family: var(--font-heading);
+  font-family: var(--font-title);
 }
 
-/* Méta : développeur, année, note */
-.produit-hero-meta {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-bottom: 26px;
-}
-.produit-hero-meta-dev,
-.produit-hero-meta-year {
-  font-size: .88rem;
-  color: var(--text-muted);
-  font-weight: 500;
-}
-.produit-hero-meta-sep {
-  display: inline-block;
-  width: 3px;
-  height: 3px;
-  border-radius: 50%;
-  background: rgba(255,255,255,.3);
-  flex-shrink: 0;
-}
-.produit-hero-meta-rating {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: .78rem;
-  font-weight: 700;
-  color: var(--accent);
-}
-.produit-hero-meta-rating svg {
-  color: var(--accent);
-  flex-shrink: 0;
-}
+/* Boutons d'action dans le hero (Jouer, Acheter) */
 .produit-hero-actions {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
 }
 
-/* Mise en page : description + sidebar */
+
+/* ----------------------------------------------------------
+   4. MISE EN PAGE (grille description + sidebar)
+   ---------------------------------------------------------- */
+
+/* Section principale sous le hero */
 .produit-main {
   padding-top: 36px;
 }
+
+/* Grille 2 colonnes : contenu à gauche, sidebar à droite */
 .produit-content-grid {
   display: grid;
   grid-template-columns: 1fr 340px;
@@ -124,41 +130,60 @@
   align-items: start;
 }
 
+/* Colonne gauche (description, aperçu, avis) */
 .produit-desc-col {
   display: flex;
   flex-direction: column;
   gap: 24px;
 }
 
-.produit-desc-card,
-.produit-media-card {
-  background: rgba(12,6,28,.8);
-  border: 1px solid rgba(124,58,237,.15);
-  border-radius: var(--radius-lg);
-  padding: 26px;
+/* ----------------------------------------------------------
+   5. CARTES (composant réutilisable, style dashboard)
+   ---------------------------------------------------------- */
+
+/* Carte générique : fond sombre, bordure violette, coins arrondis */
+.db-card {
+  background: rgba(10,6,24,.7);
+  border: 1px solid rgba(124,58,237,.13);
+  border-radius: var(--radius-huge);
+  padding: 22px 24px;
 }
 
-.produit-desc-label {
-  font-size: .72rem;
+/* En-tête de carte (titre à gauche, action à droite) */
+.db-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  gap: 12px;
+}
+
+/* Titre de section en petites majuscules */
+.db-card-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: .78rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: .1em;
-  color: var(--text-faint);
-  margin-bottom: 14px;
+  letter-spacing: .09em;
+  color: var(--text-dark);
 }
+
+/* Texte de description du jeu */
 .produit-desc-text {
   font-size: .92rem;
-  color: var(--text-muted);
+  color: var(--text-gray);
   line-height: 1.75;
 }
 
+/* ----------------------------------------------------------
+   6. SIDEBAR (pochette, infos, plateformes, boutons)
+   ---------------------------------------------------------- */
 
-
-
-
-/* Pochette sidebar */
+/* Image pochette du jeu */
 .produit-cover-wrap {
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-big);
   overflow: hidden;
   flex-shrink: 0;
 }
@@ -170,7 +195,7 @@
   object-fit: cover;
 }
 
-/* Sidebar informations */
+/* Colonne sidebar : sticky pour suivre le scroll */
 .produit-info-col {
   display: flex;
   flex-direction: column;
@@ -179,33 +204,16 @@
   top: 84px;
 }
 
-.produit-info-card,
-.produit-req-card {
-  background: rgba(12,6,28,.85);
-  border: 1px solid rgba(124,58,237,.2);
-  border-radius: var(--radius-lg);
-  padding: 22px;
-}
-
-.produit-info-title,
-.produit-req-title {
-  font-size: .88rem;
-  font-weight: 800;
-  margin-bottom: 16px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid rgba(124,58,237,.12);
-}
-
-.produit-info-rows,
-.produit-req-rows {
+/* Liste des lignes d'info (Note, Développeur, Date...) */
+.produit-info-rows {
   display: flex;
   flex-direction: column;
   gap: 12px;
   margin-bottom: 16px;
 }
 
-.produit-info-row,
-.produit-req-row {
+/* Une ligne d'info : clé à gauche, valeur à droite */
+.produit-info-row {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -213,63 +221,40 @@
   font-size: .84rem;
 }
 
-.produit-info-key,
-.produit-req-key {
+/* Clé (icône + label, ex: "Note") */
+.produit-info-key {
   display: flex;
   align-items: center;
   gap: 6px;
-  color: var(--text-muted);
+  color: var(--text-gray);
   flex-shrink: 0;
 }
 
-.produit-info-val,
-.produit-req-val {
-  color: var(--text-white);
+/* Valeur (ex: "83", "4K · 144 FPS") */
+.produit-info-val {
+  color: var(--text);
   font-weight: 600;
   text-align: right;
 }
 
-.produit-info-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  justify-content: flex-end;
-}
-
-.produit-mini-tag {
-  background: rgba(124,58,237,.15);
-  border: 1px solid rgba(124,58,237,.25);
-  border-radius: 20px;
-  padding: 2px 9px;
-  color: var(--accent);
-  font-size: .7rem;
-  font-weight: 600;
-}
-
-.produit-info-badge {
-  background: rgba(124,58,237,.2);
-  border: 1px solid rgba(124,58,237,.3);
-  border-radius: var(--radius);
-  padding: 3px 10px;
-  font-size: .75rem;
-  color: var(--accent);
-  font-weight: 700;
-}
-
-/* Plateformes */
+/* Label "Plateformes supportées" */
 .produit-platforms-label {
   font-size: .72rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: .09em;
-  color: var(--text-faint);
+  color: var(--text-dark);
   margin-bottom: 10px;
 }
+
+/* Grille 4 colonnes pour les icônes de plateformes */
 .produit-platforms {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 8px;
 }
+
+/* Case individuelle de plateforme (icône + nom) */
 .produit-platform-item {
   display: flex;
   flex-direction: column;
@@ -280,279 +265,123 @@
   border: 1px solid rgba(124,58,237,.15);
   border-radius: 8px;
 }
+
+/* Icône de la plateforme */
 .produit-platform-item .platform-icon {
   font-size: 1.25rem;
-  color: var(--accent);
+  color: var(--highlight);
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
+/* Nom de la plateforme sous l'icône */
 .produit-platform-item span {
   font-size: .62rem;
   font-weight: 600;
   letter-spacing: .04em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: var(--text-gray);
 }
 
+/* ----------------------------------------------------------
+   7. BOUTONS (jouer, acheter, sidebar)
+   ---------------------------------------------------------- */
 
-
-.produit-tag--buy {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(159,18,57,.18) !important;
-  border-color: rgba(159,18,57,.45) !important;
-  color: #fca5a5 !important;
-}
-.produit-tag--included {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(34,197,94,.12) !important;
-  border-color: rgba(34,197,94,.35) !important;
-  color: #4ade80 !important;
-}
-
+/* Bouton "Jouer" dans le hero */
 .produit-play-btn { display: inline-flex; align-items: center; gap: 8px; }
-.produit-sidebar-play {
+
+/* Bouton "Acheter" rouge dans le hero (avec prix) */
+.produit-buy-btn {
   display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 16px;
-}
-
-/* Carte d'achat sidebar */
-.produit-buy-card {
-  background: rgba(12,6,28,.85);
-  border: 1px solid rgba(159,18,57,.3);
-  border-radius: var(--radius-lg);
-  padding: 22px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-.produit-buy-card-head {
-  text-align: center;
-  padding-bottom: 16px;
-  border-bottom: 1px solid rgba(159,18,57,.15);
-}
-.produit-buy-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: .68rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .08em;
-  color: #fca5a5;
-  background: rgba(159,18,57,.12);
-  border: 1px solid rgba(159,18,57,.25);
-  border-radius: 20px;
-  padding: 4px 12px;
-  margin-bottom: 12px;
-}
-.produit-buy-discount-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 4px;
-}
-.produit-buy-price-orig {
-  font-size: .9rem;
-  font-weight: 600;
-  color: rgba(252,165,165,.4);
-  text-decoration: line-through;
-}
-.produit-buy-discount-badge {
-  display: inline-block;
-  font-size: .72rem;
-  font-weight: 800;
-  color: #4ade80;
-  background: rgba(34,197,94,.15);
-  border-radius: 4px;
-  padding: 2px 8px;
-}
-.produit-buy-price {
-  font-size: 2.4rem;
-  font-weight: 800;
-  letter-spacing: -.04em;
-  color: var(--text-white);
-  margin-bottom: 4px;
-  font-family: var(--font-heading);
-}
-.produit-buy-note {
-  font-size: .75rem;
-  color: var(--text-muted);
-  line-height: 1.5;
-}
-
-.produit-buy-perks {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-  padding-top: 4px;
-}
-.produit-buy-perks li {
-  font-size: .8rem;
-  color: var(--text-muted);
-  padding-left: 18px;
-  position: relative;
-  line-height: 1.4;
-}
-.produit-buy-perks li::before {
-  content: '✓';
-  position: absolute;
-  left: 0;
-  color: #22c55e;
-  font-weight: 700;
-  font-size: .78rem;
-}
-
-/* Bouton d'achat */
-.btn-buy {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
-  background: var(--cta);
-  color: #fff;
-  font-weight: 700;
-  border: none;
-  cursor: pointer;
-  font-family: var(--font-heading);
-}
-.btn-buy:hover:not(:disabled) {
-  background: var(--cta-hover);
-}
-.btn-buy:disabled {
-  opacity: .65;
-  cursor: not-allowed;
-}
-
-/* Confirmation achat */
-.buy-success {
-  display: flex;
   align-items: center;
   gap: 12px;
-  flex-wrap: wrap;
-  justify-content: center;
-  background: rgba(34,197,94,.08);
-  border: 1px solid rgba(34,197,94,.25);
-  border-radius: var(--radius-lg);
-  padding: 14px 18px;
-}
-.buy-success-msg {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: .9rem;
+  background: var(--dark-red);
+  color: #fff;
   font-weight: 700;
-  color: #4ade80;
+}
+.produit-buy-btn:hover {
+  background: #be123c;
 }
 
-.buy-spin {
-  animation: buy-spin 1s linear infinite;
-}
-@keyframes buy-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-.produit-catalogue-link {
-  text-align: center;
-  margin-top: 24px;
+/* Prix affiché dans le bouton d'achat */
+.produit-price {
+  font-size: 1.1rem;
+  font-weight: 900;
+  letter-spacing: -.02em;
 }
 
-/* Responsive */
-@media (max-width: 1024px) {
-  .produit-related-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-@media (max-width: 840px) {
-  .produit-content-grid {
-    grid-template-columns: 1fr;
-  }
-  .produit-info-col {
-    position: static;
-  }
-  .produit-hero {
-    min-height: 420px;
-  }
-  .produit-cover-wrap {
-    max-width: 200px;
-  }
-}
-@media (max-width: 560px) {
-  .produit-hero {
-    min-height: 340px;
-  }
-  .produit-hero-content {
-    padding: 0 5% 32px;
-  }
-  .produit-screenshots {
-    grid-template-columns: 1fr 1fr;
-  }
-  .produit-related-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+/* Texte "Acheter" dans le bouton */
+.produit-buy-text {
+  font-size: .9rem;
 }
 
-/* Bande-annonce */
+/* Bouton rouge dans la sidebar (ajout panier) — .btn double la spécificité pour passer devant btn-primary */
+.btn.produit-buy-sidebar {
+  background: var(--dark-red);
+}
+.btn.produit-buy-sidebar:hover {
+  background: #be123c;
+}
+
+/* Espacement du bouton CTA en bas de la sidebar */
+.produit-sidebar-cta { margin-top: 20px; }
+
+/* ----------------------------------------------------------
+   8. BANDE-ANNONCE ET CAPTURES D'ÉCRAN
+   ---------------------------------------------------------- */
+
+/* Conteneur vidéo YouTube 16:9 */
 .produit-trailer { position: relative; width: 100%; aspect-ratio: 16/9; border-radius: var(--radius); overflow: hidden; margin-bottom: 12px; background: #000; }
 .produit-trailer iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
 
-/* Captures d'écran */
+/* Grille 3 colonnes de screenshots */
 .produit-screenshots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
 .produit-screenshot-item { border-radius: var(--radius); overflow: hidden; aspect-ratio: 16/9; background: #0a0218; }
 .produit-screenshot-item img { display: block; width: 100%; height: 100%; object-fit: cover; }
 
-/* Jeux similaires */
-.produit-related-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; max-width: 1100px; margin: 0 auto; }
-.produit-related-card { border-radius: var(--radius); overflow: hidden; display: block; border: 1px solid var(--border); text-decoration: none; }
-.produit-related-img { aspect-ratio: 3/4; background: var(--bg-surface); }
-.produit-related-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.produit-related-info { padding: 10px; }
-.produit-related-title { font-size: .85rem; font-weight: 700; color: var(--text-white); margin: 0; }
+/* ----------------------------------------------------------
+   9. JEUX SIMILAIRES (utilise les classes catalogue-* de jeux.css)
+   ---------------------------------------------------------- */
 
+/* Section sans padding-top car elle colle à la section précédente */
+.produit-related-section { padding-top: 0; }
 
-/* ---- Correctifs visuels pour Related et Aperçu --- */
-.produit-related-img { position: relative; border-radius: 8px; }
-.produit-related-overlay {
-  position: absolute; inset: 0;
-  background: rgba(6, 2, 16, 0.65);
-  display: flex; align-items: center; justify-content: center;
-  opacity: 0; transition: opacity 0.25s ease;
-}
-.produit-related-card:hover .produit-related-overlay { opacity: 1; }
-.produit-related-play {
-  display: flex; align-items: center; gap: 6px;
-  background: var(--purple); color: white;
-  padding: 8px 16px; border-radius: 30px; font-weight: 700; font-size: 0.8rem;
-  transform: translateY(10px); transition: transform 0.25s ease;
-}
-.produit-related-card:hover .produit-related-play { transform: translateY(0); }
-.produit-related-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+/* Espacement du lien "Voir tout le catalogue" */
+.produit-related-more { margin-top: 32px; }
 
-/* ---- Correctifs Review et Logo (Avis + Hero) --- */
-.produit-hero-right {
-  display: flex; justify-content: flex-end; flex: 1; align-items: flex-end;
-}
-.produit-logo {
-  max-width: 400px; max-height: 200px; width: 100%; object-fit: contain;
-  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.8));
-}
+/* ----------------------------------------------------------
+   10. AVIS JOUEURS (commentaires)
+   ---------------------------------------------------------- */
+
+/* Liste des avis */
 .produit-reviews { display: flex; flex-direction: column; gap: 16px; }
-.produit-review {
-  background: rgba(255,255,255,0.03); padding: 16px; border-radius: 12px;
-}
+
+/* Carte d'un avis */
+.produit-review { background: rgba(255,255,255,.03); padding: 16px; border-radius: 12px; }
+
+/* En-tête de l'avis (avatar + nom + étoiles) */
 .produit-review-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+
+/* Avatar rond avec initiales */
 .produit-review-avatar {
-  width: 40px; height: 40px; border-radius: 50%; background: var(--purple);
-  display: flex; align-items: center; justify-content: center;
-  font-weight: bold; font-size: 0.9rem; flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: .9rem;
+  flex-shrink: 0;
 }
+
+/* Infos de l'auteur (nom, étoiles, date) */
 .produit-review-meta { flex: 1; }
-.produit-review-author { font-weight: 700; font-size: 0.95rem; display: block; }
+.produit-review-author { font-weight: 700; font-size: .95rem; display: block; }
 .produit-review-stars { display: flex; gap: 2px; margin-top: 4px; }
-.produit-review-date { font-size: 0.8rem; color: var(--text-muted); }
-.produit-review-text { font-size: 0.9rem; color: rgba(255,255,255,0.85); line-height: 1.6; }
+.produit-review-date { font-size: .8rem; color: var(--text-gray); }
+
+/* Texte du commentaire */
+.produit-review-text { font-size: .9rem; color: rgba(255,255,255,.85); line-height: 1.6; }

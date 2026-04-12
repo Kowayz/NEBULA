@@ -1,135 +1,48 @@
-/* jeux.css — Catalogue de jeux avec filtres */
+/* ============================================================
+   JEUX — Catalogue de jeux
+   ============================================================ */
 
-/* Hero du catalogue */
+/* ----------------------------------------------------------
+   1. HERO
+   ---------------------------------------------------------- */
+
 .catalogue-hero {
   position: relative;
   padding: 110px 6% 72px;
   text-align: center;
   overflow: hidden;
 }
-
-.catalogue-hero-inner {
-  max-width: 640px;
-  margin: 0 auto;
-}
+.catalogue-hero-inner { max-width: 640px; margin: 0 auto; }
 .catalogue-hero-tag {
   font-size: .7rem;
   font-weight: 700;
   letter-spacing: .12em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--highlight);
   margin-bottom: 14px;
 }
-
 .catalogue-hero-title {
   font-size: clamp(2.4rem, 5.5vw, 3.8rem);
   font-weight: 800;
   letter-spacing: -.04em;
   line-height: 1.0;
   margin-bottom: 14px;
-  font-family: var(--font-heading);
+  font-family: var(--font-title);
 }
-
 .catalogue-hero-sub {
   font-size: .95rem;
-  color: var(--text-muted);
+  color: var(--text-gray);
   line-height: 1.65;
   max-width: 480px;
-  margin: 0 auto 24px;
+  margin: 0 auto;
 }
 
-/* Barre de stats du hero */
-.catalogue-hero-stats {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  background: rgba(12,6,28,.7);
-  border: 1px solid rgba(124,58,237,.18);
-  border-radius: 30px;
-  padding: 8px 20px;
-}
+/* ----------------------------------------------------------
+   2. SECTIONS
+   ---------------------------------------------------------- */
 
-.catalogue-stat { display: inline-flex; align-items: center; gap: 7px; font-size: .8rem; font-weight: 600; color: var(--text-muted); }
-.catalogue-stat svg { color: var(--accent); font-size: .75rem; }
-.catalogue-stat-sep { width: 1px; height: 14px; background: rgba(124,58,237,.25); }
+.catalogue-section { padding: 0 6% 64px; }
 
-/* Barre de filtres */
-.filter-bar {
-  padding: 0 6% 36px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-.filter-select-wrap {
-  position: relative;
-}
-.filter-select {
-  padding: 8px 32px 8px 16px;
-  border-radius: 20px;
-  font-size: .86rem;
-  font-weight: 600;
-  border: 1px solid rgba(124,58,237,.3);
-  background: rgba(12,6,28,.8);
-  color: var(--text-white);
-  cursor: pointer;
-  outline: none;
-  appearance: none;
-  transition: all var(--t);
-  font-family: inherit;
-}
-.filter-select:hover {
-  border-color: rgba(124,58,237,.6);
-}
-.filter-select:focus {
-  border-color: rgba(124,58,237,.6);
-  box-shadow: 0 0 0 3px rgba(124,58,237,.2);
-}
-.filter-select-wrap::after {
-  content: "▼";
-  position: absolute;
-  right: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 0.65rem;
-  color: var(--text-faint);
-  pointer-events: none;
-}
-
-/* Champ de recherche */
-.search-input-wrap {
-  position: relative;
-}
-
-.search-input-wrap input {
-  background: rgba(12,6,28,.8);
-  border: 1px solid rgba(124,58,237,.18);
-  border-radius: var(--radius);
-  padding: 8px 14px 8px 38px;
-  color: var(--text-white);
-  font-size: .86rem;
-  width: 220px;
-  outline: none;
-  transition: border-color var(--t), box-shadow var(--t);
-}
-.search-input-wrap input:focus {
-  border-color: rgba(124,58,237,.5);
-  box-shadow: 0 0 0 3px rgba(124,58,237,.1);
-}
-.search-input-wrap input::placeholder {
-  color: var(--text-faint);
-}
-
-.search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: .78rem; color: var(--text-faint); pointer-events: none; }
-
-/* Sections du catalogue */
-.catalogue-section {
-  padding: 0 6% 64px;
-}
-
-/* En-tête de section */
 .cat-section-head {
   display: flex;
   align-items: center;
@@ -139,7 +52,6 @@
   border-bottom: 1px solid rgba(124,58,237,.1);
   flex-wrap: wrap;
 }
-
 .cat-section-badge {
   display: inline-flex;
   align-items: center;
@@ -150,138 +62,91 @@
   text-transform: uppercase;
   border-radius: 8px;
   padding: 6px 12px;
-  flex-shrink: 0;
 }
 .cat-section-badge--stream {
   background: rgba(124,58,237,.15);
   border: 1px solid rgba(124,58,237,.3);
-  color: var(--accent);
+  color: var(--highlight);
 }
-.cat-section-badge--buy {
+.cat-section-badge--purchase {
   background: rgba(159,18,57,.12);
   border: 1px solid rgba(159,18,57,.3);
   color: #f87171;
 }
-
-.cat-section-title {
-  font-size: 1.25rem;
-  font-weight: 800;
-  letter-spacing: -.02em;
-  margin-bottom: 3px;
-}
-.cat-section-sub {
-  font-size: .82rem;
-  color: var(--text-muted);
-  line-height: 1.5;
-}
-
-.cat-section-count { margin-left: auto; font-size: .78rem; font-weight: 600; color: var(--text-muted); background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08); border-radius: 20px; padding: 4px 12px; flex-shrink: 0; }
-
-/* Séparateur entre les deux sections */
-.cat-divider {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 0 6% 48px;
-}
-.cat-divider-line {
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(159,18,57,.25), transparent);
-}
-
-.cat-divider-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: .72rem;
-  font-weight: 700;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: #f87171;
-  background: rgba(159,18,57,.1);
-  border: 1px solid rgba(159,18,57,.22);
+.cat-section-count {
+  margin-left: auto;
+  font-size: .78rem;
+  font-weight: 600;
+  color: var(--text-gray);
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.08);
   border-radius: 20px;
-  padding: 6px 16px;
-  white-space: nowrap;
+  padding: 4px 12px;
 }
 
-/* Grille de cartes */
+.catalogue-sep {
+  border: none;
+  border-top: 2px solid rgba(124,58,237,.3);
+  margin: 40px 20px;
+}
+
+/* ----------------------------------------------------------
+   3. GRILLE DE CARTES
+   ---------------------------------------------------------- */
+
 .catalogue-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
   gap: 20px;
 }
 
-/* Carte poster */
 .catalogue-card {
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-big);
   overflow: hidden;
-  display: block;
   position: relative;
-  cursor: pointer;
   aspect-ratio: 3/4;
   outline: 1px solid rgba(255,255,255,.06);
   text-decoration: none;
-  transition: transform .3s ease;
 }
-.catalogue-card:hover {
-  transform: translateY(-4px);
-}
+.catalogue-card:hover { outline-color: rgba(124,58,237,.3); }
 
-.catalogue-card-poster {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
+.catalogue-card-poster { position: relative; height: 100%; }
 .catalogue-card-poster img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform .4s ease;
 }
-.catalogue-card-poster img:hover {
-  transform: scale(1.05);
-}
+.catalogue-card-placeholder { height: 100%; background: #1e0838; }
 
-.catalogue-card-placeholder { width: 100%; height: 100%; background: #1e0838; }
+/* ----------------------------------------------------------
+   4. BADGES
+   ---------------------------------------------------------- */
 
-/* Badge "Inclus" */
+/* Badge "Inclus" en haut à droite de la carte */
 .catalogue-included-badge {
   position: absolute;
   top: 10px;
   right: 10px;
   z-index: 3;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
   background: rgba(6,4,20,.85);
   border: 1px solid rgba(124,58,237,.5);
   border-radius: 8px;
   padding: 4px 10px;
   font-size: .68rem;
   font-weight: 800;
-  color: var(--accent);
+  color: var(--highlight);
   letter-spacing: .04em;
   text-transform: uppercase;
   pointer-events: none;
 }
-.catalogue-included-badge svg {
-  color: #a78bfa;
-  flex-shrink: 0;
-}
 
-/* Badge prix (achat) */
+/* Badge prix en haut à droite de la carte */
 .catalogue-price-badge {
   position: absolute;
   top: 10px;
   right: 10px;
   z-index: 3;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 2px;
   background: rgba(10,2,20,.9);
   border: 1px solid rgba(159,18,57,.5);
   border-radius: 8px;
@@ -289,178 +154,68 @@
   font-size: .78rem;
   font-weight: 800;
   color: #fca5a5;
-  letter-spacing: .03em;
+  letter-spacing: .04em;
   pointer-events: none;
   line-height: 1.2;
 }
-.catalogue-price-orig {
-  font-size: .62rem;
-  font-weight: 600;
-  color: rgba(252,165,165,.45);
-  text-decoration: line-through;
-}
-.catalogue-price-disc {
-  font-size: .58rem;
-  font-weight: 800;
-  color: #4ade80;
-  background: rgba(34,197,94,.15);
-  border: 1px solid rgba(34,197,94,.3);
-  border-radius: 4px;
-  padding: 1px 5px;
-}
 
-/* Overlay au hover */
+/* ----------------------------------------------------------
+   5. OVERLAY HOVER
+   ---------------------------------------------------------- */
+
+/* Overlay : caché par défaut, visible au hover */
 .catalogue-card-overlay {
   position: absolute;
   inset: 0;
-  background: transparent;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   padding: 18px 16px;
-  transition: background .3s ease;
-}
-.catalogue-card:hover .catalogue-card-overlay {
-  background: linear-gradient(to bottom, rgba(8,2,20,.15) 0%, rgba(8,2,20,.65) 45%, rgba(8,2,20,.98) 100%);
-}
-.catalogue-card:hover .catalogue-card-poster img {
-  transform: scale(1.05);
-}
-
-/* Tags (visibles au hover) */
-.catalogue-card-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  margin-bottom: 8px;
+  background: linear-gradient(to bottom, transparent 40%, rgba(8,2,20,.85) 100%);
   opacity: 0;
-  transform: translateY(4px);
-  transition: opacity .25s ease, transform .25s ease;
 }
-.catalogue-card:hover .catalogue-card-tags {
-  opacity: 1;
-  transform: translateY(0);
-}
+.catalogue-card:hover .catalogue-card-overlay { opacity: 1; }
 
-.catalogue-card-tags span {
-  font-size: .65rem;
-  font-weight: 600;
-  color: var(--accent);
-  background: rgba(124,58,237,.2);
-  border: 1px solid rgba(124,58,237,.3);
-  border-radius: 20px;
-  padding: 2px 8px;
-  letter-spacing: .03em;
-  text-transform: uppercase;
-}
-.catalogue-card--purchase .catalogue-card-tags span {
-  color: #fca5a5;
-  background: rgba(159,18,57,.2);
-  border-color: rgba(159,18,57,.3);
-}
-
-/* Titre (visible au hover) */
+/* Titre du jeu */
 .catalogue-card-title {
   font-size: .95rem;
   font-weight: 800;
-  color: var(--text-white);
+  color: var(--text);
   margin: 0 0 6px;
   line-height: 1.25;
-  letter-spacing: -.01em;
-  opacity: 0;
-  transform: translateY(4px);
-  transition: opacity .25s ease, transform .25s ease;
-}
-.catalogue-card:hover .catalogue-card-title {
-  opacity: 1;
-  transform: translateY(0);
 }
 
-/* Bouton Jouer */
+/* ----------------------------------------------------------
+   6. BOUTONS
+   ---------------------------------------------------------- */
+
+/* Bouton violet "Jouer" */
 .catalogue-play-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 7px;
   padding: 8px 18px;
-  background: linear-gradient(135deg, var(--purple-dark), var(--purple));
+  background: linear-gradient(135deg, var(--main-dark), var(--main));
   color: #fff;
   font-size: .74rem;
   font-weight: 700;
   border-radius: 20px;
-  letter-spacing: .05em;
   text-transform: uppercase;
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity .25s ease, transform .25s ease;
-  align-self: flex-start;
-  font-family: var(--font-heading);
-}
-.catalogue-card:hover .catalogue-play-btn {
-  opacity: 1;
-  transform: translateY(0);
+  font-family: var(--font-title);
 }
 
-/* Bouton Acheter */
+/* Bouton rouge "Acheter" */
 .catalogue-buy-btn {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
   gap: 7px;
   padding: 8px 18px;
-  background: linear-gradient(135deg, var(--cta-hover), var(--cta));
+  background: linear-gradient(135deg, #dc2626, #991b1b);
   color: #fff;
   font-size: .74rem;
   font-weight: 700;
   border-radius: 20px;
-  letter-spacing: .05em;
   text-transform: uppercase;
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity .25s ease, transform .25s ease;
-  align-self: flex-start;
-  font-family: var(--font-heading);
-}
-.catalogue-card:hover .catalogue-buy-btn {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-
-/* Messages */
-.catalogue-api-error,
-.no-results { grid-column: 1 / -1; text-align: center; padding: 60px 6%; color: var(--text-faint); font-size: .95rem; }
-
-/* Responsive */
-@media (max-width: 768px) {
-  .cat-section-head {
-    gap: 12px;
-  }
-  .cat-section-count {
-    display: none;
-  }
-}
-
-@media (max-width: 600px) {
-  .catalogue-hero {
-    padding: 90px 5% 56px;
-  }
-  .filter-bar {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 0 5% 28px;
-  }
-  .search-input-wrap input {
-    width: 100%;
-  }
-  .catalogue-section {
-    padding: 0 5% 48px;
-  }
-  .cat-divider {
-    padding: 0 5% 36px;
-  }
-  .catalogue-grid {
-    grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
-    gap: 12px;
-  }
+  font-family: var(--font-title);
 }
